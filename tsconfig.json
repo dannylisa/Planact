@@ -12,7 +12,9 @@
       "@scenes/*": ["scenes/*"],
       "@utils/*": ["utils/*"]
     },
-    "noImplicitAny": false
+    "noImplicitAny": false,
+     "allowSyntheticDefaultImports": true,
+     "esModuleInterop": true,
   },
   "exclude": [
     "node_modules",
