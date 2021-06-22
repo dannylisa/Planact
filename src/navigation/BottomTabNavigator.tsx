@@ -3,8 +3,8 @@
  * https://reactnavigation.org/docs/bottom-tab-navigator
  */
 
-import { GlobalState } from '@/../App';
-import Home, { HomeProps } from '@/screens/Home';
+ import { GlobalState } from '@modules/index';
+ import Home, { HomeProps } from '@/screens/home/Home';
 import { isLight } from '@/style/themes';
 import { Ionicons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';

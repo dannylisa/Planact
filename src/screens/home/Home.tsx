@@ -1,27 +1,48 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import {  GlobalState } from "@/../App";
-import DailyList from "@/components/DailyList";
-import DailyView from "@/components/DailyView";
-import { DefaultTheme } from "@/style/styled";
-import { IDaily, IDailyList } from "@/utils/data";
+import React, { useState, useEffect } from "react";
 import dayjs from "dayjs";
+import { useDispatch, useSelector } from "react-redux";
+import DailyList from "./DailyList";
+import DailyView from "./DailyView";
+import { DefaultTheme } from "@/style/styled";
+import { IDailyList } from "@/utils/data";
 import { SafeAreaView, View, StyleSheet } from "react-native";
-import { useEffect } from "react";
 import { getDailyList } from "@/db/UserDailyData";
 import { Alert } from "react-native";
-
-export interface HomeProps{
-
-}
+import { GlobalState } from "@modules/index";
+import { getUserSchedule } from "@/db/UserScheduleData";
+import { SCHEDULES_FETCH } from "@/modules/userSchedules";
 
 // 1회당 가져올 날짜 수
 const UNIT_FETCH_ONCE = 7;
 // 최대 가져올 날짜 수
 const FETCH_LIMIT = 35;
+// DB에서 가져온 EVENT 데이터 + 비어있는 날짜 채우기
+const fillEmptyDay = (dbData:IDailyList):IDailyList => {
+    const from = dbData.start;
+    const to = dbData.end;
+
+    let idx = 0;
+    for(let i = 0; i<=to.diff(from, 'days'); i++){
+        const date = from.add(i, 'days');
+        if(idx >= dbData.data.length || 
+            dbData.data[idx].date.format("YYYYMMDD") != date.format("YYYYMMDD")){
+            dbData.data.splice(idx, 0, {
+                date,
+                events: []
+            })
+        }
+        idx++;
+    }
+    return dbData;
+}
+
+export interface HomeProps{
+}
+
 function Home({}:HomeProps){
     const user_id="111";
-    const theme = useSelector(({theme}:GlobalState) => theme);
+    const {theme, userSchedules} = useSelector((state:GlobalState) => state);
+    const dispatch = useDispatch();
     const [loading, setLoading] = useState<Boolean>(true);
 
     const today = dayjs()
@@ -32,27 +53,14 @@ function Home({}:HomeProps){
     });
     const [selected, setSelected] = useState<number>(0);
     const {start, end, data} = dailylist;
-
-    const fillEmptyDay = (dbData:IDailyList):IDailyList => {
-        const from = dbData.start;
-        const to = dbData.end;
-
-        let idx = 0;
-        for(let i = 0; i<=to.diff(from, 'days'); i++){
-            const date = from.add(i, 'days');
-            if(idx >= dbData.data.length || 
-                dbData.data[idx].date.format("YYYYMMDD") != date.format("YYYYMMDD")){
-                dbData.data.splice(idx, 0, {
-                    date,
-                    events: []
-                })
-            }
-            idx++;
-        }
-        return dbData;
-    }
+    
     useEffect(() => {
         (async () => {
+            // Fetch Schedules
+            const schedules = await getUserSchedule(user_id);
+            dispatch({type: SCHEDULES_FETCH, schedules});
+            
+            // Fetch Events
             let newDailyListData:IDailyList = await getDailyList({user_id, start, end:today.add(UNIT_FETCH_ONCE-1, 'days')});
             newDailyListData = fillEmptyDay(newDailyListData);
             setDailylist(newDailyListData);

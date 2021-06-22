@@ -3,7 +3,7 @@ import { IUserEvent } from '@/utils/data';
 import { TouchableOpacity, View, Text, StyleSheet, Alert } from 'react-native';
 import { DefaultTheme } from '@/style/styled';
 import { useSelector } from 'react-redux';
-import { GlobalState } from '@/../Global';
+import { getScheduleById, GlobalState } from '@modules/index';
 
 interface EventViewProps extends IUserEvent {
  
@@ -13,8 +13,11 @@ const onPress = (text:string) => () =>{
     Alert.alert(text);
 }
 function EventView (props:EventViewProps){
-    const {color, abb, title} = props;
-    const theme = useSelector(({theme}:GlobalState) => theme);
+    const {abb, title, schedule_id} = props;
+    const theme = useSelector((state:GlobalState) => state.theme);
+    const schedule = getScheduleById(schedule_id);
+    console.log(schedule);
+    const color = schedule?.color || "#333";
     const {container, iconContainer, icon, content} = styles(theme, {color});
     return(
         <TouchableOpacity style={container} onPress={onPress(props.content)} >

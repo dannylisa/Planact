@@ -1,5 +1,5 @@
 
-import { AppState } from '@/../App';
+import { GlobalState } from '@modules/index';
 import { DefaultTheme } from '@/style/styled';
 import React from 'react';
 import { StyleSheet, TouchableOpacity, TouchableOpacityProps, Text } from 'react-native'
@@ -10,7 +10,7 @@ interface ButtonProps extends TouchableOpacityProps{
     content: string
 }
 const Button = function({color, disabled, content, ...others}:ButtonProps){
-    const theme = useSelector(({theme}:AppState) => theme);
+    const theme = useSelector(({theme}:GlobalState) => theme);
     const {container, text} = styles(theme, {color, disabled});
   return(
     <TouchableOpacity 

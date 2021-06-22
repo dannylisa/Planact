@@ -10,3 +10,6 @@ export const getDayType = (date:Dayjs):daytype => {
     else
         return day === 6 ? 1 : 0;
 }
+
+export const korday = ["일","월","화","수","목","금","토"] as const;
+

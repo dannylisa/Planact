@@ -5,11 +5,11 @@
     "baseUrl": "./src",
     "paths": {
       "@/*": ["./*"],
-      "@materials/*": ["materials/*"],
       "@components/*": ["components/*"],
       "@containers/*": ["containers/*"],
       "@modules/*": ["modules/*"],
       "@scenes/*": ["scenes/*"],
+      "@style/*": ["style/*"],
       "@utils/*": ["utils/*"]
     },
     "noImplicitAny": false,

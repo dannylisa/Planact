@@ -1,13 +1,9 @@
-import { GlobalState } from "@/../App";
-import { IDailyList, IDaily } from "@/utils/data";
-import { Dayjs } from "dayjs";
-import React from "react";
-import { useRef } from "react";
-import { useState } from "react";
-import { useEffect } from "react";
-import { Dimensions, FlatList, StyleSheet } from "react-native";
+import React, { useState, useEffect } from "react";
+import { GlobalState } from '@modules/index';
+import { IDailyList } from "@/utils/data";
+import { FlatList, StyleSheet } from "react-native";
 import { useSelector } from "react-redux";
-import { DefaultTheme } from "styled-components/native";
+import { DefaultTheme } from "@style/styled";
 import Daily from "./Daily";
 
 interface DailyListProps extends IDailyList {
@@ -17,7 +13,7 @@ interface DailyListProps extends IDailyList {
 }
 function DailyList(props: DailyListProps){
     const {start, end, data, loading, loader, selector} = props;
-    const theme = useSelector((state:GlobalState) => state);
+    const theme = useSelector((state:GlobalState) => state.theme);
 
     useEffect(() => {
         if(loading) return;

@@ -6,14 +6,14 @@ import { StyleSheet, TouchableOpacity, Text } from 'react-native'
 import { useSelector } from 'react-redux';
 import { DefaultTheme } from '@/style/styled';
 import { isLight } from '@/style/themes';
-import { GlobalState } from '@/../App';
+import { GlobalState } from '@modules/index';
 import { shadow } from '@/style/style-util';
 
 interface DailyProps extends IDaily {
     onPress : () => void
 }
 function Daily ({date, events, onPress}:DailyProps) {
-    const theme = useSelector(({theme}:GlobalState) => theme);
+    const {theme, userSchedules} = useSelector((state:GlobalState) => state);
     const daytype:daytype = getDayType(date);
     const {container, datetext, extra} = styles(theme, {daytype});
     return (

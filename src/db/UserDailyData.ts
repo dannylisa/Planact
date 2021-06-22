@@ -10,6 +10,8 @@ export const getDailyList = async(params:getDailyListParams):Promise<IDailyList>
     return dailylist_dummy(params.start, params.end);
 }
 
+
+// schedule_id(더미 데이터) 1: 운동/헬스, 2: 영어공부 3: 수학공부
 const dailylist_dummy = (start:Dayjs, end:Dayjs):IDailyList => {
     return {
         start, 
@@ -25,7 +27,8 @@ const dailylist_dummy = (start:Dayjs, end:Dayjs):IDailyList => {
                     content: "9km/h 5분 12km/h 5분 반복",
                     icon: "running",
                     completed: false,
-                    color: "#ffc8c8"
+                    schedule_id: "1",
+                    seq: 1
                 },
                 {
                     dateof: 1,
@@ -35,7 +38,8 @@ const dailylist_dummy = (start:Dayjs, end:Dayjs):IDailyList => {
                     icon: "study",
                     date: start,
                     completed: false,
-                    color: "#bbbbff"
+                    schedule_id: "2",
+                    seq: 1
                 }]
             },
             {
@@ -48,7 +52,8 @@ const dailylist_dummy = (start:Dayjs, end:Dayjs):IDailyList => {
                     icon: "study",
                     date: start.add(1, 'days'),
                     completed: false,
-                    color: "#bbbbff"
+                    schedule_id: "2",
+                    seq: 1
                 }]
             },
             {
@@ -61,9 +66,67 @@ const dailylist_dummy = (start:Dayjs, end:Dayjs):IDailyList => {
                     icon: "study",
                     date: start.add(2, 'days'),
                     completed: false,
-                    color: "#bbbbff"
-                }]
-            }
+                    schedule_id: "2",
+                    seq: 1
+                },
+                {
+                    dateof: 4,
+                    date: start,
+                    title: "런닝머신 30분",
+                    abb: "런닝머신",
+                    content: "9km/h 5분 12km/h 5분 반복",
+                    icon: "running",
+                    completed: false,
+                    schedule_id: "1",
+                    seq: 1
+                },
+                {
+                    dateof: 4,
+                    date: start,
+                    title: "스쿼트",
+                    abb: "스쿼트",
+                    content: "40kg 10개 2세트",
+                    icon: "running",
+                    completed: false,
+                    schedule_id: "1",
+                    seq: 2
+                },
+                {
+                    dateof: 4,
+                    date: start,
+                    title: "스쿼트",
+                    abb: "스쿼트",
+                    content: "50kg 10개 2세트",
+                    icon: "running",
+                    completed: false,
+                    schedule_id: "1",
+                    seq: 3
+                },
+                {
+                    dateof: 4,
+                    date: start,
+                    title: "스쿼트",
+                    abb: "스쿼트",
+                    content: "60kg 10개 2세트",
+                    icon: "running",
+                    completed: false,
+                    schedule_id: "1",
+                    seq: 4
+                },
+                {
+                    dateof: 4,
+                    date: start,
+                    title: "스쿼트",
+                    abb: "스쿼트",
+                    content: "70kg 10개 2세트",
+                    icon: "running",
+                    completed: false,
+                    schedule_id: "1",
+                    seq: 5
+                }
+            ]
+            },
+            
         ]
     }
 }

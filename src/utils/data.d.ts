@@ -7,6 +7,8 @@ export interface IProgram {
 }
 
 export interface ISchedule {
+    schedule_id: string
+    color: string
     publisher: string
     topic: string
 }
@@ -23,7 +25,9 @@ export interface IEvent{
 export interface IUserEvent extends IEvent{
     date: Dayjs
     completed: boolean
-    color: string
+    schedule_id: string
+    // 해당되는 스케쥴에서 몇 번째로 진행해야 하는지
+    seq: number
 }
 
 export interface IDailyList {
@@ -34,5 +38,5 @@ export interface IDailyList {
 
 export interface IDaily {
     date: Dayjs
-    events: User_Event[]
+    events: IUserEvent[]
 }
