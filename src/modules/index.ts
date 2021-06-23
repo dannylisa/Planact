@@ -3,6 +3,7 @@ import { combineReducers, createStore } from 'redux';
 import theme from './theme';
 import userSchedules from './userSchedules';
 
+// 전체 Global State
 const rootReducer = combineReducers({
     theme,
     userSchedules

@@ -24,11 +24,11 @@ function ToggleEventList(props:GroupedEvent) {
     const theme = useSelector(({theme}:GlobalState) => theme);
     const {toggleContainer, circleContainer, circle, 
             toggleText, accentText, text} = styles(theme, color);
-    const [show, setShow] = useState<boolean>(false);
-
+    const [show, setShow] = useState<boolean>(true);
+    const toggleShow = () => setShow(prev => !prev);
     return (
         <View>
-            <TouchableOpacity style={toggleContainer}>
+            <TouchableOpacity style={toggleContainer} onPress={toggleShow}>
                 <View style={circleContainer}>
                     <View style={circle}/>
                 </View>
@@ -38,11 +38,14 @@ function ToggleEventList(props:GroupedEvent) {
                     </Text>
                 </View>
             </TouchableOpacity>
-            <View>
-                {events.map(event => (
-                    <EventDetails  {...event}  />
-                ))}
-            </View>
+            {
+                show && 
+                <View>
+                    {events.map((event, idx) => (
+                        <EventDetails  {...event} key={idx}  />
+                    ))}
+                </View>
+            }
         </View>
     )
 }

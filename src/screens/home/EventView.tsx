@@ -17,15 +17,17 @@ function EventView (props:EventViewProps){
     const theme = useSelector((state:GlobalState) => state.theme);
     const schedule = getScheduleById(schedule_id);
     const color = schedule?.color || "#333";
-    const {container, iconContainer, icon, content} = styles(theme, {color});
+    const {container, iconContainer, icon, contentWrapper, content} = styles(theme, {color});
     return(
-        <TouchableOpacity style={container} onPress={onPress(props.content)} >
+        <TouchableOpacity style={container}  >
             <View style={iconContainer}>
                 <View style={icon} />
             </View>
-            <Text style={content}>
-                {abb}
-            </Text>
+            <View style={contentWrapper}>
+                <Text style={content} onPress={onPress(props.content)}>
+                    {abb}
+                </Text>
+            </View>
         </TouchableOpacity>
     )
 }
@@ -53,8 +55,10 @@ const styles = (theme:DefaultTheme, {color}:EventViewStyleProps) =>  {
             flex: 1,
             borderRadius: 50,
         },
+        contentWrapper: {
+            flex:6
+        },
         content: {
-            flex:6,
             color: text
         }
   })
