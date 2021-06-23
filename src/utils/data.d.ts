@@ -22,9 +22,10 @@ export interface IEvent{
     icon: string
 }
 
+export type done = 0 | 1 | 2 | null;
 export interface IUserEvent extends IEvent{
     date: Dayjs
-    completed: boolean
+    completed: done
     schedule_id: string
     // 해당되는 스케쥴에서 몇 번째로 진행해야 하는지
     seq: number

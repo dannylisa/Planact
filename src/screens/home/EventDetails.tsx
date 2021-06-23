@@ -1,47 +1,103 @@
 import { GlobalState } from "@/modules";
-import { shadow } from "@/style/style-util";
+import { highlight, shadow } from "@/style/style-util";
 import { DefaultTheme } from "@/style/styled";
-import { isLight } from "@/style/themes";
-import { IUserEvent } from "@/utils/data";
+import { IUserEvent, done } from "@/utils/data";
 import React from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { useSelector } from "react-redux";
 import { Ionicons } from '@expo/vector-icons';
+import { useState } from "react";
+import { useEffect } from "react";
+
 
 const EventDetails = (event:IUserEvent) => {
-    const {content, completed} = event;
+    const {seq, content, completed} = event;
     const theme = useSelector(({theme}:GlobalState) => theme);
-    const {wrapper, container, text} = styles(theme);
+    const [done, setDone] = useState<done>(completed);
+    const toggleDone = (value:done) => () => setDone(prev => prev!==value ? value : null  );
+    const {wrapper, textContainer, seqText, text, iconContainer} = styles(theme);
+    const [contentText, setContentText] = useState(text);
+    useEffect(() => {
+        const strike = {
+            textDecorationLine:"line-through",
+            textDecorationColor:"#f02323d2"
+        };
+        switch(done){
+            case 0: setContentText({...text, ...strike}); break;
+            case 1: setContentText({...text, ...highlight("green")}); break;
+            case 2: setContentText({...text, ...highlight("blue")}); break;
+            case null: 
+            default:
+                setContentText(text);
+        }
+    }, [done])
+
     return(
         <View style={wrapper}>
-            <View style={container}>
-                <Text style={text}>
+            <View style={textContainer}>
+                <Text style={seqText}>
+                    {seq}. &nbsp;
+                </Text>
+                <Text style={contentText}>
                     {content}
                 </Text>
             </View>
-            <Ionicons name="ios-person" size={30} color="#e84c31" />
-            <Ionicons name="ios-person" size={30} color="#fffc5f" />
-            <Ionicons name="ios-person" size={30} color="#19e690" />
+            <View style={iconContainer}>
+                <Ionicons 
+                    name="checkmark-done-circle" 
+                    onPress={toggleDone(2)}
+                    size={30} 
+                    color="#1663f1d3"
+                    />
+                <Ionicons 
+                    onPress={toggleDone(1)}
+                    name="checkmark-circle" 
+                    size={30} 
+                    color="#0ec277d3" 
+                    />
+                <Ionicons 
+                    onPress={toggleDone(0)}
+                    name="close-circle" 
+                    size={30} 
+                    color="#f02323d2" 
+                    />
+            </View>
         </View>
     )
 }
 
 const styles = (theme:DefaultTheme) => {
     const { content, text, border } = theme;
-    const shadowOption = isLight(theme) ? shadow : {};
     return StyleSheet.create({
         wrapper:{
             flexDirection: "row",
             height: 45,
-            backgroundColor: content
+            backgroundColor: content,
         },
-        container:{
+        textContainer:{
             justifyContent: "center",
             alignItems: "center",
-            flex: 2
+            flex: 3,
+            flexDirection: "row"
+        },
+        seqText:{
+            fontWeight: "700",
+            textAlign: "right",
+            flex: 1,
+            fontSize: 16,
+            color: text
         },
         text:{
-            fontWeight: "500"
+            fontWeight: "500",
+            flex: 5,
+            fontSize: 15,
+            color: text
+        },
+        iconContainer:{
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+            flex: 1,
         }
     })
 }
