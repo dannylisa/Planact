@@ -7,28 +7,19 @@ import { GlobalState } from "@/modules";
 import { shadow } from "@/style/style-util";
 import { isLight } from "@/style/themes";
 import { useState } from "react";
+import EventDetails from "./EventDetails";
 
-const EventDetails = (event:IUserEvent) => {
-    const {content, completed} = event
-    return(
-        <View>
-            <Text>
-                {content}
-            </Text>
-        </View>
-    )
-}
 function ToggleEventList(props:GroupedEvent) {
     const {topic, color, events} = props;
 
     const theme = useSelector(({theme}:GlobalState) => theme);
-    const {toggleContainer, circleContainer, circle, 
+    const {toggleWrapper, toggleButton, circleContainer, circle, 
             toggleText, accentText, text} = styles(theme, color);
     const [show, setShow] = useState<boolean>(true);
     const toggleShow = () => setShow(prev => !prev);
     return (
-        <View>
-            <TouchableOpacity style={toggleContainer} onPress={toggleShow}>
+        <View style={toggleWrapper}>
+            <TouchableOpacity style={toggleButton} onPress={toggleShow}>
                 <View style={circleContainer}>
                     <View style={circle}/>
                 </View>
@@ -54,14 +45,13 @@ const styles = (theme:DefaultTheme, color:string) => {
     const { content, text, border } = theme;
     const shadowOption = isLight(theme) ? shadow : {};
     return StyleSheet.create({
-        toggleContainer : {
-            width: "100%",
-            height: 60,
-            borderBottomColor: border,
-            borderBottomWidth: 0.5,
+        toggleWrapper:{
             marginBottom: 7,
-            flexDirection: "row",
             ...shadowOption
+        },
+        toggleButton : {
+            height: 60,
+            flexDirection: "row",
         },
         circleContainer:{
             width: 60,
