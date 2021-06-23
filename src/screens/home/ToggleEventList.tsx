@@ -1,30 +1,49 @@
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { GroupedEvent } from "@/utils/data";
+import { GroupedEvent, IUserEvent } from "@/utils/data";
 import { DefaultTheme } from "@/style/styled";
 import { useSelector } from "react-redux";
 import { GlobalState } from "@/modules";
 import { shadow } from "@/style/style-util";
 import { isLight } from "@/style/themes";
+import { useState } from "react";
 
+const EventDetails = (event:IUserEvent) => {
+    const {content, completed} = event
+    return(
+        <View>
+            <Text>
+                {content}
+            </Text>
+        </View>
+    )
+}
 function ToggleEventList(props:GroupedEvent) {
-    const {topic, color} = props;
+    const {topic, color, events} = props;
 
     const theme = useSelector(({theme}:GlobalState) => theme);
     const {toggleContainer, circleContainer, circle, 
             toggleText, accentText, text} = styles(theme, color);
+    const [show, setShow] = useState<boolean>(false);
 
     return (
-        <TouchableOpacity style={toggleContainer}>
-            <View style={circleContainer}>
-                <View style={circle}/>
+        <View>
+            <TouchableOpacity style={toggleContainer}>
+                <View style={circleContainer}>
+                    <View style={circle}/>
+                </View>
+                <View style={toggleText}>
+                    <Text style={accentText}>
+                        {topic}
+                    </Text>
+                </View>
+            </TouchableOpacity>
+            <View>
+                {events.map(event => (
+                    <EventDetails  {...event}  />
+                ))}
             </View>
-            <View style={toggleText}>
-                <Text style={accentText}>
-                    {topic}
-                </Text>
-            </View>
-        </TouchableOpacity>
+        </View>
     )
 }
 
