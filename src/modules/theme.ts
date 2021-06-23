@@ -6,11 +6,12 @@ interface changeThemeAction {
     type: themeType;
 }
 
-const changeTheme = (type:themeType = "theme/light"):changeThemeAction => ({type});
+const changeTheme = (type:themeType):changeThemeAction => ({type});
 export const actionCreators = {
     changeTheme
 }
 
+// const theme = (state:DefaultTheme = dark, action:changeThemeAction) => {
 const theme = (state:DefaultTheme = light, action:changeThemeAction) => {
     switch(action.type){
         case "theme/light": return light;

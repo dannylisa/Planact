@@ -58,12 +58,13 @@ function DailyList(props: DailyListProps){
 
 
 const styles = (theme:DefaultTheme) => {
+    const {mainBackground} = theme;
     return StyleSheet.create({
         scroll:{
             flex: 1,
             padding: 5,
             paddingVertical: 10,
-            backgroundColor: "#fafafa",
+            backgroundColor: mainBackground,
         },
     })
 }

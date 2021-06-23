@@ -30,6 +30,10 @@ export interface IUserEvent extends IEvent{
     seq: number
 }
 
+export interface GroupedEvent extends ISchedule{
+    events: IUserEvent[]
+}
+
 export interface IDailyList {
     start: Dayjs
     end: Dayjs

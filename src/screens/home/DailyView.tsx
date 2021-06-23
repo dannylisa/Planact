@@ -1,14 +1,12 @@
 import { GlobalState } from '@modules/index';
 import { DefaultTheme } from '@/style/styled';
-import { IDaily, ISchedule, IUserEvent } from '@/utils/data';
+import { GroupedEvent, IDaily, ISchedule, IUserEvent } from '@/utils/data';
 import { korday } from '@/utils/date';
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useSelector } from 'react-redux';
+import ToggleEventList from './ToggleEventList';
 
-interface GroupedEvent extends ISchedule{
-    events: IUserEvent[]
-}
 const groupBySchedule = (schedules:ISchedule[], events:IUserEvent[]):GroupedEvent[] => {
     if(!events.length)
         return [];
@@ -38,9 +36,7 @@ function DailyView({date, events}:IDaily){
             </Text>
             {
                 groupedEvents.map( schedule => (
-                    <Text>
-                        {schedule.topic}
-                    </Text>
+                    <ToggleEventList {...schedule} />
                 ))
             }
         </View>
@@ -48,19 +44,21 @@ function DailyView({date, events}:IDaily){
 }
 
 const styles = (theme:DefaultTheme) => {
-    const { mainBackground, content } = theme;
+    const { mainBackground, text } = theme;
     return(
         StyleSheet.create({
             container:{
                 flex: 1,
                 backgroundColor: mainBackground,
-                padding: 5
+                padding: 5,
+                paddingHorizontal: 15
             },
             title:{
                 textAlign: "center",
                 fontWeight: "800",
                 fontSize: 18,
-                
+                color: text,
+                marginBottom: 10
             }
         })
     )

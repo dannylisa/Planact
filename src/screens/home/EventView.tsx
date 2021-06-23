@@ -16,7 +16,6 @@ function EventView (props:EventViewProps){
     const {abb, title, schedule_id} = props;
     const theme = useSelector((state:GlobalState) => state.theme);
     const schedule = getScheduleById(schedule_id);
-    console.log(schedule);
     const color = schedule?.color || "#333";
     const {container, iconContainer, icon, content} = styles(theme, {color});
     return(
@@ -35,10 +34,10 @@ interface EventViewStyleProps {
     color: string
 }
 const styles = (theme:DefaultTheme, {color}:EventViewStyleProps) =>  {
-    const {mainBackground, text} = theme;
+    const {content, text} = theme;
     return StyleSheet.create({
         container:{
-            backgroundColor: mainBackground,
+            backgroundColor: content,
             height: 20,
             flexDirection: 'row'
         },

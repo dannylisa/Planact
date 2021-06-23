@@ -44,22 +44,21 @@ interface DailyStyleProps {
 }
 
 const styles = (theme:DefaultTheme, {daytype}:DailyStyleProps) => {
-    const {mode_name, content, text} = theme;
-    Boolean(mode_name.match("light"));
-    const container_base = {
-        backgroundColor: content,
-        width: 120,
-        height: 120,
-        padding: 5,
-        paddingTop: 3,
-        borderRadius: 17,
-        marginRight: 8,
-    };
-    const container = isLight(theme) ? {...container_base, ...shadow} : container_base;
+    const { content, text } = theme;
+    const shadowOption = isLight(theme) ? shadow : {};
     return StyleSheet.create({
-        container,
+        container:{
+            backgroundColor: content,
+            width: 120,
+            height: 120,
+            padding: 5,
+            paddingTop: 3,
+            borderRadius: 17,
+            marginRight: 8,
+            ...shadowOption
+        },
         datetext: {
-            color: daytype === 0 ? text : daytype === 1 ?'blue' : 'red',
+            color: daytype === 0 ? text : daytype === 1 ? 'blue' : 'red',
             fontWeight: '800',
             fontSize: 20,
         },
