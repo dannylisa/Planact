@@ -16,7 +16,12 @@ function HomeNavigator() {
         <HomeStack.Screen
             name="Home"
             component={Home}
-            options={{ headerTitle: 'Home' }}
+            options={{ 
+                headerTitle: 'PLANACT', 
+                headerTitleStyle:{
+                    fontWeight:"800", 
+                    fontSize: 20} 
+                }}
         />
         </HomeStack.Navigator>
     );

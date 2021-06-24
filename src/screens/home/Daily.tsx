@@ -65,7 +65,8 @@ const styles = (theme:DefaultTheme, {daytype}:DailyStyleProps) => {
             fontSize: 20,
         },
         extra:{
-            textAlign: "center"
+            textAlign: "center",
+            color: text
         }
     })
 }

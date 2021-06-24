@@ -16,6 +16,7 @@
     "expo": "~41.0.1",
     "expo-linking": "^2.2.3",
     "expo-status-bar": "~1.0.4",
+    "firebase": "8.2.3",
     "holiday-kr": "^0.1.5",
     "react": "16.13.1",
     "react-dom": "16.13.1",

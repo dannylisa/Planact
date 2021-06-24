@@ -67,7 +67,7 @@ const EventDetails = (event:IUserEvent) => {
 }
 
 const styles = (theme:DefaultTheme) => {
-    const { content, text, border } = theme;
+    const { content, text } = theme;
     return StyleSheet.create({
         wrapper:{
             flexDirection: "row",
