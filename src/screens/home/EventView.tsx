@@ -9,9 +9,6 @@ interface EventViewProps extends IUserEvent {
  
 }
 
-const onPress = (text:string) => () =>{
-    Alert.alert(text);
-}
 function EventView (props:EventViewProps){
     const {abb, title, schedule_id} = props;
     const theme = useSelector((state:GlobalState) => state.theme);
@@ -24,7 +21,7 @@ function EventView (props:EventViewProps){
                 <View style={icon} />
             </View>
             <View style={contentWrapper}>
-                <Text style={content} onPress={onPress(props.content)}>
+                <Text style={content}>
                     {abb}
                 </Text>
             </View>

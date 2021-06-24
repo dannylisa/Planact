@@ -46,6 +46,8 @@ interface DailyStyleProps {
 const styles = (theme:DefaultTheme, {daytype}:DailyStyleProps) => {
     const { content, text } = theme;
     const shadowOption = isLight(theme) ? shadow : {};
+    const blue = "#1663f1";
+    const red = "#f02323d2" ;
     return StyleSheet.create({
         container:{
             backgroundColor: content,
@@ -58,7 +60,7 @@ const styles = (theme:DefaultTheme, {daytype}:DailyStyleProps) => {
             ...shadowOption
         },
         datetext: {
-            color: daytype === 0 ? text : daytype === 1 ? 'blue' : 'red',
+            color: daytype === 0 ? text : daytype === 1 ? blue : red,
             fontWeight: '800',
             fontSize: 20,
         },

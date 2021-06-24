@@ -8,18 +8,21 @@
 import { isLight } from '@/style/themes';
 import { Ionicons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import { useSelector } from 'react-redux';
+import HomeNavigator from './HomeNavigator';
+import ProfileNavigator from './ProfileNavigator.tsx';
+import MarketNavigator from './MarketNavigator';
 
 type BottomTabParamList = {
-  Home:undefined
+  Home: undefined
+  Market: undefined
+  Profile: undefined
 };
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
 export default function BottomTabNavigator() {
   const theme = useSelector(({theme}:GlobalState) => theme);
-
   return (
     <BottomTab.Navigator
       initialRouteName="Home"
@@ -28,7 +31,21 @@ export default function BottomTabNavigator() {
         name="Home"
         component={HomeNavigator}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
+          tabBarIcon: ({color}) => <TabBarIcon name="ios-home-outline" color={color} />,
+        }}
+      />
+      <BottomTab.Screen
+        name="Market"
+        component={MarketNavigator}
+        options={{
+          tabBarIcon: ({color}) => <TabBarIcon name="ios-person-outline" color={color} />,
+        }}
+      />
+      <BottomTab.Screen
+        name="Profile"
+        component={ProfileNavigator}
+        options={{
+          tabBarIcon: ({color}) => <TabBarIcon name="ios-person-outline" color={color} />,
         }}
       />
     </BottomTab.Navigator>
@@ -39,23 +56,4 @@ export default function BottomTabNavigator() {
 // https://icons.expo.fyi/
 function TabBarIcon(props: { name: React.ComponentProps<typeof Ionicons>['name']; color: string }) {
   return <Ionicons size={30} style={{ marginBottom: -3 }} {...props} />;
-}
-
-// Each tab has its own navigation stack, you can read more about this pattern here:
-// https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
-type HomeParamList = {
-  Home:undefined
-}
-const HomeStack = createStackNavigator<HomeParamList>();
-
-function HomeNavigator() {
-  return (
-    <HomeStack.Navigator>
-      <HomeStack.Screen
-        name="Home"
-        component={Home}
-        options={{ headerTitle: 'Home' }}
-      />
-    </HomeStack.Navigator>
-  );
 }

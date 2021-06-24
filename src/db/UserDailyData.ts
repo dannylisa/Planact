@@ -26,7 +26,7 @@ const dailylist_dummy = (start:Dayjs, end:Dayjs):IDailyList => {
                     abb: "런닝머신",
                     content: "9km/h 5분 12km/h 5분 반복",
                     icon: "running",
-                    completed: false,
+                    completed: null,
                     schedule_id: "1",
                     seq: 1
                 },
@@ -37,7 +37,7 @@ const dailylist_dummy = (start:Dayjs, end:Dayjs):IDailyList => {
                     abb: "영단어",
                     icon: "study",
                     date: start,
-                    completed: false,
+                    completed: null,
                     schedule_id: "2",
                     seq: 1
                 }]
@@ -51,7 +51,7 @@ const dailylist_dummy = (start:Dayjs, end:Dayjs):IDailyList => {
                     abb: "영단어",
                     icon: "study",
                     date: start.add(1, 'days'),
-                    completed: false,
+                    completed: null,
                     schedule_id: "2",
                     seq: 1
                 }]
@@ -65,7 +65,7 @@ const dailylist_dummy = (start:Dayjs, end:Dayjs):IDailyList => {
                     abb: "영단어",
                     icon: "study",
                     date: start.add(2, 'days'),
-                    completed: false,
+                    completed: null,
                     schedule_id: "2",
                     seq: 1
                 },
@@ -76,7 +76,7 @@ const dailylist_dummy = (start:Dayjs, end:Dayjs):IDailyList => {
                     abb: "런닝머신",
                     content: "9km/h 5분 12km/h 5분 반복",
                     icon: "running",
-                    completed: false,
+                    completed: null,
                     schedule_id: "1",
                     seq: 1
                 },
@@ -87,7 +87,7 @@ const dailylist_dummy = (start:Dayjs, end:Dayjs):IDailyList => {
                     abb: "스쿼트",
                     content: "40kg 10개 2세트",
                     icon: "running",
-                    completed: false,
+                    completed: null,
                     schedule_id: "1",
                     seq: 2
                 },
@@ -98,7 +98,7 @@ const dailylist_dummy = (start:Dayjs, end:Dayjs):IDailyList => {
                     abb: "스쿼트",
                     content: "50kg 10개 2세트",
                     icon: "running",
-                    completed: false,
+                    completed: null,
                     schedule_id: "1",
                     seq: 3
                 },
@@ -109,7 +109,7 @@ const dailylist_dummy = (start:Dayjs, end:Dayjs):IDailyList => {
                     abb: "스쿼트",
                     content: "60kg 10개 2세트",
                     icon: "running",
-                    completed: false,
+                    completed: null,
                     schedule_id: "1",
                     seq: 4
                 },
@@ -120,7 +120,7 @@ const dailylist_dummy = (start:Dayjs, end:Dayjs):IDailyList => {
                     abb: "스쿼트",
                     content: "70kg 10개 2세트",
                     icon: "running",
-                    completed: false,
+                    completed: null,
                     schedule_id: "1",
                     seq: 5
                 }

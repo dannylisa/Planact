@@ -1,5 +1,4 @@
 import React from "react";
-import { DefaultTheme } from "@/style/styled";
 import { isLight } from "@/style/themes";
 import { DarkTheme, DefaultTheme as NavDefaultTheme, NavigationContainer } from "@react-navigation/native";
 import LinkingConfiguration from './LinkingConfiguration';
@@ -7,8 +6,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import BottomTabNavigator from "./BottomTabNavigator";
 import NotFoundScreen from "@/screens/NotFoundScreen";
 import { useSelector } from "react-redux";
-import { GlobalState } from "@/../App";
-
+import { GlobalState } from "@/modules";
 
 export default function Navigation() {
     const theme = useSelector(({theme}:GlobalState) => theme)
