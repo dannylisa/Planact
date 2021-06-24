@@ -17,9 +17,13 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.insiders.planact",
+      "buildNumber": "0.0.0"
     },
     "android": {
+      "package": "com.insiders.planact",
+      "versionCode": 0,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
