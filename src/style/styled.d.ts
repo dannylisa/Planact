@@ -1,3 +1,4 @@
+export type themeType = "theme/light/orange" | "theme/dark/orange";
 interface Colorset {
     main: string
     text: string
@@ -5,7 +6,7 @@ interface Colorset {
 }
 
 export interface DefaultTheme {
-    mode_name: string
+    mode_name: themeType;
 
     mainBackground: string;
     content: string;
