@@ -2,10 +2,8 @@ import { DefaultTheme } from "./styled"
 
 export const isLight = ({mode_name}:DefaultTheme) => Boolean(mode_name.match("light"));
 
-export type themeType = "light/orange" | "dark/orange";
-
 export const light_orange: DefaultTheme = {
-    mode_name: "light/orange",
+    mode_name: "theme/light/orange",
     mainBackground: "#ffffff",
     content: "#ffffff",
     border: "#423944",
@@ -28,8 +26,9 @@ export const light_orange: DefaultTheme = {
         border: "#000000",
     }
 }
+
 export const dark_orange: DefaultTheme = {
-    mode_name: "dark/orange",
+    mode_name: "theme/dark/orange",
     mainBackground: "#121212",
     content: "#333",
     border: "#707789",
@@ -53,4 +52,4 @@ export const dark_orange: DefaultTheme = {
     }
 }
 
-export const themes = [light_orange, dark_orange]
+export const themes = [light_orange, dark_orange];

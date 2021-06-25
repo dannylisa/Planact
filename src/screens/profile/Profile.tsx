@@ -3,9 +3,9 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { DefaultTheme } from "@/style/styled";
 import { useSelector } from "react-redux";
 import { GlobalState } from "@/modules";
-import ThemeBlock from "./ThemeBlock";
 import { themes } from "@/style/themes";
-// import MenuItem from "@/components/MenuItem";
+import ThemeBlock from "./ThemeBlock";
+import MenuItem from "@/components/MenuItem";
 interface ProfileProps {
 
 }
