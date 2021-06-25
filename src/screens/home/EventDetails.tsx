@@ -30,7 +30,7 @@ const EventDetails = (event:IUserEvent) => {
             default:
                 setContentText(text);
         }
-    }, [done])
+    }, [done, theme])
 
     return(
         <View style={wrapper}>
