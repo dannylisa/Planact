@@ -17,11 +17,10 @@ interface MarketProps {
 
 function Market({}:MarketProps){
     const theme = useSelector(({theme}:GlobalState) => theme)
-    const {img, item,body,search, y,input} = styles(theme);
+    const {img, item, body, search, input} = styles(theme);
     const [text, onChangeText] = useState("");
     const [modalVisible, setModalVisible] = useState(false);
 
-    
 
     const ModalOpen = () => {
       setModalVisible(prev => !prev)
@@ -95,7 +94,6 @@ const styles = (theme:DefaultTheme) => {
           alignItems:'center',
           marginBottom:10,
         },
-        y:{},
         input:{
           flex:1
         },
