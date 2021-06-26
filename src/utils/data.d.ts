@@ -9,7 +9,7 @@ export interface IProgram {
   publisher_id: string
   program_name: string
   description: string
-  photoUrl: string
+  thumbnail: string
   price: number
 }
 
