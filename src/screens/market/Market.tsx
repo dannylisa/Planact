@@ -1,4 +1,3 @@
-import Button from "@/components/Button";
 import { InputView } from "@/components/Input";
 import { TouchableView } from "@/components/TouchableView";
 import { GlobalState } from "@/modules";
@@ -8,13 +7,12 @@ import { Alert, TextInput } from "react-native";
 import { Modal, StyleSheet, View, Text,SafeAreaView } from "react-native";
 import { useSelector } from "react-redux";
 import { AntDesign } from '@expo/vector-icons';
-import { plan_sample } from "@/db/PlanSamples";
+import { programs_dummy } from "@/db/market/MarketPrograms";
 import { Image } from "react-native";
-import { FlatList } from "react-native";
+import PlanSearch from "./PlanSearch";
 interface MarketProps {
 
 }
-
 function Market({}:MarketProps){
     const theme = useSelector(({theme}:GlobalState) => theme)
     const {img, item, body, search, input} = styles(theme);
@@ -48,29 +46,34 @@ function Market({}:MarketProps){
             </Modal>
             
             <View style={search}>
-                {/* <PlanSearch/> */}
+                <PlanSearch/>
                 <InputView/>
                 <TouchableView onPress={ModalOpen}>
                   <AntDesign name="filter" size={24} color="black" />
                 </TouchableView>
             </View>
             <View>
-                {plan_sample.plans.map(plan=> (
-                  <View style={item}>
+              {/* 데이터는 AXIOS로 받아올 것이기 때문에 비동기 함수로 데이터를 받아올 것임.
+                따라서 programs 데이터는 useState<IPrograms[]>([]) 활용해서 State로 선언해야 하고,
+                useEffect 활용해서 데이터 받아올 것. 데이터 받아오는 동안은 로딩 화면이 나타나야 하니
+                loading이라는 state 선언해서 데이터 받아오는 동안에는 로딩 화면 나타날 수 있도록.
+              */}
+                {programs_dummy.map((plan, idx)=> (
+                  <View style={item} key={idx}>
                     <Image 
                       // source={require(`${plan.photoUrl}`)}
                       style={img}
                       source={require('../../assets/img/health.jpg')}
                     />
                     <View>
-                      <Text>{plan.summary}</Text>
+                      <Text>{plan.program_name}</Text>
                       <Text>{plan.description}</Text>
                       {/* 이거 어떻게 처리하지 */}
                     </View>
                   </View>
                 ))}
                 {/* <FlatList
-                  data={plan_sample.plans}
+                  data={programs_dummy.plans}
                   renderItem={})=>{
 
                   }
@@ -102,7 +105,6 @@ const styles = (theme:DefaultTheme) => {
           borderColor: 'black',
           marginBottom: 10,
           display:'flex',
-          // flexWrap:'wrap',
           flexDirection:'row',
 
         },

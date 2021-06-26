@@ -6,10 +6,10 @@ import DailyView from "./DailyView";
 import { DefaultTheme } from "@/style/styled";
 import { IDailyList } from "@/utils/data";
 import { SafeAreaView, View, StyleSheet } from "react-native";
-import { getDailyList } from "@/db/UserDailyData";
+import { getDailyList } from "@/db/home/UserDailyData";
 import { Alert } from "react-native";
 import { GlobalState } from "@modules/index";
-import { getUserSchedule } from "@/db/UserScheduleData";
+import { getUserSchedule } from "@/db/home/UserScheduleData";
 import { SCHEDULES_FETCH } from "@/modules/userSchedules";
 
 // 1회당 가져올 날짜 수

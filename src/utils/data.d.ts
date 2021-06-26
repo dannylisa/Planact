@@ -1,8 +1,17 @@
 // Program >> Schedule >> Event
 import { Dayjs } from 'dayjs'
 
+// 0 : 평일 , 1: 토요일, 2: 일요일, 공휴일
 export type daytype = 0 | 1 | 2
-export interface IProgram {}
+
+export interface IProgram {
+  program_id: string
+  publisher_id: string
+  program_name: string
+  description: string
+  photoUrl: string
+  price: number
+}
 
 export interface ISchedule {
   schedule_id: string
@@ -43,14 +52,3 @@ export interface IDaily {
   events: IUserEvent[]
 }
 
-export interface IplanItem {
-  id: string
-  summary: string
-  description: string
-  photoUrl: string
-  price: number
-}
-
-export interface IPlanGroup {
-  plans: IplanItem[]
-}
