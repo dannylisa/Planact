@@ -1,4 +1,4 @@
-import { AccentText, DetailText } from '@/components/DefaultText'
+import { DefaultText } from '@/components/DefaultText'
 import { TouchableView } from '@/components/TouchableView'
 import { GlobalState } from '@/modules'
 import { shadow } from '@/style/style-util'
@@ -6,7 +6,7 @@ import { DefaultTheme } from '@/style/styled'
 import { isLight } from '@/style/themes'
 import { IProgram } from '@/utils/data'
 import React, { useState } from 'react'
-import { StyleSheet, Text } from 'react-native'
+import { GestureResponderEvent, StyleSheet, Text } from 'react-native'
 import { FlatList, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import Schedule from './Schedule'
@@ -25,20 +25,18 @@ function Program({ data, isLoading }: ProgramProps) {
   const renderPrograms = ({ item }) => {
     if (isLoading) return <Text>loading...</Text>
     //prettier-ignore
-    const onPress = (id, e) => {
+    const onPress = (id:string) => () => {
       console.log(id)
       setModalVisible(true)
   }
     return (
       <TouchableView
-        onPress={(e) => {
-          onPress(item.program_id, e)
-        }}
+        onPress={onPress(item.program_id)}
         viewStyle={programStyle}
       >
-        <AccentText text={item.program_name} />
-        <DetailText text={item.description} />
-        <DetailText text={`가격 : ${item.price}`} textStyle={costText} />
+        <DefaultText text={item.program_name} />
+        <DefaultText text={item.description} />
+        <DefaultText text={`가격 : ${item.price}`} textStyle={costText} />
 
         <Schedule
           visible={modalVisible}

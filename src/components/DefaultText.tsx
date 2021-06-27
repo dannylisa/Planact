@@ -5,39 +5,30 @@ import { StyleProp, StyleSheet, TextStyle } from 'react-native'
 import { Text } from 'react-native'
 import { useSelector } from 'react-redux'
 
-interface AccentTextProps {
+interface DefaultTextProps {
   text: String
   textStyle?: StyleProp<TextStyle>
-}
-interface DetailTextProps {
-  text: String
-  textStyle?: StyleProp<TextStyle>
+  bold?: boolean
 }
 
-export const AccentText: FC<AccentTextProps> = ({ text, textStyle }) => {
+export const DefaultText: FC<DefaultTextProps> = ({
+  text,
+  textStyle,
+  bold,
+}) => {
   const { theme } = useSelector((state: GlobalState) => state)
-  const { accentText } = styles(theme)
-  return <Text style={[accentText, textStyle]}>{text}</Text>
+  const { defaultText } = styles(theme, bold || false)
+  return <Text style={[defaultText, textStyle]}>{text}</Text>
 }
 
-export const DetailText: FC<DetailTextProps> = ({ text, textStyle }) => {
-  const { theme } = useSelector((state: GlobalState) => state)
-  const { detailText } = styles(theme)
-  return <Text style={[detailText, textStyle]}>{text}</Text>
-}
-
-const styles = (theme: DefaultTheme) => {
+const styles = (theme: DefaultTheme, bold: boolean) => {
   const { text } = theme
+  const fontWeight = bold ? '800' : '500'
   return StyleSheet.create({
-    accentText: {
+    defaultText: {
       color: text,
-      fontWeight: '800',
+      fontWeight,
       fontSize: 16,
-    },
-    detailText: {
-      fontWeight: '500',
-      fontSize: 15,
-      color: text,
     },
   })
 }

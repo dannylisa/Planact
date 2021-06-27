@@ -38,8 +38,10 @@ const styles = (theme: DefaultTheme) => {
   return StyleSheet.create({
     search: {
       backgroundColor: theme.mainBackground,
-      height: 50,
+
+      minHeight: 50,
       marginBottom: 10,
+      paddingHorizontal: 10,
     },
     searchForm: {
       flex: 1,

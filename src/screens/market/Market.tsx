@@ -13,7 +13,7 @@ interface MarketProps {}
 
 function Market({}: MarketProps) {
   const theme = useSelector(({ theme }: GlobalState) => theme)
-  const { body } = styles(theme)
+  const { body, programView } = styles(theme)
   const [programs, setPrograms] = useState<IProgram[]>([])
   const [isLoading, setIsLoading] = useState(true)
 
@@ -31,7 +31,7 @@ function Market({}: MarketProps) {
   return (
     <SafeAreaView style={body}>
       <ProgramSearch />
-      <View>
+      <View style={programView}>
         <Program data={programs} isLoading={isLoading} />
       </View>
     </SafeAreaView>
@@ -45,6 +45,9 @@ const styles = (theme: DefaultTheme) => {
       flex: 1,
       backgroundColor: theme.mainBackground,
       padding: 5,
+    },
+    programView: {
+      flex: 1,
     },
   })
 }
