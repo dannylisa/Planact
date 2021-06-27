@@ -1,4 +1,4 @@
-import { DetailText } from '@/components/DefaultText'
+import { DefaultText } from '@/components/DefaultText'
 import { TouchableView } from '@/components/TouchableView'
 import { getMarketSchedules } from '@/db/market/MarketSchedules'
 import { GlobalState } from '@/modules'
@@ -42,9 +42,9 @@ function Schedule({ programId ,thumbnail,programName,programDetail, price, setMo
     })()}
   ,[])
   const renderSchedules = ({item}) => {
-    if(isLoading)return <DetailText text={'loading...'}/>
+    if(isLoading)return <DefaultText text={'loading...'}/>
     return(
-      <DetailText text={item.topic}/>
+      <DefaultText text={item.topic}/>
     )
   }
   return (
@@ -55,6 +55,7 @@ function Schedule({ programId ,thumbnail,programName,programDetail, price, setMo
         <AntDesign name="close" size={24} color={theme.text} />
       </TouchableView>
           <Image style={thumbnailImage}source={{uri: thumbnail}}/>
+          <Text>{programName}</Text>
           <View style={programView}>
             <FlatList
               data={schedules}
