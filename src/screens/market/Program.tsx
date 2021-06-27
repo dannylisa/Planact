@@ -1,7 +1,9 @@
 import { AccentText, DetailText } from '@/components/DefaultText'
 import { TouchableView } from '@/components/TouchableView'
 import { GlobalState } from '@/modules'
+import { shadow } from '@/style/style-util'
 import { DefaultTheme } from '@/style/styled'
+import { isLight } from '@/style/themes'
 import { IProgram } from '@/utils/data'
 import React, { useState } from 'react'
 import { StyleSheet, Text } from 'react-native'
@@ -18,7 +20,7 @@ function Program({ data, isLoading }: ProgramProps) {
   const [modalVisible, setModalVisible] = useState(false)
   //스타일 설정
   const theme = useSelector(({ theme }: GlobalState) => theme)
-  const { programStyle, body } = styles(theme)
+  const { programStyle, body, costText } = styles(theme)
   //flatlist renderItem 함수
   const renderPrograms = ({ item }) => {
     if (isLoading) return <Text>loading...</Text>
@@ -36,13 +38,17 @@ function Program({ data, isLoading }: ProgramProps) {
       >
         <AccentText text={item.program_name} />
         <DetailText text={item.description} />
-        <Text>가격 : {item.price}</Text>
+        <DetailText text={`가격 : ${item.price}`} textStyle={costText} />
 
         <Schedule
           visible={modalVisible}
           transparent={true}
           programId={item.program_id}
           setModalVisible={setModalVisible}
+          programName={item.program_name}
+          programDetail={item.description}
+          thumbnail={item.thumbnail}
+          price={item.price}
         />
       </TouchableView>
     )
@@ -59,6 +65,7 @@ function Program({ data, isLoading }: ProgramProps) {
 
 const styles = (theme: DefaultTheme) => {
   const { content, text, mainBackground } = theme
+  const shadowOption = isLight(theme) ? shadow : {}
   return StyleSheet.create({
     body: {
       padding: 5,
@@ -67,6 +74,14 @@ const styles = (theme: DefaultTheme) => {
       backgroundColor: content,
       height: 100,
       marginBottom: 10,
+      padding: 5,
+      borderRadius: 17,
+      justifyContent: 'space-between',
+      ...shadowOption,
+    },
+    costText: {
+      fontSize: 10,
+      alignSelf: 'flex-end',
     },
   })
 }
