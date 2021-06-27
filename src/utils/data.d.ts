@@ -15,6 +15,7 @@ export interface IProgram {
 
 export interface ISchedule {
   schedule_id: string
+  program_id: string
   color: string
   publisher: string
   topic: string
@@ -51,4 +52,3 @@ export interface IDaily {
   date: Dayjs
   events: IUserEvent[]
 }
-
