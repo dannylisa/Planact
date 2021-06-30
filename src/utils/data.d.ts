@@ -52,3 +52,8 @@ export interface IDaily {
   date: Dayjs
   events: IUserEvent[]
 }
+// 0629 유저 데이터 인터페이스 추가
+export interface IUser {
+  user_id: string
+  username: string
+}
