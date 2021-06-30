@@ -19,7 +19,7 @@ function MonthChange({}: MonthChangeProps) {
         <AntDesign name="left" size={24} color="black" />
       </TouchableView>
 
-      <Text>{`${day.month()} ${day.year()}`}</Text>
+      <Text>{`${day.month() + 1} ${day.year()}`}</Text>
       <TouchableView>
         <AntDesign name="right" size={24} color="black" />
       </TouchableView>
@@ -35,6 +35,7 @@ const styles = (theme: DefaultTheme) =>
       justifyContent: 'space-between',
       alignItems: 'center',
       marginHorizontal: 10,
+      marginTop: 20,
     },
   })
 

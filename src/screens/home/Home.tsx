@@ -124,7 +124,7 @@ function Home({}: HomeProps) {
 
   return (
     <SafeAreaView style={styles(theme).container}>
-      <UserStatus user={user}></UserStatus>
+      {/* <UserStatus user={user}></UserStatus> */}
       <MonthChange></MonthChange>
       <View style={{ minHeight: 140 }}>
         <DailyList
