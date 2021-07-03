@@ -5,7 +5,7 @@ import DailyList from './DailyList'
 import DailyView from './DailyView'
 import { DefaultTheme } from '@/style/styled'
 import { IDailyList, IUser } from '@/utils/data'
-import { SafeAreaView, View, StyleSheet } from 'react-native'
+import { SafeAreaView, View, StyleSheet, TouchableOpacity } from 'react-native'
 import { getDailyList } from '@/db/home/UserDailyData'
 import { Alert } from 'react-native'
 import { GlobalState } from '@modules/index'
@@ -14,6 +14,8 @@ import { SCHEDULES_FETCH } from '@/modules/userSchedules'
 import UserStatus from './UserStatus'
 import { getUser, user_dummy } from '@/db/home/User'
 import MonthChange from './MonthChange'
+import axios from 'axios'
+import { Text } from 'react-native'
 
 // 1회당 가져올 날짜 수
 const UNIT_FETCH_ONCE = 7
@@ -138,6 +140,25 @@ function Home({}: HomeProps) {
       <View style={{ flex: 1 }}>
         {!loading && <DailyView {...dailylist.data[selected]} />}
       </View>
+      <TouchableOpacity
+        onPress={() => {
+          const data = JSON.stringify({
+            username: 'dsfsfs',
+            password: 'sdfsdfsdf',
+          })
+          axios
+            .post('http://3.35.169.23/account/auth/login/', data, {
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            })
+            .then((data) => {
+              Alert.alert(JSON.stringify(data))
+            })
+        }}
+      >
+        <Text>checkbutton</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   )
 }

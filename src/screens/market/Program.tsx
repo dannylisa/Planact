@@ -38,7 +38,7 @@ function Program({ data, isLoading }: ProgramProps) {
         <DefaultText text={item.description} />
         <DefaultText text={`가격 : ${item.price}`} textStyle={costText} />
 
-        <Schedule
+        {/* <Schedule
           visible={modalVisible}
           transparent={true}
           programId={item.program_id}
@@ -47,7 +47,7 @@ function Program({ data, isLoading }: ProgramProps) {
           programDetail={item.description}
           thumbnail={item.thumbnail}
           price={item.price}
-        />
+        /> */}
       </TouchableView>
     )
   }

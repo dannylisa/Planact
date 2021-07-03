@@ -5,8 +5,6 @@ import { DefaultTheme } from '@/style/styled'
 import { useSelector } from 'react-redux'
 import { getScheduleById, GlobalState } from '@modules/index'
 import { MaterialIcons } from '@expo/vector-icons'
-
-import * as treadmill from '@/assets/icons/tread.png'
 import { Image } from 'react-native'
 
 interface EventViewProps extends IUserEvent {
@@ -31,13 +29,7 @@ function EventView(props: EventViewProps) {
       ]}
     >
       <View style={iconContainer}>
-        <View style={icon} />
-      </View>
-      <View style={contentWrapper}>
-        {/* <Text style={[content, selected === index && { color: '#fff' }]}>
-          {abb}
-        </Text> */}
-        <MaterialIcons name="fitness-center" size={24} color={color} />
+        {/* <MaterialIcons name="fitness-center" size={24} color={color} /> */}
         <Image
           source={require('@/assets/icons/tread.png')}
           style={{
@@ -47,6 +39,13 @@ function EventView(props: EventViewProps) {
             tintColor: color,
           }}
         />
+        <View style={icon} />
+      </View>
+      <View style={contentWrapper}>
+        {/* <Text style={[content, selected === index && { color: '#fff' }]}>
+          {abb}
+        </Text> */}
+        {/* <MaterialIcons name="fitness-center" size={24} color={color} /> */}
       </View>
     </View>
   )
