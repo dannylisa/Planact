@@ -16,6 +16,7 @@ import { getUser, user_dummy } from '@/db/home/User'
 import MonthChange from './MonthChange'
 import axios from 'axios'
 import { Text } from 'react-native'
+import Auth from '../Auth/Auth'
 
 // 1회당 가져올 날짜 수
 const UNIT_FETCH_ONCE = 7
@@ -140,6 +141,7 @@ function Home({}: HomeProps) {
       <View style={{ flex: 1 }}>
         {!loading && <DailyView {...dailylist.data[selected]} />}
       </View>
+      <Auth></Auth>
     </SafeAreaView>
   )
 }
