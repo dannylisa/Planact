@@ -11,6 +11,7 @@ export interface IProgram {
   description: string
   thumbnail: string
   price: number
+  category: string
 }
 
 export interface ISchedule {

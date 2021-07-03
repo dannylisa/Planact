@@ -5,7 +5,7 @@ import DailyList from './DailyList'
 import DailyView from './DailyView'
 import { DefaultTheme } from '@/style/styled'
 import { IDailyList, IUser } from '@/utils/data'
-import { SafeAreaView, View, StyleSheet } from 'react-native'
+import { SafeAreaView, View, StyleSheet, TouchableOpacity } from 'react-native'
 import { getDailyList } from '@/db/home/UserDailyData'
 import { Alert } from 'react-native'
 import { GlobalState } from '@modules/index'
@@ -14,6 +14,8 @@ import { SCHEDULES_FETCH } from '@/modules/userSchedules'
 import UserStatus from './UserStatus'
 import { getUser, user_dummy } from '@/db/home/User'
 import MonthChange from './MonthChange'
+import axios from 'axios'
+import { Text } from 'react-native'
 
 // 1회당 가져올 날짜 수
 const UNIT_FETCH_ONCE = 7
@@ -124,7 +126,7 @@ function Home({}: HomeProps) {
 
   return (
     <SafeAreaView style={styles(theme).container}>
-      <UserStatus user={user}></UserStatus>
+      {/* <UserStatus user={user}></UserStatus> */}
       <MonthChange></MonthChange>
       <View style={{ minHeight: 140 }}>
         <DailyList

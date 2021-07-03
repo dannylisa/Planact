@@ -37,7 +37,7 @@ function DailyView({ date, events }: IDaily) {
   return (
     <View style={container}>
       <Text style={title}>
-        {date.format(`M월 DD일 ${korday[date.day()]}요일`)}
+        {date.format(`M월 D일 ${korday[date.day()]}요일`)}
       </Text>
       {groupedEvents.map((schedule, idx) => (
         <ToggleEventList {...schedule} key={idx} />

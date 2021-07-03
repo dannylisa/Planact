@@ -8,7 +8,8 @@ export const programs_dummy: IProgram[] = [
   {
     program_id: '1',
     publisher_id: '1111',
-    program_name: '헬스 마니아의 근육 생성 프로젝트',
+    program_name: '런닝머신',
+    category: 'fitness',
     description:
       '방학을 맞아 헬스를 시작하려는 여러분. 헬창 인생 10년차 이수영이 알려드립니다. 3주 근육 프로젝트',
     thumbnail:
@@ -18,7 +19,8 @@ export const programs_dummy: IProgram[] = [
   {
     program_id: '2',
     publisher_id: '2222',
-    program_name: '지뢰찾기 1위가 알려주는 지뢰찾기 마스터 플랜',
+    program_name: '복근 만들기',
+    category: 'fitness',
     description:
       '테스터훈 방송 출연, 역대 최단 기간 100만 조회수, 지뢰찾기 세계 1위가 알려주는 지뢰찾기 마스터 플랜',
     thumbnail: 'https://minesweeper.online/img/homepage/expert.png',
@@ -27,7 +29,8 @@ export const programs_dummy: IProgram[] = [
   {
     program_id: '3',
     publisher_id: '1111',
-    program_name: '헬스 마니아의 근육 생성 프로젝트',
+    program_name: '이두 만들기',
+    category: 'fitness',
     description:
       '방학을 맞아 헬스를 시작하려는 여러분. 헬창 인생 10년차 이수영이 알려드립니다. 3주 근육 프로젝트',
     thumbnail:
@@ -37,7 +40,8 @@ export const programs_dummy: IProgram[] = [
   {
     program_id: '4',
     publisher_id: '2222',
-    program_name: '지뢰찾기 1위가 알려주는 지뢰찾기 마스터 플랜',
+    program_name: '삼두 만들기',
+    category: 'fitness',
     description:
       '테스터훈 방송 출연, 역대 최단 기간 100만 조회수, 지뢰찾기 세계 1위가 알려주는 지뢰찾기 마스터 플랜',
     thumbnail: 'https://minesweeper.online/img/homepage/expert.png',
@@ -47,6 +51,7 @@ export const programs_dummy: IProgram[] = [
     program_id: '5',
     publisher_id: '1111',
     program_name: '헬스 마니아의 근육 생성 프로젝트',
+    category: 'fitness',
     description:
       '방학을 맞아 헬스를 시작하려는 여러분. 헬창 인생 10년차 이수영이 알려드립니다. 3주 근육 프로젝트',
     thumbnail:
@@ -57,6 +62,7 @@ export const programs_dummy: IProgram[] = [
     program_id: '6',
     publisher_id: '2222',
     program_name: '지뢰찾기 1위가 알려주는 지뢰찾기 마스터 플랜',
+    category: 'fitness',
     description:
       '테스터훈 방송 출연, 역대 최단 기간 100만 조회수, 지뢰찾기 세계 1위가 알려주는 지뢰찾기 마스터 플랜',
     thumbnail: 'https://minesweeper.online/img/homepage/expert.png',
@@ -66,6 +72,7 @@ export const programs_dummy: IProgram[] = [
     program_id: '7',
     publisher_id: '1111',
     program_name: '헬스 마니아의 근육 생성 프로젝트',
+    category: 'fitness',
     description:
       '방학을 맞아 헬스를 시작하려는 여러분. 헬창 인생 10년차 이수영이 알려드립니다. 3주 근육 프로젝트',
     thumbnail:
@@ -76,6 +83,7 @@ export const programs_dummy: IProgram[] = [
     program_id: '8',
     publisher_id: '2222',
     program_name: '지뢰찾기 1위가 알려주는 지뢰찾기 마스터 플랜',
+    category: 'fitness',
     description:
       '테스터훈 방송 출연, 역대 최단 기간 100만 조회수, 지뢰찾기 세계 1위가 알려주는 지뢰찾기 마스터 플랜',
     thumbnail: 'https://minesweeper.online/img/homepage/expert.png',

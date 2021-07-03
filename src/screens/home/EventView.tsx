@@ -4,6 +4,8 @@ import { TouchableOpacity, View, Text, StyleSheet, Alert } from 'react-native'
 import { DefaultTheme } from '@/style/styled'
 import { useSelector } from 'react-redux'
 import { getScheduleById, GlobalState } from '@modules/index'
+import { MaterialIcons } from '@expo/vector-icons'
+import { Image } from 'react-native'
 
 interface EventViewProps extends IUserEvent {
   selected: number
@@ -20,21 +22,32 @@ function EventView(props: EventViewProps) {
     { color }
   )
   return (
-    <TouchableOpacity
+    <View
       style={[
         container,
         selected === index && { backgroundColor: theme.selected },
       ]}
     >
       <View style={iconContainer}>
+        {/* <MaterialIcons name="fitness-center" size={24} color={color} /> */}
+        <Image
+          source={require('@/assets/icons/tread.png')}
+          style={{
+            width: 24,
+            height: 24,
+            // backgroundColor: color,
+            tintColor: color,
+          }}
+        />
         <View style={icon} />
       </View>
       <View style={contentWrapper}>
-        <Text style={[content, selected === index && { color: '#fff' }]}>
+        {/* <Text style={[content, selected === index && { color: '#fff' }]}>
           {abb}
-        </Text>
+        </Text> */}
+        {/* <MaterialIcons name="fitness-center" size={24} color={color} /> */}
       </View>
-    </TouchableOpacity>
+    </View>
   )
 }
 
