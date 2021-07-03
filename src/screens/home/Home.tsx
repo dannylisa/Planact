@@ -140,25 +140,6 @@ function Home({}: HomeProps) {
       <View style={{ flex: 1 }}>
         {!loading && <DailyView {...dailylist.data[selected]} />}
       </View>
-      <TouchableOpacity
-        onPress={() => {
-          const data = JSON.stringify({
-            username: 'dsfsfs',
-            password: 'sdfsdfsdf',
-          })
-          axios
-            .post('http://3.35.169.23/account/auth/login/', data, {
-              headers: {
-                'Content-Type': 'application/json',
-              },
-            })
-            .then((data) => {
-              Alert.alert(JSON.stringify(data))
-            })
-        }}
-      >
-        <Text>checkbutton</Text>
-      </TouchableOpacity>
     </SafeAreaView>
   )
 }
