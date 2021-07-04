@@ -7,7 +7,7 @@ interface userAuthProps {
   token: string
   username: string
   password: string
-
+  status: boolean
   address?: string
   nickname?: string
   tel?: string
@@ -21,6 +21,7 @@ const userState: userAuthProps = {
   password: '',
   error: '',
   loading: false,
+  status: false,
 }
 
 //함수 인터페이스
@@ -49,6 +50,9 @@ const LOGIN_SUCCESS = 'user/LOGIN_SUCCESS'
 const LOGIN_ERROR = 'user/LOGIN_ERROR'
 
 const REGISTER = 'user/REGISTER'
+const REGISTER_SUCCESS = 'user/REGISTER_SUCCESS'
+const REGISTER_ERROR = 'user/REGISTER_ERROR'
+
 const SET_PROFILE = 'user/SET_PROFILE'
 const LOGOUT = 'user/LOGOUT'
 
@@ -71,11 +75,23 @@ export const login =
     }
   }
 
-export const register = ({ username, password }: loginOrRegisterProps) => ({
-  type: REGISTER,
-  username,
-  password,
-})
+export const register =
+  ({ username, password }: loginOrRegisterProps) =>
+  async (dispatch) => {
+    dispatch({ type: REGISTER })
+    try {
+      const token = await axios.post(
+        'http://3.35.169.23:8000/account/auth/register/',
+        {
+          username,
+          password,
+        }
+      )
+      dispatch({ type: REGISTER_SUCCESS, token })
+    } catch (e) {
+      dispatch({ type: REGISTER_ERROR, error: e })
+    }
+  }
 //prettier-ignore
 export const setProfile = ({address, nickname,tel, email,gender}:setProfileProps) => ({
   type: SET_PROFILE,
@@ -104,6 +120,7 @@ function userAuth(state: userAuthProps = userState, action) {
       return {
         ...state,
         token: action.token,
+        status: true,
       }
     case LOGIN_ERROR:
       return {
@@ -111,9 +128,20 @@ function userAuth(state: userAuthProps = userState, action) {
         error: action.error,
       }
     case REGISTER:
-      return state
+      return {
+        ...state,
+        loading: true,
+      }
+    case REGISTER_SUCCESS:
+      return {
+        ...state,
+        token: action.token,
+      }
     case SET_PROFILE:
-      return state
+      return {
+        ...state,
+        error: action.error,
+      }
     case LOGOUT:
       return state
     default:
