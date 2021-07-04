@@ -1,19 +1,19 @@
 import { useSelector } from 'react-redux'
-import { combineReducers, createStore } from 'redux'
+import { applyMiddleware, combineReducers, createStore } from 'redux'
 import theme from './theme'
+import userAuth from './userAuth'
 import userSchedules from './userSchedules'
-
+import { composeWithDevTools } from 'redux-devtools-extension'
+import logger from 'redux-logger'
+import ReduxThunk from 'redux-thunk'
 // 전체 Global State
 const rootReducer = combineReducers({
   theme,
   userSchedules,
+  userAuth,
 })
 export type GlobalState = ReturnType<typeof rootReducer>
-export default createStore(rootReducer)
-
-export const getScheduleById = (schedule_id: string) => {
-  const schedules = useSelector(
-    ({ userSchedules }: GlobalState) => userSchedules
-  )
-  return schedules.find((schedule) => schedule.schedule_id == schedule_id)
-}
+export default createStore(
+  rootReducer,
+  composeWithDevTools(applyMiddleware(ReduxThunk, logger))
+)
