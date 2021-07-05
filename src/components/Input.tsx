@@ -25,8 +25,6 @@ export const InputView: FC<InputViewProps> = ({ children }) => {
 const styles = (theme: DefaultTheme) => {
   const { content, text } = theme
   return StyleSheet.create({
-    x: {},
-    y: {},
     input: { flex: 1, color: text },
   })
 }

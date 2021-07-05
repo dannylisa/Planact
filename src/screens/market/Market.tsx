@@ -3,26 +3,26 @@ import { DefaultTheme } from '@/style/styled'
 import React, { useState } from 'react'
 import { StyleSheet, View, Text, SafeAreaView } from 'react-native'
 import { useSelector } from 'react-redux'
-import { getMarketPrograms, programs_dummy } from '@/db/market/MarketPrograms'
 import ProgramSearch from './ProgramSearch'
-import { IProgram } from '@/utils/data'
+import { IProgram, ISchedule } from '@/utils/data'
 import { useEffect } from 'react'
 import Program from './Program'
+import { getMarketSchedules } from '@/db/market/MarketSchedules'
 
 interface MarketProps {}
 
 function Market({}: MarketProps) {
   const theme = useSelector(({ theme }: GlobalState) => theme)
   const { body, programView } = styles(theme)
-  const [programs, setPrograms] = useState<IProgram[]>([])
+  const [schedules, setSchedules] = useState<ISchedule[]>([])
   const [isLoading, setIsLoading] = useState(true)
 
   //prettier-ignore
   useEffect(() => {
     (async () => {
       //Fetch Programs
-      const newPrograms: IProgram[] = await getMarketPrograms()
-      setPrograms(newPrograms)
+      const newSchedules: ISchedule[] = await getMarketSchedules()
+      setSchedules(newSchedules)
       setIsLoading(false)
       
     })()}
@@ -32,7 +32,7 @@ function Market({}: MarketProps) {
     <SafeAreaView style={body}>
       <ProgramSearch />
       <View style={programView}>
-        <Program data={programs} isLoading={isLoading} />
+        <Program data={schedules} isLoading={isLoading} />
       </View>
     </SafeAreaView>
   )
