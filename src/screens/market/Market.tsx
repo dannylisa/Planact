@@ -16,7 +16,7 @@ function Market({}: MarketProps) {
   const { body, programView } = styles(theme)
   const [schedules, setSchedules] = useState<ISchedule[]>([])
   const [isLoading, setIsLoading] = useState(true)
-
+  const [modal, setModal] = useState<boolean>(false)
   //prettier-ignore
   useEffect(() => {
     (async () => {

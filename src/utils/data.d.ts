@@ -30,11 +30,15 @@ export interface ISchedule {
 }
 
 export interface IEvent {
+  id: int
+  schedule_id: int
+  dateof: int
+  seq: int
   title: string
   abb: string
-  dateof: number
-  content: strng
-  icon: string
+  content: string
+  proof_type
+  origin_time: string
 }
 
 export type done = 0 | 1 | 2 | null
