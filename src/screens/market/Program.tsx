@@ -4,7 +4,7 @@ import { GlobalState } from '@/modules'
 import { shadow } from '@/style/style-util'
 import { DefaultTheme } from '@/style/styled'
 import { isLight } from '@/style/themes'
-import { IProgram } from '@/utils/data'
+import { IProgram, ISchedule } from '@/utils/data'
 import React, { useState } from 'react'
 import { GestureResponderEvent, StyleSheet, Text } from 'react-native'
 import { FlatList, View } from 'react-native'
@@ -12,12 +12,11 @@ import { useSelector } from 'react-redux'
 import Schedule from './Schedule'
 
 interface ProgramProps {
-  data: IProgram[]
+  data: ISchedule[]
   isLoading: Boolean
 }
 
 function Program({ data, isLoading }: ProgramProps) {
-  const [modalVisible, setModalVisible] = useState(false)
   //스타일 설정
   const theme = useSelector(({ theme }: GlobalState) => theme)
   const { programStyle, body, costText } = styles(theme)
@@ -26,16 +25,13 @@ function Program({ data, isLoading }: ProgramProps) {
     if (isLoading) return <Text>loading...</Text>
     //prettier-ignore
     const onPress = (id:string) => () => {
-      console.log(id)
-      setModalVisible(true)
+      
+      
   }
     return (
-      <TouchableView
-        onPress={onPress(item.program_id)}
-        viewStyle={programStyle}
-      >
-        <DefaultText text={item.program_name} />
-        <DefaultText text={item.description} />
+      <TouchableView onPress={onPress(item.id)} viewStyle={programStyle}>
+        <DefaultText text={item.name} />
+        <DefaultText text={item.category} />
         <DefaultText text={`가격 : ${item.price}`} textStyle={costText} />
 
         {/* <Schedule
@@ -55,7 +51,7 @@ function Program({ data, isLoading }: ProgramProps) {
     <FlatList
       data={data}
       renderItem={renderPrograms}
-      keyExtractor={(item) => item.program_id}
+      keyExtractor={(item) => item.id}
       style={body}
     />
   )

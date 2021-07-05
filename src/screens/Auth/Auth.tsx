@@ -61,10 +61,9 @@ function Auth({ navigation }: AuthProps) {
       <TouchableView
         style={button}
         onPress={() => {
-          dispatch(register({ username, password }))
+          dispatch(register({ username, password, navigation }))
           setUserName('')
           setPassword('')
-          navigation.push('SetProfile')
         }}
       >
         <Text>회원가입</Text>

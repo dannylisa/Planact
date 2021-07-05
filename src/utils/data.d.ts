@@ -15,11 +15,18 @@ export interface IProgram {
 }
 
 export interface ISchedule {
-  schedule_id: string
-  program_id: string
-  color: string
-  publisher: string
-  topic: string
+  id: int
+  name: string
+  created_at: string
+  updated_at: string
+  icon: string
+  //TODO:prroftype설정해야함
+  proof_type
+  category: string
+  description: string
+  thumbnail: string
+  price: int
+  public: boolean
 }
 
 export interface IEvent {

@@ -46,6 +46,7 @@ function MarketMain({ navigation }: MarketMainProps) {
         data={categories}
         renderItem={renderPrograms}
         numColumns={2}
+        keyExtractor={(item, index) => index.toString()}
         contentContainerStyle={{
           justifyContent: 'space-evenly',
           alignItems: 'center',
