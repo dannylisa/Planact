@@ -1,73 +1,58 @@
 import { TouchableView } from '@/components/TouchableView'
 import { GlobalState } from '@/modules'
-import { login, register } from '@/modules/userAuth'
 import Navigation from '@/navigation'
 import { DefaultTheme } from '@/style/styled'
 import React, { useState } from 'react'
 import { Image } from 'react-native'
 import { StyleSheet, Text, View } from 'react-native'
-import { TextInput } from 'react-native-gesture-handler'
+import { TextInput, Button } from '@components/materials'
 import { SafeAreaView } from 'react-navigation'
 import { useDispatch, useSelector } from 'react-redux'
+import { useAuthorization } from '@/modules/auth/hooks'
 
 interface AuthProps {
-  navigation
+
 }
 
-function Auth({ navigation }: AuthProps) {
+function Auth({ }: AuthProps) {
   const { theme } = useSelector((state: GlobalState) => state)
-  const { container, input, button } = styles(theme)
-  const { token, loading, error } = useSelector(
-    (state: GlobalState) => state.userAuth
-  )
+  const { wrapper, container, item } = styles(theme);
   const [username, setUserName] = useState('')
   const [password, setPassword] = useState('')
-  const onChange = (e) => {}
-  const dispatch = useDispatch()
-  const username1 = 'planact'
-  const password1 = 'planact123!'
+  const {logIn, logOut, signUp} = useAuthorization()
+
+  const onLogin = async () => {
+    await logIn({username, password});
+    setPassword('')
+    setUserName('')
+  }
   return (
-    <SafeAreaView style={container}>
-      <Image
-        source={require('@/assets/img/planact.jpg')}
-        style={{ width: 250, height: 100, marginBottom: 100 }}
-      />
-      <TextInput
-        style={input}
-        value={username}
-        onChangeText={(text) => setUserName(text)}
-        placeholder="사용자 이름"
-      />
-
-      <TextInput
-        style={input}
-        value={password}
-        onChangeText={(text) => setPassword(text)}
-        placeholder="비밀번호"
-        secureTextEntry={true}
-      />
-
-      <TouchableView
-        style={button}
-        onPress={() => {
-          dispatch(login({ username, password }))
-          setPassword('')
-          setUserName('')
-        }}
-      >
-        <Text>로그인</Text>
-      </TouchableView>
-      <Text>또는 </Text>
-      <TouchableView
-        style={button}
-        onPress={() => {
-          dispatch(register({ username, password, navigation }))
-          setUserName('')
-          setPassword('')
-        }}
-      >
-        <Text>회원가입</Text>
-      </TouchableView>
+    <SafeAreaView style={wrapper}>
+      <View style={container}>
+        <Image
+          source={require('@/assets/img/planact.jpg')}
+          style={{ width: 250, height: 100, marginBottom: 100 }}
+        />
+        <TextInput
+          value={username}
+          style={item}
+          onChangeText={setUserName}
+          placeholder="ID"
+        />
+        <TextInput
+          value={password}
+          style={item}
+          onChangeText={setPassword}
+          placeholder="Password"
+          secureTextEntry={true}
+        />
+        <Button
+          style={item}
+          color="primary"
+          content="로그인"
+          onPress={onLogin}
+        />
+      </View>
     </SafeAreaView>
   )
 }
@@ -75,31 +60,21 @@ function Auth({ navigation }: AuthProps) {
 const styles = (theme: DefaultTheme) => {
   const { content, text, mainBackground, selected, primary, secondary } = theme
   return StyleSheet.create({
+    wrapper:{
+      backgroundColor: mainBackground,
+      flex: 1,
+    },
     container: {
       flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
       backgroundColor: mainBackground,
-    },
-    input: {
-      backgroundColor: content,
-      color: text,
-      borderRadius: 5,
-      marginBottom: 10,
-      width: 200,
-      height: 30,
-    },
-    button: {
-      backgroundColor: primary.main,
-      color: primary.text,
-      borderColor: primary.border,
-      borderWidth: 5,
-      width: 200,
-      height: 30,
-      display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
+      marginBottom: 80
     },
+    item:{
+      marginBottom:10,
+      width: 250
+    }
   })
 }
 

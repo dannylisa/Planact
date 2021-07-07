@@ -8,7 +8,7 @@ import { useFonts } from 'expo-font'
 import { Rubik_400Regular } from '@expo-google-fonts/rubik'
 import AppLoading from 'expo-app-loading'
 import { useEffect } from 'react'
-import { getUser } from '@/db/home/User'
+import { getUser } from '@/api/home/User'
 import { IUser } from '@/utils/data'
 import { Platform } from 'react-native'
 interface UserStatusProps {

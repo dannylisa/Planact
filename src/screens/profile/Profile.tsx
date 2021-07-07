@@ -6,7 +6,7 @@ import { GlobalState } from '@/modules'
 import { themes } from '@/style/themes'
 import ThemeBlock from './ThemeBlock'
 import MenuItem from '@/components/MenuItem'
-import { logout } from '@/modules/userAuth'
+import { logout } from '@/modules/auth/userAuth'
 interface ProfileProps {
   navigation
 }

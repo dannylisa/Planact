@@ -7,7 +7,7 @@ import ProgramSearch from './ProgramSearch'
 import { IProgram, ISchedule } from '@/utils/data'
 import { useEffect } from 'react'
 import Program from './Program'
-import { getMarketSchedules } from '@/db/market/MarketSchedules'
+import { getMarketSchedules } from '@/api/market/MarketSchedules'
 
 interface MarketProps {}
 

@@ -1,13 +1,12 @@
-import { useSelector } from 'react-redux'
 import { applyMiddleware, combineReducers, createStore } from 'redux'
 import theme from './theme'
-import userAuth from './userAuth'
 import userSchedules from './userSchedules'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import logger from 'redux-logger'
 import ReduxThunk from 'redux-thunk'
 import { persistReducer, persistStore } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
+import userAuth from './auth'
 
 //로컬 스토리지 설정
 const persistConfig = {
@@ -19,7 +18,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
   theme,
   userSchedules,
-  userAuth,
+  userAuth
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

@@ -1,7 +1,6 @@
 import { DefaultText } from '@/components/DefaultText'
 import { TouchableView } from '@/components/TouchableView'
 import { GlobalState } from '@/modules'
-import { setProfile } from '@/modules/userAuth'
 import { DefaultTheme } from '@/style/styled'
 import React, { useState } from 'react'
 import { useCallback } from 'react'
@@ -26,38 +25,38 @@ function SetProfile({ route }: SetProfileProps) {
     categoryContainer,
     confirmButton,
   } = styles(theme)
-  const { token, profile } = useSelector((state: GlobalState) => state.userAuth)
+  // const {username, profile:{address, nickname, tel, email, gender}} = useSelector((state: GlobalState) => state.userAuth)
   const dispatch = useDispatch()
   const { text } = route.params
 
   //프로필 정보
-  const [address, setAddress] = useState<string>('')
-  const [nickname, setNickname] = useState<string>('')
-  const [tel, setTel] = useState<string>('')
-  const [email, setEmail] = useState<string>('')
-  const [gender, setGender] = useState<string>('')
+  // const [address, setAddress] = useState<string>('')
+  // const [nickname, setNickname] = useState<string>('')
+  // const [tel, setTel] = useState<string>('')
+  // const [email, setEmail] = useState<string>('')
+  // const [gender, setGender] = useState<string>('')
 
   //프로필 정보 불러오기
-  useEffect(() => {
-    setAddress(profile.address)
-    setNickname(profile.nickname)
-    setTel(profile.tel)
-    setEmail(profile.email)
-    setGender(profile.gender)
-  }, [profile])
+  // useEffect(() => {
+  //   setAddress(address)
+  //   setNickname(nickname)
+  //   setTel(tel)
+  //   setEmail(email)
+  //   setGender(gender)
+  // }, [])
 
-  const onPress = useCallback(() => {
-    dispatch(setProfile({ address, nickname, tel, email, gender, token }))
-    setAddress('')
-    setNickname('')
-    setTel('')
-    setEmail('')
-    setGender('')
-  }, [profile])
+  // const onPress = useCallback(() => {
+  //   // dispatch(setProfile({ address, nickname, tel, email, gender, token }))
+  //   setAddress('')
+  //   setNickname('')
+  //   setTel('')
+  //   setEmail('')
+  //   setGender('')
+  // }, [profile])
   return (
     <SafeAreaView style={container}>
       <View style={categoryContainer}>
-        <View style={categoryView}>
+        {/* <View style={categoryView}>
           <DefaultText text={'주소'} />
           <TextInput
             style={input}
@@ -121,7 +120,7 @@ function SetProfile({ route }: SetProfileProps) {
         </View>
         <TouchableView onPress={onPress} viewStyle={confirmButton}>
           <Text>{text}</Text>
-        </TouchableView>
+        </TouchableView> */}
       </View>
     </SafeAreaView>
   )

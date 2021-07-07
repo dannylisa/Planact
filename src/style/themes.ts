@@ -36,7 +36,7 @@ export const light_orange: DefaultTheme = {
   border: '#423944',
   text: '#190d31',
   title: '#000000',
-  disabled: `rgba(255,255,255,0.25)`,
+  disabled: '#000000aa',
   selected: '#d9c3ff',
   primary: {
     main: '#f1a150',
