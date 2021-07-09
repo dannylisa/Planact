@@ -11,7 +11,7 @@ interface InputViewProps {
 
 export const InputView: FC<InputViewProps> = ({ children }) => {
   const [text, onChangeText] = useState('')
-  const { theme, userSchedules } = useSelector((state: GlobalState) => state)
+  const { theme } = useSelector((state: GlobalState) => state)
   const { input } = styles(theme)
   return (
     <TextInput

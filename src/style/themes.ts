@@ -32,12 +32,11 @@ export const isLight = ({ mode_name }: DefaultTheme) =>
 export const light_orange: DefaultTheme = {
   mode_name: 'theme/light/orange',
   mainBackground: '#ffffff',
-  content: '#fafafa',
+  content: '#fdfdfd',
   border: '#423944',
   text: '#190d31',
   title: '#000000',
   disabled: '#000000aa',
-  selected: '#d9c3ff',
   primary: {
     main: '#f1a150',
     text: `#fff`,
@@ -63,7 +62,6 @@ export const dark_orange: DefaultTheme = {
   text: '#dedede',
   title: `rgba(255,255,255,0.85)`,
   disabled: `rgba(255,255,255,0.25)`,
-  selected: '#5c3da4',
   primary: {
     main: '#f1a150',
     text: `#fff`,

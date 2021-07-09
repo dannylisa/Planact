@@ -1,59 +1,54 @@
 import { IDaily, daytype } from '@/utils/data'
 import { getDayType } from '@/utils/date'
-import React, { useEffect } from 'react'
-import EventView from './EventView'
+import React, { useCallback, useMemo } from 'react'
 import { StyleSheet, TouchableOpacity, Text } from 'react-native'
-import { useSelector } from 'react-redux'
 import { DefaultTheme } from '@/style/styled'
 import { isLight } from '@/style/themes'
-import { GlobalState } from '@modules/index'
 import { shadow } from '@/style/style-util'
+import useTheme from '@/modules/theme/hooks'
+import useDailyList from '@/modules/userDailyList/hooks'
+import ScheduleView from './ScheduleView'
 
-interface DailyProps extends IDaily {
-  onPress: () => void
-  selected: number
+interface DailyProps {
   index: number
+  daily: IDaily
 }
-function Daily({ selected, index, date, events, onPress }: DailyProps) {
-  const { theme, userSchedules } = useSelector((state: GlobalState) => state)
+function Daily({index, daily:{date, events}}: DailyProps) {
+  // Theme, Style
+  const theme = useTheme();
   const daytype: daytype = getDayType(date)
-  const { container, datetext, extra } = styles(theme, { daytype })
-
-  //   useEffect(() => {
-  //     console.log(selected, index)
-  //   }, [selected])
-
+  const { container, selectedBorder, datetext, extra } = useMemo(() => styles(theme, daytype),[theme]);
+  const uniqueUserScheduleIds = useMemo(() => {
+      const ids = events.map(event => event.event.schedule)
+      const uniqueIds = Array.from(new Set(ids));
+      return uniqueIds;
+  },[events])
+  // Selected State
+  const { setSelectedDaily, selected } = useDailyList();
   return (
     <TouchableOpacity
-      style={[
-        container,
-        selected === index && { backgroundColor: theme.selected },
-      ]}
-      onPress={onPress}
+      style={selected===index ? [container, selectedBorder] : container}
+      onPress={useCallback(() => setSelectedDaily(index), [index])}
     >
-      <Text style={[datetext, selected === index && { color: '#fff' }]}>
+      <Text style={datetext}>
         {date.date() > 1 ? date.date() : `${date.month() + 1}.${date.date()}`}
       </Text>
-      {events
+      {uniqueUserScheduleIds
         .filter((_, i) => i < 3)
-        .map((event, idx) => (
-          <EventView selected={selected} index={index} key={idx} {...event} />
+        .map((id, idx) => (
+          <ScheduleView key={idx} id={id} />
         ))}
-      {events.length > 3 && (
+      {uniqueUserScheduleIds.length > 3 && (
         <Text style={[extra, selected === index && { color: '#fff' }]}>
-          +{events.length - 3}
+          +{uniqueUserScheduleIds.length - 3}
         </Text>
       )}
     </TouchableOpacity>
   )
 }
 
-interface DailyStyleProps {
-  daytype: daytype
-}
-
-const styles = (theme: DefaultTheme, { daytype }: DailyStyleProps) => {
-  const { content, text } = theme
+const styles = (theme: DefaultTheme, daytype:daytype) => {
+  const { content, text, primary } = theme
   const shadowOption = isLight(theme) ? shadow : {}
   const blue = '#1663f1'
   const red = '#f02323d2'
@@ -61,13 +56,17 @@ const styles = (theme: DefaultTheme, { daytype }: DailyStyleProps) => {
   return StyleSheet.create({
     container: {
       backgroundColor: content,
-      width: 70,
+      width: 120,
       height: 120,
       padding: 5,
       paddingTop: 3,
-      borderRadius: 17,
+      borderRadius: 10,
       marginRight: 20,
       ...shadowOption,
+    },
+    selectedBorder:{
+      borderColor: primary.main,
+      borderWidth: 2
     },
     datetext: {
       color: daytype === 0 ? text : daytype === 1 ? blue : red,

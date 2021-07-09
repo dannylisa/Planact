@@ -1,4 +1,4 @@
-import { DefaultText } from '@/components/DefaultText'
+import { DefaultText } from '@/components/materials/Text'
 import { TouchableView } from '@/components/TouchableView'
 import { GlobalState } from '@/modules'
 import { shadow } from '@/style/style-util'

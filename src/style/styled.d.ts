@@ -14,9 +14,8 @@ export interface DefaultTheme {
   title: string
   text: string
   disabled: string
-  selected: string
+  
   // point-color
-  // default: Colorset;
   primary: Colorset
   secondary: Colorset
   ghost: Colorset

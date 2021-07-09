@@ -1,31 +1,34 @@
-import { TouchableView } from '@/components/TouchableView'
-import { GlobalState } from '@/modules'
-import Navigation from '@/navigation'
 import { DefaultTheme } from '@/style/styled'
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { Image } from 'react-native'
-import { StyleSheet, Text, View } from 'react-native'
-import { TextInput, Button } from '@components/materials'
+import { StyleSheet, View } from 'react-native'
+import { TextInput, Button, TextButton } from '@components/materials'
 import { SafeAreaView } from 'react-navigation'
-import { useDispatch, useSelector } from 'react-redux'
 import { useAuthorization } from '@/modules/auth/hooks'
+import useTheme from '@/modules/theme/hooks'
 
-interface AuthProps {
+function Auth() {
+  const theme = useTheme();
+  const { wrapper, container, item } = useMemo(()=>styles(theme), []);
 
-}
+  // true: 로그인  false: 회원가입
+  const [loginMode, setLoginMode] = useState<boolean>(true);
+  const toggleLoginMode = () => setLoginMode(prev => !prev);
 
-function Auth({ }: AuthProps) {
-  const { theme } = useSelector((state: GlobalState) => state)
-  const { wrapper, container, item } = styles(theme);
+  //form
+  const {logIn, logOut, signUp} = useAuthorization()
   const [username, setUserName] = useState('')
   const [password, setPassword] = useState('')
-  const {logIn, logOut, signUp} = useAuthorization()
+  const [password2, setPassword2] = useState('')
 
   const onLogin = async () => {
     await logIn({username, password});
     setPassword('')
-    setUserName('')
   }
+  const onSignUp = async () => {
+    await signUp({username, password, password2});
+  }
+
   return (
     <SafeAreaView style={wrapper}>
       <View style={container}>
@@ -43,22 +46,36 @@ function Auth({ }: AuthProps) {
           value={password}
           style={item}
           onChangeText={setPassword}
-          placeholder="Password"
+          placeholder="비밀번호"
           secureTextEntry={true}
         />
+        {!loginMode &&
+          <TextInput
+            value={password2}
+            style={item}
+            onChangeText={setPassword2}
+            placeholder="비밀번호 확인"
+            secureTextEntry={true}
+          />
+        }
         <Button
           style={item}
           color="primary"
-          content="로그인"
-          onPress={onLogin}
+          content={loginMode ? "로그인" : "회원가입"}
+          onPress={loginMode ? onLogin : onSignUp}
         />
+        <TextButton
+          style={{marginTop: 60}}
+          content={loginMode ? "아직 PLANACT 계정이 없으신가요?" : "PLANACT 계정으로 로그인하기"}
+          onPress={toggleLoginMode}
+          />
       </View>
     </SafeAreaView>
   )
 }
 
 const styles = (theme: DefaultTheme) => {
-  const { content, text, mainBackground, selected, primary, secondary } = theme
+  const { mainBackground } = theme
   return StyleSheet.create({
     wrapper:{
       backgroundColor: mainBackground,
@@ -69,7 +86,7 @@ const styles = (theme: DefaultTheme) => {
       backgroundColor: mainBackground,
       justifyContent: 'center',
       alignItems: 'center',
-      marginBottom: 80
+      marginBottom: 60
     },
     item:{
       marginBottom:10,

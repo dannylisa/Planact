@@ -38,10 +38,20 @@ export type RootStackParamList = {
 const Stack = createStackNavigator<RootStackParamList>()
 
 function RootNavigator() {
-  const user = useSelector((state: GlobalState) => state.userAuth)
-  return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Auth" component={Auth} />
+  const user = useSelector((state: GlobalState) => state.authState)
+  return user ?
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Root" component={BottomTabNavigator} />
+        <Stack.Screen
+          name="NotFound"
+          component={NotFoundScreen}
+          options={{ title: 'Oops!' }}
+        />
+      </Stack.Navigator>
+    : (
+      <Stack.Navigator headerMode="none">
+          <Stack.Screen name="Auth" component={Auth} />
+          {/* <Stack.Screen name="SetProfile" component={SetProfile} /> */}
       </Stack.Navigator>
   )
   // return user ?.profile.nickname.indexOf('__init__') === -1 ?

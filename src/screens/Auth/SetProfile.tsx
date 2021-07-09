@@ -1,18 +1,9 @@
-import { DefaultText } from '@/components/DefaultText'
-import { TouchableView } from '@/components/TouchableView'
 import { GlobalState } from '@/modules'
 import { DefaultTheme } from '@/style/styled'
 import React, { useState } from 'react'
-import { useCallback } from 'react'
-import { useEffect } from 'react'
-import { Text, TextInput } from 'react-native'
 import { StyleSheet, View } from 'react-native'
 import { SafeAreaView } from 'react-navigation'
 import { useDispatch, useSelector } from 'react-redux'
-
-interface SetProfileProps {
-  route
-}
 
 function SetProfile({ route }: SetProfileProps) {
   const { theme } = useSelector((state: GlobalState) => state)
@@ -68,7 +59,7 @@ function SetProfile({ route }: SetProfileProps) {
           <DefaultText text={'닉네임'} />
           <TextInput
             style={input}
-            onChangeText={(text) => setNickname(text)}
+            onChangeText={setNickname}
             value={nickname}
           />
         </View>

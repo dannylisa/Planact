@@ -1,4 +1,3 @@
-
 interface UserProfile {
     nickname: string
     gender: 'M' | 'F' 
@@ -24,7 +23,7 @@ export interface AuthActionProps {
     profile?: UserProfile
 }
 
-function userAuth(state: UserProps|null = null, {type, userData, profile}:AuthActionProps) {
+function authState(state: UserProps|null = null, {type, userData, profile}:AuthActionProps) {
     switch (type) {
         case LOGIN:
             if(userData) return userData;
@@ -43,4 +42,4 @@ function userAuth(state: UserProps|null = null, {type, userData, profile}:AuthAc
             return state
     }
   }
-  export default userAuth
+  export default authState;

@@ -9,10 +9,10 @@ import AppLoading from 'expo-app-loading'
 export default function App() {
   return (
     <Provider store={store}>
-      <PersistGate loading={<AppLoading />} persistor={persistor}>
-        <SafeAreaProvider>
-          <Navigation />
-        </SafeAreaProvider>
+        <PersistGate loading={<AppLoading />} persistor={persistor}>
+          <SafeAreaProvider>
+            <Navigation />
+          </SafeAreaProvider>
       </PersistGate>
     </Provider>
   )

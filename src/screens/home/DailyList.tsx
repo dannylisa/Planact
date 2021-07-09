@@ -1,47 +1,23 @@
-import React, { useState, useEffect } from 'react'
-import { GlobalState } from '@modules/index'
-import { IDailyList } from '@/utils/data'
+import React, { useState } from 'react'
 import { FlatList, StyleSheet } from 'react-native'
-import { useSelector } from 'react-redux'
 import { DefaultTheme } from '@style/styled'
 import Daily from './Daily'
+import useTheme from '@/modules/theme/hooks'
+import useDailyList from '@/modules/userDailyList/hooks'
 
-interface DailyListProps extends IDailyList {
-  loading: Boolean
-  selected: number
-  selector: (index: number) => void
-  loader: (after: boolean) => Promise<void>
-}
-function DailyList(props: DailyListProps) {
-  const { start, end, data, loading, loader, selector, selected } = props
-  const theme = useSelector((state: GlobalState) => state.theme)
-
-  useEffect(() => {
-    if (loading) return
-  }, [loading])
-  useEffect(() => {}, [selected])
-
+function DailyList() {
+  const theme = useTheme();
+  const { dailys } = useDailyList();
   const [contentSize, setContentSize] = useState<number>(0)
   const getData = async (props: any) => {
-    if (loading) return
-    // loader(true);
 
-    const x = props.nativeEvent.contentOffset.x
-    if (x < 0) loader(false)
-    else if (contentSize - x < 400) loader(true)
   }
-  const renderItem = (props: any) => {
-    if (loading) return <></>
-    const onPress = () => selector(props.index)
-    return (
+  const renderItem = ({index, item}: any) => (
       <Daily
-        onPress={onPress}
-        selected={selected}
-        index={props.index}
-        {...props.item}
+        index={index}
+        daily={item}
       />
-    )
-  }
+  )
 
   return (
     <FlatList
@@ -51,9 +27,10 @@ function DailyList(props: DailyListProps) {
       showsHorizontalScrollIndicator
       initialNumToRender={7}
       style={styles(theme).scroll}
-      data={data}
-      keyExtractor={(item) => String(item.date.format('YYYYMMDD'))}
+      data={dailys}
+      keyExtractor={(item) => item.date.format('YYYYMMDD')}
       renderItem={renderItem}
+      contentInset={{left: 400}}
     />
   )
 }

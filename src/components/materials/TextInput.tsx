@@ -1,12 +1,11 @@
 import React, { useMemo, useState } from "react";
-import { GlobalState } from "@/modules";
 import { DefaultTheme } from "@/style/styled";
 import { NativeSyntheticEvent, StyleSheet, TextInputFocusEventData, TextInputProps } from "react-native";
 import { TextInput as OriginTextInput } from "react-native-gesture-handler";
-import { useSelector } from "react-redux";
+import useTheme from "@/modules/theme/hooks";
 
 export default function TextInput ({onFocus, onBlur, style, ...others}:TextInputProps){
-    const theme = useSelector(({theme}:GlobalState) => theme);
+    const theme = useTheme();
     const {main, focused} = useMemo(() => styles(theme), [theme])
     const [focus, setFocus] = useState<boolean>(false);
     const onfocused = (e: NativeSyntheticEvent<TextInputFocusEventData>) => {
@@ -31,7 +30,7 @@ const styles = ({mainBackground, text, primary:{main}}:DefaultTheme) => StyleShe
     main: {
         backgroundColor: mainBackground,
         borderColor: '#cfcfcf',
-        borderWidth: 2,
+        borderWidth: 1.5,
         color: text,
         height: 35,
         fontSize: 18,

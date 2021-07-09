@@ -1,5 +1,7 @@
 import { dark_orange, light_orange } from "@/style/themes";
 import { DefaultTheme } from "@/style/styled";
+import { useSelector } from "react-redux";
+import { GlobalState } from "..";
 
 type themeType = "theme/light/orange" | "theme/dark/orange";
 interface changeThemeAction {

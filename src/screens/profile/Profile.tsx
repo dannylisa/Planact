@@ -1,30 +1,24 @@
 import React, { useState } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { DefaultTheme } from '@/style/styled'
-import { useDispatch, useSelector } from 'react-redux'
-import { GlobalState } from '@/modules'
 import { themes } from '@/style/themes'
 import ThemeBlock from './ThemeBlock'
 import MenuItem from '@/components/MenuItem'
-import { logout } from '@/modules/auth/userAuth'
+import useTheme from '@/modules/theme/hooks'
+import { useAuthorization } from '@/modules/auth/hooks'
 interface ProfileProps {
   navigation
 }
 
 function Profile({ navigation }: ProfileProps) {
-  const theme = useSelector(({ theme }: GlobalState) => theme)
-  const { wrapper, toggleContainer, blockContainer } = styles(theme)
+  const theme = useTheme();
+  const { logOut } = useAuthorization()
+  const { wrapper, toggleContainer, blockContainer } = React.useMemo(() => styles(theme), [theme])
   const [showThemes, setShowThemes] = useState<boolean>(true)
   const toggleThemes = () => setShowThemes((prev) => !prev)
-  const { token } = useSelector((state: GlobalState) => state.userAuth)
 
-  const dispatch = useDispatch()
-  const onPress = () => {
-    dispatch(logout({ token }))
-  }
   return (
     <View style={wrapper}>
-      <MenuItem content={'로그인'} />
       <View style={toggleContainer}>
         <MenuItem onPress={toggleThemes} content="테마 선택" />
         {showThemes && (
@@ -41,7 +35,7 @@ function Profile({ navigation }: ProfileProps) {
           navigation.push('SetProfile', { text: '수정하기' })
         }}
       />
-      <MenuItem content={'로그아웃'} onPress={onPress} />
+      <MenuItem content={'로그아웃'} onPress={logOut} />
     </View>
   )
 }

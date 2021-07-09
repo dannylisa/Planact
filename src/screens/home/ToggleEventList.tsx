@@ -10,7 +10,7 @@ import { useState } from 'react'
 import EventDetails from './EventDetails'
 
 function ToggleEventList(props: GroupedEvent) {
-  const { topic, color, events } = props
+  const { schedule:{schedule:{name}, color}, events } = props
 
   const theme = useSelector(({ theme }: GlobalState) => theme)
   const {
@@ -31,7 +31,7 @@ function ToggleEventList(props: GroupedEvent) {
           <View style={circle} />
         </View>
         <View style={toggleText}>
-          <Text style={accentText}>{`${topic} ${events[0].dateof}일차`}</Text>
+          <Text style={accentText}>{`${name} ${events[0].event.dateof}일차`}</Text>
         </View>
       </TouchableOpacity>
       {show && (

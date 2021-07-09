@@ -1,4 +1,4 @@
-import { DefaultText } from '@/components/DefaultText'
+import { DefaultText } from '@/components/materials/Text'
 import { TouchableView } from '@/components/TouchableView'
 import { getMarketSchedules } from '@/api/market/MarketSchedules'
 import { GlobalState } from '@/modules'

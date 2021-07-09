@@ -4,7 +4,6 @@
  */
 
  import { GlobalState } from '@modules/index';
- import Home, { HomeProps } from '@/screens/home/Home';
 import { isLight } from '@/style/themes';
 import { Ionicons, AntDesign } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';

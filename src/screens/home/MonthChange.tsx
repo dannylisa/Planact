@@ -6,19 +6,19 @@ import { useSelector } from 'react-redux'
 import { AntDesign } from '@expo/vector-icons'
 import dayjs from 'dayjs'
 import { TouchableView } from '@/components/TouchableView'
+import useTheme from '@/modules/theme/hooks'
 
 interface MonthChangeProps {}
 
 function MonthChange({}: MonthChangeProps) {
-  const { theme } = useSelector((state: GlobalState) => state)
-  const { container } = styles(theme)
+  const theme = useTheme()
+  const { container } = React.useMemo( () => styles(theme), [theme])
   const day = dayjs()
   return (
     <View style={container}>
       <TouchableView>
         <AntDesign name="left" size={24} color="black" />
       </TouchableView>
-
       <Text>{`${day.month() + 1} ${day.year()}`}</Text>
       <TouchableView>
         <AntDesign name="right" size={24} color="black" />
