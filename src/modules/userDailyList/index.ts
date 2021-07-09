@@ -42,6 +42,7 @@ export interface UserDailyListAction {
 
 const userDailyListState = (state: UserDailyListStateProps = initState, action: UserDailyListAction) => {
     const { type, fetchData, selected } = action;
+    console.log(type, fetchData);
     switch (type) {
         case DAILY_FETCH_INITIAL:
             fetchData && console.log({ 

@@ -1,6 +1,6 @@
 import { DefaultText } from '@/components/materials/Text'
 import { TouchableView } from '@/components/TouchableView'
-import { getMarketSchedules } from '@/api/market/MarketSchedules'
+import { getMarketSchedules } from '@/api/market/getMarketSchedulesByCategory'
 import { GlobalState } from '@/modules'
 import { DefaultTheme } from '@/style/styled'
 import { ISchedule } from '@/utils/data'

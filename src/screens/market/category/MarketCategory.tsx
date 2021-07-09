@@ -1,20 +1,38 @@
-import { GlobalState } from '@/modules'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import useTheme from '@/modules/theme/hooks'
 import { DefaultTheme } from '@/style/styled'
 import { FlatList, SafeAreaView, StyleSheet, View } from 'react-native'
 import { Text } from '@components/materials'
-import { getMarketSchedulesByCategory } from '@/api/market/MarketSchedules'
+import { getMarketSchedulesByCategory } from '@/api/market/'
 import { AxiosError, AxiosResponse } from 'axios'
 import { ISchedule } from '@/utils/data'
 import { useUserState } from '@/modules/auth/hooks'
 import ScheduleListItem from './ScheduleListItem'
+import MarketScheduleDetailsModal from '../details'
 
-function MarketCategory({ route }) {
+const styles = (theme: DefaultTheme) => {
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: theme.mainBackground
+    },
+    title: {
+      height: 50,
+      backgroundColor: theme.mainBackground
+    },
+    listItemWrapper: {
+      flex: 5,
+      paddingHorizontal: 20,
+      justifyContent:'flex-start',
+      backgroundColor: theme.mainBackground
+    }
+})}
+
+function MarketCategory({ route, navigation }) {
   const { category } = route.params
   const theme = useTheme()
-  const { getToken, forceLogOut } = useUserState();
-  const { container, title, listItemWrapper } = useMemo(() => styles(theme), [theme])
+  const { getToken } = useUserState();
+  const { container, title, listItemWrapper } = useMemo(() => {return styles(theme)}, [theme])
   const [schedules, setSchedules] = useState<ISchedule[]>([])
   const [isLoading, setIsLoading] = useState(true)
 
@@ -33,11 +51,16 @@ function MarketCategory({ route }) {
     })()}
   ,[])
   
-  const renderItem = ({item}) => {
+  const onItemPressed = (item:ISchedule) => () => navigation.push("Market/Schedule/Details", {schedule:item})
+  const renderItem = ({item}:{item:ISchedule}) => {
     return (
-      <ScheduleListItem schedule={item} />
+      <ScheduleListItem 
+        onPress={onItemPressed(item)}
+        schedule={item} 
+      />
     )
   }
+  
   return (
     <SafeAreaView style={container}>
       <View style={title}>
@@ -54,26 +77,6 @@ function MarketCategory({ route }) {
   )
 }
 
-const styles = (theme: DefaultTheme) => {
-  const { mainBackground } = theme
-  return StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: mainBackground
-    },
-    title: {
-      height: 50
-    },
-    listItemWrapper: {
-      flex: 5,
-      paddingHorizontal: 20,
-      justifyContent:'flex-start',
-    }
-  })
-}
 
-export default MarketCategory
-function setIsLoading(arg0: boolean) {
-  throw new Error('Function not implemented.')
-}
+export default MarketCategory;
 

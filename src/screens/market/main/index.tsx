@@ -1,13 +1,10 @@
-import React from 'react'
+import React, { useMemo, useCallback } from 'react'
 import { Text } from '@components/materials';
 import { DefaultTheme } from '@/style/styled'
 import { FlatList, SafeAreaView, TouchableOpacity } from 'react-native'
 import { StyleSheet, View } from 'react-native'
-import { MaterialIcons } from '@expo/vector-icons'
-import { NavigationStackProp } from 'react-navigation-stack'
 import useTheme from '@/modules/theme/hooks'
-import { useMemo, useCallback  } from 'react'
-import { shadow } from '@/style/style-util'
+import CategoryBox from './CategoryBox';
 
 const categories = [
   { category: '헬스', iconName: 'fitness-center' },
@@ -20,18 +17,12 @@ const categories = [
 
 function MarketMain({ navigation }) {
   const theme = useTheme()
-  const { container, itemStyle, header, listStyle } = useMemo(() => styles(theme),[])
+  const { container, header, listStyle } = useMemo(() => styles(theme),[theme])
   const onPress = useCallback((category) => () => navigation.push("Market/Category", {category}),[])
   
-  const renderPrograms = ({ item }) => {
-    console.log(item);
+  const renderCateories = ({ item:{category, iconName} }) => {
     return (
-      <View style={itemStyle}>
-        <TouchableOpacity onPress={onPress(item.category)}>
-          <MaterialIcons name={item.iconName} size={48} color="black" />
-          <Text content={item.title} />
-        </TouchableOpacity>
-      </View>
+      <CategoryBox category={category} icon={iconName} onPress={onPress(category)}/>
     )
   }
 
@@ -43,7 +34,7 @@ function MarketMain({ navigation }) {
       <FlatList
         style={listStyle}
         data={categories}
-        renderItem={renderPrograms}
+        renderItem={renderCateories}
         numColumns={2}
         keyExtractor={(item, index) => ""+index}
         contentContainerStyle={{
@@ -56,29 +47,19 @@ function MarketMain({ navigation }) {
 }
 
 const styles = (theme: DefaultTheme) => {
-  const { content, text, mainBackground } = theme
+  const { mainBackground } = theme
   return StyleSheet.create({
-    container: { flex: 1, backgroundColor: content },
+    container: { flex: 1, backgroundColor: mainBackground },
     header: {
       height: 40,
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
     },
-    itemStyle: {
-      width: 160,
-      height: 160,
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      margin: 10,
-      backgroundColor: content,
-      borderRadius: 12,
-      ...shadow
-    },
     listStyle: {
       padding: 20,
       display: 'flex',
+      backgroundColor: mainBackground
     },
   })
 }

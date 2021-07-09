@@ -32,7 +32,7 @@ export const useUserState = () => {
 
 
 export const useAuthorization = () => {
-    const { getToken, forceLogOut } = useUserState();
+    const { getToken } = useUserState();
     const dispatch:Dispatch<AuthActionProps> = useDispatch()
     const logIn = async (props:LoginProps) => {
         if(!props.username){
@@ -100,7 +100,7 @@ export const useAuthorization = () => {
         let message:string = ""
         const token = await getToken();
         if(!token) return;
-        
+
         await logout_api(token)
             .then((res:AxiosResponse) => {
                 batch(() => {

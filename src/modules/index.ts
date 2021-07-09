@@ -1,7 +1,7 @@
 import { applyMiddleware, combineReducers, createStore } from 'redux'
 import theme from './theme'
 import userSchedulesState from './userSchedule'
-import storage from 'redux-persist/lib/storage'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import authState from './auth'
 import userDailyListState from './userDailyList'
 
@@ -22,7 +22,7 @@ const rootReducer = combineReducers({
 //로컬 스토리지 설정
 const persistConfig = {
   key: 'root',
-  storage,
+  storage: AsyncStorage,
   whitelist: ['authState']
 }
 

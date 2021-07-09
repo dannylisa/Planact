@@ -18,7 +18,7 @@ interface AdditionalProps {
   paddingVertical?: number
   paddingHorizontal?: number
 }
-interface DefaultTextProps extends AdditionalProps, TextProps {
+export interface DefaultTextProps extends AdditionalProps, TextProps {
   content: string
 }
 

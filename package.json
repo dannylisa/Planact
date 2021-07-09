@@ -9,9 +9,11 @@
   },
   "dependencies": {
     "@expo-google-fonts/rubik": "^0.1.0",
+    "@react-native-async-storage/async-storage": "^1.13.0",
     "@react-navigation/bottom-tabs": "^5.11.11",
     "@react-navigation/native": "^5.9.4",
     "@react-navigation/stack": "^5.14.5",
+    "@types/expo__vector-icons": "^10.0.0",
     "axios": "^0.21.1",
     "dateformat": "^4.5.1",
     "dayjs": "^1.10.5",
@@ -35,7 +37,7 @@
     "redux": "^4.1.0",
     "redux-devtools-extension": "^2.13.9",
     "redux-logger": "^3.0.6",
-    "redux-persist": "^6.0.0",
+    "redux-persist": "^5.10.0",
     "redux-thunk": "^2.3.0"
   },
   "devDependencies": {

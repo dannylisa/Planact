@@ -8,8 +8,7 @@ import { useUserState } from "../auth/hooks";
 
 export default function useDailyList(){
     const dispatch:Dispatch<UserDailyListAction> = useDispatch();
-    const { getToken, forceLogOut } = useUserState();
-    const token = getToken();
+    const { getToken } = useUserState();
     const dailyState = useSelector(({userDailyListState}:GlobalState) => userDailyListState);
     const {selected, start, end, dailys} = dailyState
 
@@ -20,9 +19,11 @@ export default function useDailyList(){
         if(!token) return;
         await getDailyList({token})
             .then((res:AxiosResponse<DailyFetchedProps>) => {
-                console.log(res.data);
+                console.log('asdfasfsadad')
+                console.log(res.data)
                 dispatch({type: DAILY_FETCH_INITIAL, fetchData:res.data})
             }).catch((err:AxiosError) => {
+                console.log(err)
                 console.log(err.response)
             })
     }
@@ -30,6 +31,7 @@ export default function useDailyList(){
     const additionalFetch = async () => {
 
     }
+
     return {
         start, end, dailys,
         selected,

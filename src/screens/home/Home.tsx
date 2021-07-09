@@ -9,6 +9,7 @@ import useTheme from '@/modules/theme/hooks'
 import useDailyList from '@/modules/userDailyList/hooks'
 import { useMemo } from 'react'
 import { useUserState } from '@/modules/auth/hooks'
+import { useStepper } from '@/components/materials'
 
 // 1회당 가져올 날짜 수
 const UNIT_FETCH_ONCE = 7
@@ -25,12 +26,14 @@ function Home({}: HomeProps) {
   const { initialDailyFetch } = useDailyList();
 
   useEffect(() => {
-    profile && (async () => {
-      await fetchUserSchedule();
-      await initialDailyFetch();
-    })()
+      if(!profile) return
+      fetchUserSchedule();
+      initialDailyFetch();
   }, [profile])
 
+  const {Stepper} = useStepper({size: 5});
+
+  
   return (
     <SafeAreaView style={container}>
       <MonthChange/>

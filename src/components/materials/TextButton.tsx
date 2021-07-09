@@ -1,28 +1,30 @@
 
 import React, { useMemo } from "react";
-import { StyleSheet, TouchableOpacity, TouchableOpacityProps, Text } from "react-native";
+import { StyleSheet, TouchableOpacity, TouchableOpacityProps } from "react-native";
+import Text from "./Text"
 import { DefaultTheme } from "@/style/styled";
 import { useSelector } from "react-redux";
 import { GlobalState } from "@/modules";
+import { DefaultTextProps } from "./Text";
 
-interface TextButtonProps extends TouchableOpacityProps {
-    content: string
+interface TextButtonProps extends DefaultTextProps {
+    underlined?: boolean
 }
-export default function TextButton({content, style, ...others}:TextButtonProps){
+export default function TextButton({content, underlined, style, onPress, ...others}:TextButtonProps){
     const theme = useSelector(({theme}:GlobalState) => theme);
-    const {container, text} = useMemo(() => styles(theme), []);
+    const {container, text} = useMemo(() => styles(theme, underlined || false), [theme]);
     return(
-        <TouchableOpacity {...others} style={[container, style]}>
-            <Text style={text}>{content}</Text>
+        <TouchableOpacity onPress={onPress} style={[container, style]}>
+            <Text content={content} style={text} {...others}/>
         </TouchableOpacity>
     )
 }
 
-const styles = ({text}:DefaultTheme) => StyleSheet.create({
+const styles = ({text}:DefaultTheme, underlined:boolean) => StyleSheet.create({
     container: {
         backgroundColor: 'transparent',
         borderBottomColor: text,
-        borderBottomWidth: 1,
+        borderBottomWidth: underlined ? 1 : 0,
         height: 20,
         paddingHorizontal: 5,
     },

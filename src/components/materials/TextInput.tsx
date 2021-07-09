@@ -18,7 +18,8 @@ export default function TextInput ({onFocus, onBlur, style, ...others}:TextInput
     }
     return (
         <OriginTextInput 
-            style={ focus ? [style, main, focused] : [style, main]} 
+            style={ focus ? [main, focused, style] : [main, style]} 
+            placeholderTextColor={theme.disabled}
             onFocus={onfocused}
             onBlur={onblur}
             {...others} 
@@ -26,20 +27,20 @@ export default function TextInput ({onFocus, onBlur, style, ...others}:TextInput
     )
 }
 
-const styles = ({mainBackground, text, primary:{main}}:DefaultTheme) => StyleSheet.create({
+const styles = ({text, primary:{main}}:DefaultTheme) => StyleSheet.create({
     main: {
-        backgroundColor: mainBackground,
+        backgroundColor: 'transparent',
         borderColor: '#cfcfcf',
         borderWidth: 1.5,
         color: text,
-        height: 35,
-        fontSize: 18,
-        paddingVertical: 20,
+        fontSize: 16,
+        paddingVertical: 14,
         paddingLeft: 18,
         paddingRight: 24,
         borderRadius: 2.5,
     },
     focused: {
         borderColor: main,
+        color: text,
     }
 })

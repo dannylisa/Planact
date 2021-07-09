@@ -11,9 +11,10 @@ import ScheduleView from './ScheduleView'
 
 interface DailyProps {
   index: number
+  onPress: () => void
   daily: IDaily
 }
-function Daily({index, daily:{date, events}}: DailyProps) {
+function Daily({index, daily:{date, events}, onPress}: DailyProps) {
   // Theme, Style
   const theme = useTheme();
   const daytype: daytype = getDayType(date)
@@ -24,12 +25,15 @@ function Daily({index, daily:{date, events}}: DailyProps) {
       return uniqueIds;
   },[events])
   // Selected State
-  const { setSelectedDaily, selected } = useDailyList();
+  const { selected } = useDailyList();
   return (
     <TouchableOpacity
-      style={selected===index ? [container, selectedBorder] : container}
-      onPress={useCallback(() => setSelectedDaily(index), [index])}
-    >
+        style={
+            selected===index ? 
+             [container, selectedBorder] 
+            : container}
+        onPress={onPress}
+      >
       <Text style={datetext}>
         {date.date() > 1 ? date.date() : `${date.month() + 1}.${date.date()}`}
       </Text>

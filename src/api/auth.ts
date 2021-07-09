@@ -37,7 +37,7 @@ export const logout_api = (tokenHeader:ITokenHeader) => {
 
 export const validate_api = async (tokenHeader:ITokenHeader) => {
     let succeed = false;
-    await axios.post(AUTH_BASE_URL+"user",{},{
+    await axios.get(AUTH_BASE_URL+"user",{
         headers: tokenHeader
     }).then((res) => {
         succeed = (res.status === 200)

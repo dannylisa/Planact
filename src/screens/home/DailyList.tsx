@@ -7,15 +7,17 @@ import useDailyList from '@/modules/userDailyList/hooks'
 
 function DailyList() {
   const theme = useTheme();
-  const { dailys } = useDailyList();
+  const { dailys, setSelectedDaily } = useDailyList();
   const [contentSize, setContentSize] = useState<number>(0)
   const getData = async (props: any) => {
 
   }
+  const onPress= (index:number) => () => setSelectedDaily(index)
   const renderItem = ({index, item}: any) => (
       <Daily
         index={index}
         daily={item}
+        onPress={onPress(index)}
       />
   )
 
@@ -30,7 +32,6 @@ function DailyList() {
       data={dailys}
       keyExtractor={(item) => item.date.format('YYYYMMDD')}
       renderItem={renderItem}
-      contentInset={{left: 400}}
     />
   )
 }

@@ -24,7 +24,7 @@ const groupBySchedule = (schedules: IUserSchedule[],events: IUserEvent[]): Group
     events.forEach((event) => {
       res[event.event.schedule].events.push(event)
     })
-    events = events.sort((a, b) => a.event.seq - b.event.seq)
+    events.sort((a, b) => +a.event.seq - +(b.event.seq))
     return Object.values(res).filter(({ events }) => events.length > 0)
 }
 function DailyView() {

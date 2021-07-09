@@ -9,24 +9,24 @@ import useTheme from '@/modules/theme/hooks'
 
 function Auth() {
   const theme = useTheme();
-  const { wrapper, container, item } = useMemo(()=>styles(theme), []);
+  const { wrapper, container, item } = useMemo(()=>styles(theme), [theme]);
 
   // true: 로그인  false: 회원가입
   const [loginMode, setLoginMode] = useState<boolean>(true);
   const toggleLoginMode = () => setLoginMode(prev => !prev);
 
   //form
-  const {logIn, logOut, signUp} = useAuthorization()
+  const {logIn, signUp} = useAuthorization();
   const [username, setUserName] = useState('')
   const [password, setPassword] = useState('')
   const [password2, setPassword2] = useState('')
 
-  const onLogin = async () => {
-    await logIn({username, password});
+  const onLogin = () => {
+    logIn({username, password});
     setPassword('')
   }
-  const onSignUp = async () => {
-    await signUp({username, password, password2});
+  const onSignUp = () => {
+    signUp({username, password, password2});
   }
 
   return (
@@ -66,6 +66,7 @@ function Auth() {
         />
         <TextButton
           style={{marginTop: 60}}
+          underlined
           content={loginMode ? "아직 PLANACT 계정이 없으신가요?" : "PLANACT 계정으로 로그인하기"}
           onPress={toggleLoginMode}
           />
