@@ -1,9 +1,8 @@
 import useTheme from "@/modules/theme/hooks";
 import { DefaultTheme } from "@/style/styled";
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import React, { Dispatch, SetStateAction } from "react";
+import { StyleSheet, View, TouchableOpacity } from "react-native";
 import { Text } from "@components/materials";
-import { TouchableView } from "@/components/materials/TouchableView";
 import { korday } from "@/utils/date";
 
 interface SelectDayProps {
@@ -24,7 +23,7 @@ export default function SelectDay({selectedDays, setSelectedDays}:SelectDayProps
         <View style={wrapper}>
             {
                 days.map((item) => (
-                    <TouchableView 
+                    <TouchableOpacity 
                         onPress={toggleSelected(item)}
                         style={container} 
                         key={item}>
@@ -33,7 +32,7 @@ export default function SelectDay({selectedDays, setSelectedDays}:SelectDayProps
                             paddingVertical={7} 
                             content={korday[(item+1)%7]} 
                         />
-                    </TouchableView>
+                    </TouchableOpacity>
                 ))
             }
         </View>
