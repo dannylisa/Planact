@@ -86,6 +86,23 @@ export default function MarketScheduleDetails({ route }){
         Alert.prompt('스케줄의 별명을 지어주세요.', '', setAlias)
     }
 
+    // Initial Setting
+    useEffect(() => {
+        (async () => {
+            if(+schedule <= 0) return;
+            const token = await getToken();
+            if(!token) return;
+            await getMarketScheduleEvents(schedule.id, token)
+                .then((res:AxiosResponse<EventsGroupedByDateOf[]>) => {
+                    console.log(res.data)
+                    setSchedulePreviewEvents(res.data)
+                    setStepperSize(Math.min(res.data.length, 5))
+                })
+                .catch((err:AxiosError) => console.log(err))
+        })()
+    }, [schedule])
+
+    
     // Use attatch api
     const attach = async () => {
         const token = await getToken();
@@ -113,21 +130,6 @@ export default function MarketScheduleDetails({ route }){
                     Alert.alert(err.response?.data)
             })
     }
-
-    // Initial Setting
-    useEffect(() => {
-        (async () => {
-            if(+schedule <= 0) return;
-            const token = await getToken();
-            if(!token) return;
-            await getMarketScheduleEvents(schedule.id, token)
-                .then((res:AxiosResponse<EventsGroupedByDateOf[]>) => {
-                    setSchedulePreviewEvents(res.data)
-                    setStepperSize(Math.min(res.data.length, 5))
-                })
-                .catch((err:AxiosError) => console.log(err))
-        })()
-    }, [schedule])
 
     return(
         <SafeAreaView style={{flex: 1}}>

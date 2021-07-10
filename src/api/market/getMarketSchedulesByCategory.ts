@@ -1,5 +1,4 @@
 import { ITokenHeader } from '@/modules/auth/hooks'
-import { ISchedule } from '@/utils/data'
 import axios from 'axios'
 import { APP_BASE_URL } from '../host'
 
