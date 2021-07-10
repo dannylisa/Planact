@@ -1,35 +1,125 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useMemo, useState } from "react"
+import { DefaultTheme } from "@/style/styled";
 import useTheme from "@/modules/theme/hooks";
-import { Text } from '@components/materials';
-import { View, StyleSheet, SafeAreaView } from "react-native";
+import { Button, Text, useThemedStepper } from '@components/materials';
+import { View, StyleSheet, SafeAreaView, Button as NativeButton, ScrollView, Alert } from "react-native";
 import { getMarketScheduleEvents } from "@/api/market/";
 import { useUserState } from "@/modules/auth/hooks";
-import { useState } from "react";
 import { IEvent, ISchedule } from "@/utils/data";
 import { AxiosError, AxiosResponse } from "axios";
-import { DefaultTheme } from "@/style/styled";
+import EventPreview from "./EventPreview";
+import { RadioButtonProps, RadioButton } from 'react-native-radio-buttons-group';
+import SelectDay from "./SelectDay";
+import DateTimePickerModal from "@/components/materials/DateTimePickerModal";
+import { isToday } from "@/utils/date";
+import dayjs from "dayjs";
+import SelectInterval from "./SelectInterval";
+import attachSchedule, { attachScheduleType } from "@/api/market/attatchSchedule";
+
 
 interface EventsGroupedByDateOf {
     date: string
     events: IEvent[]
 }
 
-export default function MarketScheduleDetails({ route }){
-    const { schedule } = route.params
-    const theme = useTheme()
-    const { getToken } = useUserState();
-    const { container, content } = styles(theme);
-    const [schedulePreviewEvents, setSchedulePreviewEvents] = useState<EventsGroupedByDateOf | null>(null);
+const RADIO_PROPS:RadioButtonProps[] = [
+    {label: '요일 선택', id: "0", selected: true},
+    {label: '간격 선택', id: "1", selected: false},
+    {label: '매일 하기', id: "2", selected: false},
+]
 
+const Today = new Date();
+const TwoWeeksLater = dayjs().add(14, 'days').toDate();
+
+export default function MarketScheduleDetails({ route }){
+    // theme
+    const theme = useTheme();
+    const { container, header, buttonContainer, downloadContainer,
+        button, content, stepperWrapper, item } = useMemo(() => styles(theme), [theme]);
+    
+    // Get Detail Data from api
+    const { getToken } = useUserState();
+    const schedule:ISchedule = route.params.schedule;
+    const [schedulePreviewEvents, setSchedulePreviewEvents] = useState<EventsGroupedByDateOf[]>([]);
+    const [stepperSize, setStepperSize] = useState<number>(3);
+
+    // Stepper Setting
+    const {StepperGetter, active} = useThemedStepper({size: stepperSize});
+    const Stepper = useMemo(()=> StepperGetter(), [stepperSize, active, theme])
+
+    // DatePicker Setting
+    const [date, setDate] = useState<Date>(Today)
+    const [datepickerVisible, setDatepickerVisible] = useState<boolean>(false)
+    const toggleDatepickerVisible = () => setDatepickerVisible(prev => !prev)
+    const [selectedDays, setSelectedDays] = useState<boolean[]>(
+        [false,false,false,false,false,false,false]
+    );
+
+    // Radio Button Settings
+    const [radioButtons, setRadioButtons] = useState<RadioButtonProps[]>(
+        RADIO_PROPS.map(prop => ({
+            ...prop, 
+            color:theme.primary.main,
+            labelStyle: {
+                color: theme.text,
+                fontSize: 16,
+            }
+        }))
+    )
+    const onPressRadioButton = (idx: number) => (
+        setRadioButtons(prev => {
+            return prev.map((item, index) => ({...item, selected: index===idx}))
+        })
+    );
+
+
+    // Interval Settings
+    const [interval, setInterval] = useState<number>(2);
+    const [intervalSelectionVisible, setIntervalSelectionVisible] = useState<boolean>(false)
+    const toggleIntervalSelectionVisible = () => (
+        setIntervalSelectionVisible(prev => !prev)
+    );
+
+    // Set alias
+    const [alias, setAlias] = useState<string>(schedule.abb)
+
+    // Use attatch api
+    const attach = async () => {
+        const token = await getToken();
+        if(!token) return;
+        const type:attachScheduleType = radioButtons[0].selected ? 
+            'weekdays' : radioButtons[1].selected ? 'interval' : 'everyday';
+        await attachSchedule({
+                type,
+                token,
+                interval,
+                weekdays: selectedDays,
+                start_date: date,
+                color: "#aaaaaa",
+                schedule_id: schedule.id
+            }).then((res) => {
+                console.log(res);
+                Alert.alert("플랜이 다운로드 되었습니다.")
+            }).catch((err:AxiosError) => {
+                console.log(err)
+                console.log(err.response)
+                if(err.response?.status === 406)
+                    Alert.alert("이미 내려받은 스케줄입니다!")
+                else
+                    Alert.alert(err.response?.data)
+            })
+    }
+
+    // Initial Setting
     useEffect(() => {
         (async () => {
             if(+schedule <= 0) return;
             const token = await getToken();
             if(!token) return;
             await getMarketScheduleEvents(schedule.id, token)
-                .then((res:AxiosResponse<EventsGroupedByDateOf>) => {
+                .then((res:AxiosResponse<EventsGroupedByDateOf[]>) => {
                     setSchedulePreviewEvents(res.data)
-                    console.log(res.data)
+                    setStepperSize(Math.min(res.data.length, 5))
                 })
                 .catch((err:AxiosError) => console.log(err))
         })()
@@ -37,16 +127,107 @@ export default function MarketScheduleDetails({ route }){
 
 
     return(
-        <SafeAreaView style={container}>
-            <View style={content}>
-                {schedule?
-                <>
-                    <Text flex={1} content={schedule.name} />
-                </>
-                    :
-                    <Text content="Not Found"/>
-                }
-            </View>
+        <SafeAreaView style={{flex: 1}}>
+            <ScrollView style={container}>
+                <View style={header}>
+                    <Text bold headings={1} align="left" content={schedule.name} />
+                    <Text headings={3} align="left" marginVertical={10} content={schedule.description} />
+                </View>
+                {/* Stepper */}
+                <View style={stepperWrapper} >
+                    {Stepper}
+                </View>
+                <View style={content}>
+                    {   schedulePreviewEvents.length ?
+                        schedulePreviewEvents[active].events.map(
+                            (event, idx) => (
+                                <EventPreview event={event} key={idx} />
+                            )
+                        )
+                        : <></>
+                    }
+                </View>
+
+
+                {/* 시작 날짜 선택 */}
+                <View style={buttonContainer}>   
+                  <Button 
+                    style={button} 
+                    color={ isToday(date) ? "primary" : "ghost"} 
+                    content="오늘부터 하기!" 
+                    onPress={() => setDate(Today)}/>
+                  <Button 
+                    style={button} 
+                    color={ !isToday(date) ? "primary" : "ghost"}  
+                    content={isToday(date) ? "나중에 시작할게요" : `${date.getMonth()+1}월 ${date.getDate()}일부터`} 
+                    onPress={toggleDatepickerVisible}/>
+                </View>
+
+                {/* 요일 / 간격 선택 */}
+                <View style={[item]}> 
+                    {
+                        radioButtons.map((radio, idx) => (
+                            <RadioButton 
+                                {...radio}
+                                onPress={() => onPressRadioButton(idx)}
+                            />
+                        ))
+                    }
+                </View>
+                <View style={item}> 
+                  {radioButtons[0].selected?
+                    <SelectDay
+                        selectedDays={selectedDays}
+                        setSelectedDays={setSelectedDays} 
+                    />
+                    :<></>
+                  }
+                  {
+                      radioButtons[1].selected?
+                      <>
+                          <Text 
+                            headings={1} 
+                            content={`${interval}일마다 한 번 실천하기`}
+                            marginHorizontal={10}
+                        />
+                          <NativeButton 
+                            title={
+                                !intervalSelectionVisible? "변경": "완료"
+                            } 
+                            onPress={toggleIntervalSelectionVisible} 
+                            />
+                        </>
+                      :<></>
+                  }
+                  {
+                      radioButtons[2].selected?
+                        <Text headings={1} content={`매일 실천하기`} />
+                      :<></>
+                  }
+                </View>
+                <View style={item}> 
+                    <Button 
+                        color="primary"
+                        content="다운로드"
+                        onPress={attach} 
+                    />
+                </View>
+            </ScrollView>
+            <SelectInterval 
+                value={interval}
+                onValueChange={setInterval}
+                visible={intervalSelectionVisible}
+                hide={toggleIntervalSelectionVisible}
+            />
+            <DateTimePickerModal 
+                value={date} 
+                onChange={setDate} 
+                mode="date" 
+                visible={datepickerVisible}
+                hide={toggleDatepickerVisible}
+                minimumDate={Today}
+                maximumDate={TwoWeeksLater}
+            /> 
         </SafeAreaView>
     )
 }
@@ -54,9 +235,45 @@ export default function MarketScheduleDetails({ route }){
 const styles = ({mainBackground}:DefaultTheme) => StyleSheet.create({
     container:{
         flex: 1,
-        backgroundColor: mainBackground
+        backgroundColor: mainBackground,
+        padding:20
+    },
+    header: {
+        height: 90,
+        textAlign: "left"
+    },
+    buttonContainer:{
+        flexDirection: "row",
+        marginBottom: 15
+    },
+    downloadContainer:{
+        padding: 10,
+        position: "absolute",
+        width: "100%",
+        bottom: 0,
+    },
+    button:{
+        flex: 1,
+        margin: 8
+    },
+    stepperWrapper:{
+        flex: 1,
+        marginBottom: 16
     },
     content:{
-        flex: 1,
+        paddingHorizontal: 16
+    },
+    selectStartDay:{
+        height: 60,
+        paddingVertical:5,
+        flexDirection: "row",
+        justifyContent: "space-around"
+    },
+    item:{
+        height: 55,
+        marginBottom: 20,
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center"
     }
 })

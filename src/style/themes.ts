@@ -38,19 +38,20 @@ export const light_orange: DefaultTheme = {
   title: '#000000',
   disabled: '#000000aa',
   primary: {
-    main: '#f1a150',
+    main: '#ff9425',
     text: `#fff`,
     border: 'transparent',
   },
   secondary: {
-    main: '#ffdcb9',
-    text: `rgba(255,255,255,0.85)`,
+    main: '#E3E0E6',
+    text: '#92a1b4',
     border: 'transparent',
   },
   ghost: {
-    main: `rgba(255,255,255,0)`,
+    main: '#fff',
     text: '#ff9425',
-    border: '#000000',
+    border: '#ffffff00',
+    // border: '#000000',
   },
 }
 
@@ -64,18 +65,18 @@ export const dark_orange: DefaultTheme = {
   disabled: `rgba(255,255,255,0.25)`,
   primary: {
     main: '#f1a150',
-    text: `#fff`,
-    border: 'transparent',
+    text: `rgba(255,255,255,0.85)`,
+    border: '#f1a150',
   },
   secondary: {
-    main: '#ffdcb9',
+    main: '#464646',
     text: `rgba(255,255,255,0.85)`,
-    border: 'transparent',
+    border: '#464646',
   },
   ghost: {
     main: `rgba(255,255,255,0)`,
     text: '#ff9425',
-    border: '#000000',
+    border: 'rgba(255,255,255,0)',
   },
 }
 

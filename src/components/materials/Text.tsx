@@ -10,7 +10,6 @@ import { useSelector } from 'react-redux'
 interface AdditionalProps {
   bold?: boolean
   align?: "left" | "right" | "center"
-  // flex: 0 => none
   flex?: number
   headings?: number
   marginVertical?: number

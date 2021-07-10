@@ -30,8 +30,8 @@ const to_dayjs = ({start, end, dailys}:DailyFetchedProps):IDailyList => ({
 
 // 처음 fetch 받았을 때 오늘이 몇 번째 날인지
 export const INITIAL_TODAY_INDEX = 7 as const;
-export const DAILY_FETCH_INITIAL = 'user/daily/fetch/initial' as const
-export const DAILY_SELECT = 'user/daily/select' as const
+export const DAILY_FETCH_INITIAL = 'user/daily/fetch/initial' as const;
+export const DAILY_SELECT = 'user/daily/select' as const;
 
 
 export interface UserDailyListAction {
@@ -42,7 +42,7 @@ export interface UserDailyListAction {
 
 const userDailyListState = (state: UserDailyListStateProps = initState, action: UserDailyListAction) => {
     const { type, fetchData, selected } = action;
-    console.log(type, fetchData);
+    console.log(type, fetchData, selected);
     switch (type) {
         case DAILY_FETCH_INITIAL:
             fetchData && console.log({ 

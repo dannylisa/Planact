@@ -48,7 +48,7 @@ const styles = (theme: DefaultTheme) => {
       flex: 1,
     },
     toggleContainer: {
-      backgroundColor: content,
+      backgroundColor: mainBackground,
     },
     blockContainer: {
       flexDirection: 'row',

@@ -41,6 +41,6 @@ export const validate_api = async (tokenHeader:ITokenHeader) => {
         headers: tokenHeader
     }).then((res) => {
         succeed = (res.status === 200)
-    })
+    }).catch((err)=>null)
     return succeed
 }

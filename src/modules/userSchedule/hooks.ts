@@ -2,10 +2,9 @@ import { getUserSchedule } from "@/api/home/UserScheduleData";
 import { IUserSchedule } from "@/utils/data";
 import { AxiosError, AxiosResponse } from "axios";
 import { Dispatch, useState } from "react";
-import { Alert } from "react-native";
 import { batch, useDispatch, useSelector } from "react-redux"
-import { UserScheduleAction, USER_SCHEDULES_FETCH, USER_SCHEDULES_SHOULD_FETCH_SIGNAL } from ".";
-import { GlobalState } from ".."
+import { UserScheduleAction, USER_SCHEDULES_FETCH, USER_SCHEDULES_SHOULD_FETCH_SIGNAL } from "./index";
+import { GlobalState } from "../index"
 import { useUserState } from "../auth/hooks";
 
 export const useUserSchedule = () => {

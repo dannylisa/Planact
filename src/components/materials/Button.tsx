@@ -8,12 +8,14 @@ import { shadow } from '@/style/style-util';
 import { useMemo } from 'react';
 
 interface ButtonProps extends TouchableOpacityProps{
-    color?: "primary" | "secondary" | "ghost"
     content: string
+    color?: "primary" | "secondary" | "ghost"
+    flex?: number
 }
-const Button = function({color, disabled, content, style, ...others}:ButtonProps){
+
+const Button = function({color, flex, disabled, content, style, ...others}:ButtonProps){
     const theme = useSelector(({theme}:GlobalState) => theme);
-    const {container, text} = useMemo(() => styles(theme, color), [color]);
+    const {container, text} = useMemo(() => styles(theme, color, flex), [color]);
   return(
     <TouchableOpacity 
         style={[container, style, {opacity: (disabled ? 0.6 : 1)}]} 
@@ -28,7 +30,7 @@ const Button = function({color, disabled, content, style, ...others}:ButtonProps
 }
 
 type ButtonColors =  "primary" | "secondary" | "ghost";
-const styles = (theme:DefaultTheme, color?:ButtonColors) => {
+const styles = (theme:DefaultTheme, color?:ButtonColors, flex?:number) => {
     const {main, text, border} = color ? theme[color] : theme.primary;
     return StyleSheet.create({
         container: {
@@ -39,6 +41,7 @@ const styles = (theme:DefaultTheme, color?:ButtonColors) => {
             borderWidth: 0,
             borderRadius: 5,
             padding: 10,
+            flex: flex===undefined ? 1 : flex ,
             ...shadow
         },
         text:{

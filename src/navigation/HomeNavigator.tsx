@@ -1,6 +1,6 @@
 // Each tab has its own navigation stack, you can read more about this pattern here:
 import React from 'react'
-import Home from '@/screens/home/Home'
+import Home from '@/screens/home'
 import { createStackNavigator } from '@react-navigation/stack'
 import dayjs from 'dayjs'
 

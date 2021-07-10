@@ -2,7 +2,7 @@ import { getDailyList } from "@/api/home/UserDailyData";
 import { AxiosError, AxiosResponse } from "axios";
 import { Dispatch } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { DailyFetchedProps, DAILY_FETCH_INITIAL, DAILY_SELECT, UserDailyListAction } from ".";
+import { DailyFetchedProps, DAILY_FETCH_INITIAL, DAILY_SELECT, UserDailyListAction } from "./index";
 import { GlobalState } from "..";
 import { useUserState } from "../auth/hooks";
 

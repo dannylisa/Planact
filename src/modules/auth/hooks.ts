@@ -3,7 +3,7 @@ import { AxiosError, AxiosResponse } from "axios";
 import { Dispatch } from "react";
 import { Alert } from "react-native";
 import { batch, useDispatch, useSelector } from "react-redux"
-import { AuthActionProps, LOGIN, LOGOUT, UserProps } from ".";
+import { AuthActionProps, LOGIN, LOGOUT, UserProps } from "./index";
 import { GlobalState } from ".."
 import useTheme from "../theme/hooks";
 
@@ -23,10 +23,13 @@ export const useUserState = () => {
        return await validate_api(token) ? token : forceLogOut();
     }
 
+
     const forceLogOut = () => {
+        console.log('ada')
         dispatch({type:LOGOUT})
         return null;
     };
+
     return {profile:user?.profile || null, getToken, forceLogOut};
 }
 
