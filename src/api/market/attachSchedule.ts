@@ -25,7 +25,7 @@ interface WeekdaysProps extends AttachSchedulePropsBase {
 interface AttachScheduleProps extends AttachSchedulePropsBase, IntervalProps, WeekdaysProps{}
 
 
-export default function attachSchedule (props:(AttachScheduleProps)): Promise<any> {
+export default function (props:(AttachScheduleProps)): Promise<any> {
     let {type, interval, weekdays, start_date, ...others} = props;
     if(others.color.indexOf("#")!==0 && 
         (others.color.length===7 || others.color.length===9)) 

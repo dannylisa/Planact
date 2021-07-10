@@ -4,7 +4,6 @@ import userSchedulesState from './userSchedule/reducer'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import authState from './auth/reducer'
 import userDailyListState from './userDailyList/reducer'
-
 import { persistReducer, persistStore } from 'redux-persist'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import logger from 'redux-logger'

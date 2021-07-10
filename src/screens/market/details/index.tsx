@@ -1,9 +1,9 @@
 import React, { useEffect, useMemo, useState } from "react"
+import { View, StyleSheet, SafeAreaView, Button as NativeButton, ScrollView, Alert } from "react-native";
 import { DefaultTheme } from "@/style/styled";
 import useTheme from "@/modules/theme/hooks";
 import { Button, Text, useThemedStepper } from '@components/materials';
-import { View, StyleSheet, SafeAreaView, Button as NativeButton, ScrollView, Alert } from "react-native";
-import { getMarketScheduleEvents } from "@/api/market/";
+import { getMarketScheduleEvents, attachSchedule } from "@/api/market/";
 import { useUserState } from "@/modules/auth/hooks";
 import { IEvent, ISchedule } from "@/utils/data";
 import { AxiosError, AxiosResponse } from "axios";
@@ -14,7 +14,7 @@ import DateTimePickerModal from "@/components/materials/DateTimePickerModal";
 import { isToday } from "@/utils/date";
 import dayjs from "dayjs";
 import SelectInterval from "./SelectInterval";
-import attachSchedule, { attachScheduleType } from "@/api/market/attatchSchedule";
+import { attachScheduleType } from "@/api/market/attachSchedule";
 
 
 interface EventsGroupedByDateOf {

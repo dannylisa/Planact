@@ -1,7 +1,5 @@
-import { IDaily, IDailyList, IUserEvent } from "@/utils/data";
+import { IDaily, IDailyList } from "@/utils/data";
 import dayjs from "dayjs";
-
-
 interface UserDailyListStateProps extends IDailyList {
     selected: number
 }

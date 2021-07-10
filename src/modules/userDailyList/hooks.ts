@@ -1,4 +1,4 @@
-import { getDailyList } from "@/api/home/UserDailyData";
+import { getDailyList } from "@/api/home/getDailyList";
 import { AxiosError, AxiosResponse } from "axios";
 import { Dispatch } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,11 +19,8 @@ export default function useDailyList(){
         if(!token) return;
         await getDailyList({token})
             .then((res:AxiosResponse<DailyFetchedProps>) => {
-                console.log('asdfasfsadad')
-                console.log(res.data)
                 dispatch({type: DAILY_FETCH_INITIAL, fetchData:res.data})
             }).catch((err:AxiosError) => {
-                console.log(err)
                 console.log(err.response)
             })
     }
