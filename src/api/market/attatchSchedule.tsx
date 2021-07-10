@@ -6,9 +6,10 @@ import { APP_BASE_URL } from "../host"
 
 export type attachScheduleType = 'everyday' | 'interval' | 'weekdays';
 interface AttachSchedulePropsBase {
+    token: ITokenHeader;
     type: attachScheduleType
     schedule_id: string;
-    token: ITokenHeader;
+    alias: string;
     start_date: Date | string;
     color: string;
 }
@@ -42,36 +43,21 @@ export default function attachSchedule (props:(AttachScheduleProps)): Promise<an
     )
 }
 const attachScheduleEveryday = async (props:Omit<AttachSchedulePropsBase, "type">) => {
-    const {token, start_date, color, schedule_id} = props;
+    const {token, schedule_id, ...rest} = props;
     return axios.post(
-        `${APP_BASE_URL}schedule/attach/${schedule_id}`,
-        {
-            start_date,
-            color
-        },{headers: token}
+        `${APP_BASE_URL}schedule/attach/${schedule_id}`,rest, {headers: token}
     )
 }
 const attachScheduleInterval = async (props:Omit<IntervalProps, "type">) => {
-    const {token, start_date, color, interval, schedule_id} = props;
+    const {token, schedule_id, ...rest} = props;
     return axios.post(
-        `${APP_BASE_URL}schedule/attach/${schedule_id}`,
-        {
-            start_date,
-            color,
-            interval
-        },{headers: token}
+        `${APP_BASE_URL}schedule/attach/${schedule_id}`,rest, {headers: token}
     )
 }
 
 const attachScheduleWeekdays = async (props:Omit<WeekdaysProps, "type">) => {
-    const {token, start_date, color, weekdays, schedule_id} = props;
-    const weekday:string = weekdays.map((item, i) => item ? i : -1).filter(i => i>=0).join('');
+    const {token, schedule_id, ...rest} = props;
     return axios.post(
-        `${APP_BASE_URL}schedule/attach/${schedule_id}`,
-        {
-            start_date,
-            color,
-            weekday
-        },{headers: token}
+        `${APP_BASE_URL}schedule/attach/${schedule_id}`,rest, {headers: token}
     )
 }

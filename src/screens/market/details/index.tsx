@@ -82,6 +82,9 @@ export default function MarketScheduleDetails({ route }){
 
     // Set alias
     const [alias, setAlias] = useState<string>(schedule.abb)
+    const onSetAlias = () => {
+        Alert.prompt('스케줄의 별명을 지어주세요.', '', setAlias)
+    }
 
     // Use attatch api
     const attach = async () => {
@@ -92,6 +95,7 @@ export default function MarketScheduleDetails({ route }){
         await attachSchedule({
                 type,
                 token,
+                alias,
                 interval,
                 weekdays: selectedDays,
                 start_date: date,
@@ -125,13 +129,15 @@ export default function MarketScheduleDetails({ route }){
         })()
     }, [schedule])
 
-
     return(
         <SafeAreaView style={{flex: 1}}>
             <ScrollView style={container}>
-                <View style={header}>
-                    <Text bold headings={1} align="left" content={schedule.name} />
-                    <Text headings={3} align="left" marginVertical={10} content={schedule.description} />
+                <View style={[item, header]}>
+                    <View>
+                        <Text bold headings={1} align="left" content={`${schedule.name}(${alias})`} />
+                        <Text headings={3} align="left" marginVertical={10} content={schedule.description} />
+                    </View>
+                    <NativeButton title="별명 설정" onPress={onSetAlias} />
                 </View>
                 {/* Stepper */}
                 <View style={stepperWrapper} >
@@ -146,21 +152,6 @@ export default function MarketScheduleDetails({ route }){
                         )
                         : <></>
                     }
-                </View>
-
-
-                {/* 시작 날짜 선택 */}
-                <View style={buttonContainer}>   
-                  <Button 
-                    style={button} 
-                    color={ isToday(date) ? "primary" : "ghost"} 
-                    content="오늘부터 하기!" 
-                    onPress={() => setDate(Today)}/>
-                  <Button 
-                    style={button} 
-                    color={ !isToday(date) ? "primary" : "ghost"}  
-                    content={isToday(date) ? "나중에 시작할게요" : `${date.getMonth()+1}월 ${date.getDate()}일부터`} 
-                    onPress={toggleDatepickerVisible}/>
                 </View>
 
                 {/* 요일 / 간격 선택 */}
@@ -205,6 +196,22 @@ export default function MarketScheduleDetails({ route }){
                       :<></>
                   }
                 </View>
+
+
+                {/* 시작 날짜 선택 */}
+                <View style={buttonContainer}>   
+                  <Button 
+                    style={button} 
+                    color={ isToday(date) ? "primary" : "ghost"} 
+                    content="오늘부터 하기!" 
+                    onPress={() => setDate(Today)}/>
+                  <Button 
+                    style={button} 
+                    color={ !isToday(date) ? "primary" : "ghost"}  
+                    content={isToday(date) ? "나중에 시작할게요" : `${date.getMonth()+1}월 ${date.getDate()}일부터`} 
+                    onPress={toggleDatepickerVisible}/>
+                </View>
+
                 <View style={item}> 
                     <Button 
                         color="primary"
@@ -239,8 +246,9 @@ const styles = ({mainBackground}:DefaultTheme) => StyleSheet.create({
         padding:20
     },
     header: {
-        height: 90,
-        textAlign: "left"
+        justifyContent: "space-between", 
+        padding: 15,
+        height: 80,
     },
     buttonContainer:{
         flexDirection: "row",

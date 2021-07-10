@@ -59,6 +59,7 @@ function Auth() {
           />
         }
         <Button
+          flex={0}
           style={item}
           color="primary"
           content={loginMode ? "로그인" : "회원가입"}

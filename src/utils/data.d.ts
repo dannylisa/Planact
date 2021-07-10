@@ -4,6 +4,7 @@ import { Dayjs } from 'dayjs'
 // 0 : 평일 , 1: 토요일, 2: 일요일, 공휴일
 export type daytype = 0 | 1 | 2
 
+type Fixables = 'datetime' | 'date' | 'time' | 'none'
 export interface ISchedule {
   id: int
   name: string
@@ -12,15 +13,16 @@ export interface ISchedule {
   category: string
   description: string
   thumbnail: string
+  fixed: Fixables
   price: int
 }
 export interface IUserSchedule {
   schedule: ISchedule
   id: string,
+  alias: string
   start_date: string
   end_date: string
   color: string
-  alias: string
 }
 
 type proofType = "NONE" | 'BOOLEAN'| 'SCORE'| 'STAR'| 'PHOTO'| 'DIARY'
@@ -35,8 +37,6 @@ export interface IEvent {
   proof_type:proofType
   origin_date: string
   origin_time: string
-  date_customizable: boolean
-  time_customizable: boolean
 }
 export interface IUserEvent {
   id:string
