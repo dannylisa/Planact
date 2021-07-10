@@ -56,8 +56,9 @@ const attachScheduleInterval = async (props:Omit<IntervalProps, "type">) => {
 }
 
 const attachScheduleWeekdays = async (props:Omit<WeekdaysProps, "type">) => {
-    const {token, schedule_id, ...rest} = props;
+    const {token, schedule_id, weekdays, ...rest} = props;
+    const weekday = weekdays.map((bool, i) => bool ? i : -1).filter(i => i>=0).join('')
     return axios.post(
-        `${APP_BASE_URL}schedule/attach/${schedule_id}`,rest, {headers: token}
+        `${APP_BASE_URL}schedule/attach/${schedule_id}`,{weekday, ...rest}, {headers: token}
     )
 }

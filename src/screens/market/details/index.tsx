@@ -99,7 +99,7 @@ export default function MarketScheduleDetails({ route }){
                 interval,
                 weekdays: selectedDays,
                 start_date: date,
-                color: "#aaaaaa",
+                color: "#ffaaaa",
                 schedule_id: schedule.id
             }).then((res) => {
                 console.log(res);
@@ -159,6 +159,7 @@ export default function MarketScheduleDetails({ route }){
                     {
                         radioButtons.map((radio, idx) => (
                             <RadioButton 
+                                key={idx}
                                 {...radio}
                                 onPress={() => onPressRadioButton(idx)}
                             />
