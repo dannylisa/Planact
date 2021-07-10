@@ -8,7 +8,6 @@ import { AxiosError, AxiosResponse } from 'axios'
 import { ISchedule } from '@/utils/data'
 import { useUserState } from '@/modules/auth/hooks'
 import ScheduleListItem from './ScheduleListItem'
-import MarketScheduleDetailsModal from '../details'
 
 const styles = (theme: DefaultTheme) => {
   return StyleSheet.create({

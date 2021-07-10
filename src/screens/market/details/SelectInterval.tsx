@@ -1,5 +1,5 @@
 import React from "react"
-import { Picker, PickerItemProps, StyleSheet } from "react-native"
+import { Picker, StyleSheet } from "react-native"
 import { View, Button } from "react-native"
 
 interface SelectIntervalProps {

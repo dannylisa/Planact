@@ -1,6 +1,5 @@
-import { TouchableView } from "@/components/materials/TouchableView";
 import React, { useMemo } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
 interface StepProps {
     active: boolean
@@ -17,11 +16,11 @@ export default ({active, done, item, onPress, ...others}:StepProps) => {
     const { container, text, step, activeStep, doneStep, todoStep, doneText, todoText } = useMemo(() => styles(others), [others])
     const theme = done ? active ? [doneStep, activeStep] : [doneStep] : [todoStep]
     return(
-        <TouchableView style={container} onPress={onPress}>
+        <TouchableOpacity style={container} onPress={onPress}>
             <View style={[step, ...theme]}>
                 <Text style={done ? [text, doneText] : [text, todoText]}>{item}</Text>
             </View>
-        </TouchableView>
+        </TouchableOpacity>
     )
 }
 

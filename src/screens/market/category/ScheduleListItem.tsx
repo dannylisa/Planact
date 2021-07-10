@@ -1,12 +1,11 @@
 import React from "react"
 import { ISchedule } from "@/utils/data"
-import { StyleSheet, View } from "react-native"
+import { StyleSheet, View, TouchableOpacity } from "react-native"
 import { shadow } from "@/style/style-util"
 import { DefaultTheme } from "@/style/styled"
 import { useMemo } from "react"
 import useTheme from "@/modules/theme/hooks"
 import { Text, TextButton } from "@components/materials"
-import { TouchableView } from "@/components/materials/TouchableView"
 
 interface ScheduleListItemProps {
     schedule: ISchedule
@@ -18,10 +17,10 @@ const ScheduleListItem = ({schedule, onPress}:ScheduleListItemProps) => {
     const { id, name, description, price } = schedule;
     return(
         <View style={wrapper}>
-            <TouchableView style={container} onPress={onPress}>
+            <TouchableOpacity style={container} onPress={onPress}>
                 <Text bold headings={2} paddingVertical={5} align="left" content={name}/>
                 <Text  headings={4} align="left" content={description}/>
-            </TouchableView>
+            </TouchableOpacity>
             <View style={triangle} />
             <View style={tag}>
                 <Text headings={4} content={"Free"} />
