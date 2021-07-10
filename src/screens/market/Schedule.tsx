@@ -1,5 +1,5 @@
 import { DefaultText } from '@/components/materials/Text'
-import { TouchableView } from '@/components/TouchableView'
+import { TouchableView } from '@/components/materials/TouchableView'
 import { getMarketSchedules } from '@/api/market/getMarketSchedulesByCategory'
 import { GlobalState } from '@/modules'
 import { DefaultTheme } from '@/style/styled'

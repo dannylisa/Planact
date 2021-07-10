@@ -1,5 +1,5 @@
 import { DefaultText } from '@/components/materials/Text'
-import { TouchableView } from '@/components/TouchableView'
+import { TouchableView } from '@/components/materials/TouchableView'
 import { GlobalState } from '@/modules'
 import { shadow } from '@/style/style-util'
 import { DefaultTheme } from '@/style/styled'

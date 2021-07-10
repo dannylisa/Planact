@@ -5,7 +5,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import { AntDesign } from '@expo/vector-icons'
 import dayjs from 'dayjs'
-import { TouchableView } from '@/components/TouchableView'
+import { TouchableView } from '@/components/materials/TouchableView'
 import useTheme from '@/modules/theme/hooks'
 
 interface MonthChangeProps {}

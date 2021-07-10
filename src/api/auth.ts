@@ -1,5 +1,5 @@
 import axios from "axios";
-import { UserProps } from "@modules/auth";
+import { UserProps } from "@/modules/auth/reducer";
 import { ITokenHeader } from "@/modules/auth/hooks";
 import { HOST } from "./host";
 

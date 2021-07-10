@@ -1,5 +1,5 @@
 import { InputView } from '@/components/Input'
-import { TouchableView } from '@/components/TouchableView'
+import { TouchableView } from '@/components/materials/TouchableView'
 import { GlobalState } from '@/modules'
 import { DefaultTheme } from '@/style/styled'
 import React, { useState } from 'react'

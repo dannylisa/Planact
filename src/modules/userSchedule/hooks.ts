@@ -3,7 +3,7 @@ import { IUserSchedule } from "@/utils/data";
 import { AxiosError, AxiosResponse } from "axios";
 import { Dispatch, useState } from "react";
 import { batch, useDispatch, useSelector } from "react-redux"
-import { UserScheduleAction, USER_SCHEDULES_FETCH, USER_SCHEDULES_SHOULD_FETCH_SIGNAL } from "./index";
+import { UserScheduleAction, USER_SCHEDULES_FETCH, USER_SCHEDULES_SHOULD_FETCH_SIGNAL } from "./reducer";
 import { GlobalState } from "../index"
 import { useUserState } from "../auth/hooks";
 import { Alert } from "react-native";

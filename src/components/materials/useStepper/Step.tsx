@@ -1,4 +1,4 @@
-import { TouchableView } from "@/components/TouchableView";
+import { TouchableView } from "@/components/materials/TouchableView";
 import React, { useMemo } from "react";
 import { View, Text, StyleSheet } from "react-native";
 

@@ -3,7 +3,7 @@ import { DefaultTheme } from "@/style/styled";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Text } from "@components/materials";
-import { TouchableView } from "@/components/TouchableView";
+import { TouchableView } from "@/components/materials/TouchableView";
 import { korday } from "@/utils/date";
 
 interface SelectDayProps {

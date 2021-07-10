@@ -3,7 +3,7 @@ import { AxiosError, AxiosResponse } from "axios";
 import { Dispatch } from "react";
 import { Alert } from "react-native";
 import { batch, useDispatch, useSelector } from "react-redux"
-import { AuthActionProps, LOGIN, LOGOUT, UserProps } from "./index";
+import { AuthActionProps, LOGIN, LOGOUT, UserProps } from "./reducer";
 import { GlobalState } from ".."
 import useTheme from "../theme/hooks";
 

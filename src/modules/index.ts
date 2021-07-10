@@ -1,9 +1,9 @@
 import { applyMiddleware, combineReducers, createStore } from 'redux'
-import theme from './theme'
-import userSchedulesState from './userSchedule'
+import theme from './theme/reducer'
+import userSchedulesState from './userSchedule/reducer'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import authState from './auth'
-import userDailyListState from './userDailyList'
+import authState from './auth/reducer'
+import userDailyListState from './userDailyList/reducer'
 
 import { persistReducer, persistStore } from 'redux-persist'
 import { composeWithDevTools } from 'redux-devtools-extension'

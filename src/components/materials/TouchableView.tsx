@@ -9,9 +9,7 @@ export interface TouchableViewProps extends TouchableOpacityProps {
   viewStyle? : StyleProp<ViewStyle>
 }
 
-export const TouchableView : FC<TouchableViewProps> = ({
-  children,viewStyle, ...touchableProps
-}) =>{
+export default function TouchableView ({children,viewStyle, ...touchableProps}){
   return (
     <TouchableOpacity {...touchableProps}>
       <View style={[viewStyle]}>{children}</View>

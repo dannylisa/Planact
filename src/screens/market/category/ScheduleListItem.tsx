@@ -6,7 +6,7 @@ import { DefaultTheme } from "@/style/styled"
 import { useMemo } from "react"
 import useTheme from "@/modules/theme/hooks"
 import { Text, TextButton } from "@components/materials"
-import { TouchableView } from "@/components/TouchableView"
+import { TouchableView } from "@/components/materials/TouchableView"
 
 interface ScheduleListItemProps {
     schedule: ISchedule
