@@ -6,6 +6,7 @@ import { batch, useDispatch, useSelector } from "react-redux"
 import { UserScheduleAction, USER_SCHEDULES_FETCH, USER_SCHEDULES_SHOULD_FETCH_SIGNAL } from "./index";
 import { GlobalState } from "../index"
 import { useUserState } from "../auth/hooks";
+import { Alert } from "react-native";
 
 export const useUserSchedule = () => {
     const dispatch:Dispatch<UserScheduleAction> = useDispatch();
@@ -22,16 +23,17 @@ export const useUserSchedule = () => {
         setLoading(true)
         await getUserSchedule(token)
             .then((res:AxiosResponse<IUserSchedule[]>) => {
-                batch(() => {
-                    dispatch({type: USER_SCHEDULES_FETCH, schedules: res.data})
-                })
+                Alert.alert(JSON.stringify(res.data))
+                dispatch({type: USER_SCHEDULES_FETCH, schedules: res.data})
                 succeed = true
             }).catch((err:AxiosError) => {
+                Alert.alert(JSON.stringify(err.response))
                 console.log(err.response)
             })
         setLoading(false)
         return succeed
     }
+    
 
     const setShouldFetchTrue = () => dispatch({type: USER_SCHEDULES_SHOULD_FETCH_SIGNAL})
 

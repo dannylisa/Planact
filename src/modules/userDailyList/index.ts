@@ -54,7 +54,7 @@ const userDailyListState = (state: UserDailyListStateProps = initState, action: 
                 ...to_dayjs(fetchData)
             } : state
         case DAILY_SELECT:
-            return selected ? {
+            return selected!==undefined ? {
                 ...state,
                 selected
             }: state

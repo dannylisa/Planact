@@ -7,7 +7,7 @@ export default (schedule_id: string, token:ITokenHeader) => {
         headers: token,
         params: {
             limit: 5,
-            seqlimit:5
+            seqlimit:4
         }
     })
 }
