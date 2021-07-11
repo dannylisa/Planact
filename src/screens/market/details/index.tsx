@@ -22,6 +22,7 @@ interface EventsGroupedByDateOf {
     events: IEvent[]
 }
 
+
 const RADIO_PROPS:RadioButtonProps[] = [
     {label: '요일 선택', id: "0", selected: true},
     {label: '간격 선택', id: "1", selected: false},

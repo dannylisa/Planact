@@ -83,20 +83,21 @@ export const useAuthorization = () => {
 
         await signup_api(props)
             .then((res:AxiosResponse<UserProps>) => {
-                batch(() => {
-                    dispatch({
-                        type: LOGIN,
-                        userData: res.data
-                    })
+                dispatch({
+                    type: LOGIN,
+                    userData: res.data
                 })
             }).catch((err:AxiosError) => {
-                message = err.response ? "아이디 / 비밀번호가 잘못되었습니다." : "서버 내부 오류입니다.";
+                console.log(err.response);
+                message = err.response?.status === 409 ? "중복된 아이디입니다.." : "서버 내부 오류입니다.";
                 return;
             });
         if(message){
             Alert.alert(message)
             return false;
         };
+        Alert.alert("회원가입이 완료되었습니다.")
+        return true;
     }
 
     const logOut = async () => {

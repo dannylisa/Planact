@@ -6,21 +6,23 @@ import { Text } from '@components/materials';
 import { StyleSheet, View } from "react-native";
 import { useState } from "react";
 import useTheme from "@/modules/theme/hooks";
+import { Check, Score } from "./proofs";
 
 
 const EventDetails = (event:IUserEvent) => {
-    const {event: {seq, title}} = event;
+    const {event: {seq, title, proof_type}, proof} = event;
     const theme = useTheme();
     const {wrapper, textContainer, proofContainer} = useMemo(() => styles(theme), [theme]);
 
     return(
         <View style={wrapper}>
             <View style={textContainer}>
-                <Text bold content={`${seq+1}.`}/>
-                <Text align="left" flex={5} content={title} />
+                <Text bold flex={1} headings={2} content={`${seq+1}.`}/>
+                <Text align="left" headings={2} flex={3.5} content={title} />
             </View>
             <View style={proofContainer}>
-
+                {/* <Check proof={proof===null ? null : Boolean(proof)} /> */}
+                <Score title={title} proof={proof}/>
             </View>
         </View>
     )
@@ -31,7 +33,7 @@ const styles = (theme:DefaultTheme) => {
     return StyleSheet.create({
         wrapper:{
             flexDirection: "row",
-            height: 45,
+            height: 55,
             backgroundColor: content,
         },
         textContainer:{
@@ -42,6 +44,9 @@ const styles = (theme:DefaultTheme) => {
         },
         proofContainer: {
             flex: 1,
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
         }
     })
 }

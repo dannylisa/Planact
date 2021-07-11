@@ -10,7 +10,8 @@ import { useState } from 'react'
 import EventDetails from './EventDetails'
 
 function ToggleEventList(props: GroupedEvent) {
-  const { schedule:{schedule:{name}, color}, events } = props
+  const { schedule:{schedule:{name}, alias, color}, events } = props
+  console.log(props)
 
   const theme = useSelector(({ theme }: GlobalState) => theme)
   const {
