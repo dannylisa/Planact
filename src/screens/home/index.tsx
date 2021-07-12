@@ -18,24 +18,21 @@ const FETCH_LIMIT = 35
 export interface HomeProps {}
 
 function Home({}: HomeProps) {
-  const theme = useTheme();
-  const { container } = useMemo(() => styles(theme), [theme]);
-  const { profile, forceLogOut } = useUserState();
-  const { fetchUserSchedule } = useUserSchedule();
-  const { initialDailyFetch } = useDailyList();
-
+  const theme = useTheme()
+  const { container } = useMemo(() => styles(theme), [theme])
+  const { profile, forceLogOut } = useUserState()
+  const { fetchUserSchedule } = useUserSchedule()
+  const { initialDailyFetch } = useDailyList()
 
   useEffect(() => {
-      if(!profile) return
-      fetchUserSchedule();
-      initialDailyFetch();
+    if (!profile) return
+    fetchUserSchedule()
+    initialDailyFetch()
   }, [profile])
 
- 
-  
   return (
     <SafeAreaView style={container}>
-      <MonthChange/>
+      <MonthChange />
       <View style={{ minHeight: 140 }}>
         <DailyList />
       </View>
