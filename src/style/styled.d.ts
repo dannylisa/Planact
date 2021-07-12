@@ -1,4 +1,8 @@
-export type themeType = 'theme/light/orange' | 'theme/dark/orange'
+export type themeType = 
+  'theme/light/orange' | 
+  'theme/dark/orange' | 
+  'theme/light/luigi'|
+  'theme/light/cove'
 interface Colorset {
   main: string
   text: string

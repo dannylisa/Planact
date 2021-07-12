@@ -1,19 +1,29 @@
 import { shadow } from "@/style/style-util";
 import { DefaultTheme } from "@/style/styled";
-import { IUserEvent } from "@/utils/data";
 import React, { useMemo } from "react";
 import { Text } from '@components/materials';
 import { StyleSheet, View } from "react-native";
-import { useState } from "react";
 import useTheme from "@/modules/theme/hooks";
-import { Check, Score } from "./proofs";
+import { Check, ProofProps, Score } from "./proofs";
+import { useDailyUpdate } from "@/modules/userDailyList/hooks";
 
 
-const EventDetails = (event:IUserEvent) => {
-    const {event: {seq, title, proof_type}, proof} = event;
+const EventDetails = ({userevent_id}:{userevent_id:string}) => {
+    const { getEventOfDailyById, updateProof } = useDailyUpdate()
+    const userevent = getEventOfDailyById(userevent_id)
     const theme = useTheme();
     const {wrapper, textContainer, proofContainer} = useMemo(() => styles(theme), [theme]);
-
+    
+    if(!userevent) return <></>
+    const {id, event: {seq, title, proof_type}, proof, diary, photo} = userevent;
+    const checkset: ProofProps = {
+        userevent_id,
+        updateProof,
+        proof,
+        diary,
+        photo,
+        title
+    }
     return(
         <View style={wrapper}>
             <View style={textContainer}>
@@ -21,8 +31,11 @@ const EventDetails = (event:IUserEvent) => {
                 <Text align="left" headings={2} flex={3.5} content={title} />
             </View>
             <View style={proofContainer}>
-                {/* <Check proof={proof===null ? null : Boolean(proof)} /> */}
-                <Score title={title} proof={proof}/>
+                { proof_type === "BOOLEAN" ?
+                    <Check {...checkset} />
+                    :
+                    <Score {...checkset}/>
+                }
             </View>
         </View>
     )

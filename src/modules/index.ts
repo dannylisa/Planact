@@ -29,7 +29,7 @@ const persistedReducer = persistReducer(persistConfig, rootReducer)
 
 export let store = createStore(
   persistedReducer,
-  composeWithDevTools(applyMiddleware(ReduxThunk, logger))
+  // composeWithDevTools(applyMiddleware(ReduxThunk, logger))
 )
 
 export let persistor = persistStore(store)

@@ -6,7 +6,7 @@ import { DefaultTheme } from '@/style/styled'
 import { isLight } from '@/style/themes'
 import { shadow } from '@/style/style-util'
 import useTheme from '@/modules/theme/hooks'
-import useDailyList from '@/modules/userDailyList/hooks'
+import { useDailyList } from '@/modules/userDailyList/hooks'
 import ScheduleView from './ScheduleView'
 
 interface DailyProps {

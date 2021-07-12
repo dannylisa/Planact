@@ -1,36 +1,77 @@
 import React from "react";
-import { Octicons, Fontisto } from '@expo/vector-icons'
-import { TouchableOpacity } from "react-native";
+import { Feather } from '@expo/vector-icons'
+import { Alert, TouchableOpacity, View } from "react-native";
 import { StyleSheet } from "react-native";
+import { ProofProps } from ".";
 
-interface BooleanProofProps {
-    proof: boolean | null
-}
 const style = StyleSheet.create({
     container:{
         flexDirection: "row",
-        alignItems: "center"
+        alignItems: "center",
+        justifyContent: "space-between"
     },
     ok: {
-        color: "#23bd0f",
-        marginRight: 15
+        color: "#2783fb",
+        margin: 4
     },
     not: {
-        color: "#ca1a1a"
+        color: "#e92a2a",
+        margin: 4
     },
+    none:{
+        color: "#888",
+        margin: 4,
+    }
 })
-export default function({proof}:BooleanProofProps){
-    const { container, ok, not } = style;
+export default function({userevent_id, updateProof, proof}:ProofProps){
+    const { container, ok, not, none } = style;
+    const update = async (newProof: number) => {
+        await updateProof({
+            userevent_id,
+            proof:newProof,
+        }).then((res) => null)
+        .catch((err) => Alert.alert("오류입니다."))
+    }
+    const onPress = async() => {
+        if(proof === 0) 
+            Alert.alert("계획 완료 상태로 변경하시겠습니까?",'',[
+                { text: '취소', style: 'cancel'},  
+                {text: '예', onPress: () => update(1)},
+            ])
+        else if(proof === 1)
+            Alert.alert("계획을 실천하지 않은 상태로 변경하시겠습니까?",'',[
+                {text: '취소', style: 'cancel'},  
+                {text: '예', onPress: () => update(0)},
+            ])
+        else
+            Alert.alert("계획을 실천하셨나요?",'',[
+                {text: '아니요', onPress: () => update(0)},
+                {text: '예', onPress: () => update(1)},  
+            ])
+        
+    }
+
     return (
-        <TouchableOpacity style={container}>
-            { proof !== false ?
-                <Octicons style={ok} name="check" size={32} /> : <></>
+        <View style={container}>
+            {
+                proof === null ?
+                <>
+                <TouchableOpacity onPress={onPress}>
+                    <Feather style={none} name="square" size={26} />
+                </TouchableOpacity>
+                </>
+                :
+                proof ?
+                <TouchableOpacity onPress={onPress}>
+                    <Feather style={ok} name="check-square" size={26} />
+                </TouchableOpacity>
+                :
+                !proof ?
+                <TouchableOpacity onPress={onPress}>
+                    <Feather style={not} name="x-square" size={26} />
+                </TouchableOpacity>  : <></>
             }
-            { proof !== true ?
-                <Fontisto style={not} name="close-a" size={20} /> : <></>
-            }
-            
-        </TouchableOpacity>
+        </View>
     )
 }
 

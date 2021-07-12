@@ -45,6 +45,8 @@ export interface IUserEvent {
   time:string
   date: string
   event:IEvent
+  diary?: string
+  photo?: File
 }
 
 export interface GroupedEvent {

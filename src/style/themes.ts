@@ -29,7 +29,7 @@ import { DefaultTheme } from './styled'
 export const isLight = ({ mode_name }: DefaultTheme) =>
   Boolean(mode_name.match('light'))
 
-export const light_orange: DefaultTheme = {
+const light_orange: DefaultTheme = {
   mode_name: 'theme/light/orange',
   mainBackground: '#ffffff',
   content: '#fdfdfd',
@@ -55,7 +55,7 @@ export const light_orange: DefaultTheme = {
   },
 }
 
-export const dark_orange: DefaultTheme = {
+const dark_orange: DefaultTheme = {
   mode_name: 'theme/dark/orange',
   mainBackground: '#121212',
   content: '#333',
@@ -80,4 +80,56 @@ export const dark_orange: DefaultTheme = {
   },
 }
 
-export const themes = [light_orange, dark_orange]
+const light_luigi: DefaultTheme = {
+  mode_name: 'theme/light/luigi',
+  mainBackground: '#ffffff',
+  content: '#fdfdfd',
+  border: '#423944',
+  text: '#190d31',
+  title: '#000000',
+  disabled: '#000000aa',
+  primary: {
+    main: '#7ace67',
+    text: `#fff`,
+    border: 'transparent',
+  },
+  secondary: {
+    main: '#ffe3b3',
+    text: '#777',
+    border: 'transparent',
+  },
+  ghost: {
+    main: '#fff',
+    text: '#7ace67',
+    border: '#ffffff00',
+    // border: '#000000',
+  },
+}
+
+
+const light_cove: DefaultTheme = {
+  mode_name: 'theme/light/cove',
+  mainBackground: '#ffffff',
+  content: '#fdfdfd',
+  border: '#423944',
+  text: '#190d31',
+  title: '#000000',
+  disabled: '#000000aa',
+  primary: {
+    main: '#2a9df4',
+    text: `#fff`,
+    border: 'transparent',
+  },
+  secondary: {
+    main: '#f6e3d4',
+    text: '#828282',
+    border: 'transparent',
+  },
+  ghost: {
+    main: '#fff',
+    text: '#2a9df4',
+    border: '#ffffff00',
+    // border: '#000000',
+  },
+}
+export default [light_orange, dark_orange, light_luigi, light_cove];

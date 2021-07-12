@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react'
 import { Text } from '@components/materials'
 import { View, StyleSheet } from 'react-native'
 import ToggleEventList from './ToggleEventList'
-import useDailyList from '@/modules/userDailyList/hooks'
+import { useDailyList } from '@/modules/userDailyList/hooks'
 import useTheme from '@/modules/theme/hooks'
 import { useUserSchedule } from '@/modules/userSchedule/hooks'
 
@@ -27,9 +27,10 @@ const groupBySchedule = (schedules: IUserSchedule[],events: IUserEvent[]): Group
     events.sort((a, b) => +a.event.seq - +(b.event.seq))
     return Object.values(res).filter(({ events }) => events.length > 0)
 }
+
 function DailyView() {
   const theme = useTheme()
-  const { getSelectedDaily } = useDailyList();
+  const { getSelectedDaily, selected } = useDailyList();
   const { schedules } = useUserSchedule();
   const { date, events } = getSelectedDaily();
 
@@ -37,7 +38,7 @@ function DailyView() {
   const [groupedEvents, setGroupedEvents] = useState<GroupedEvent[]>([])
 
   useEffect(() => {
-    const aggregated = groupBySchedule(schedules, events);
+    const aggregated = groupBySchedule(schedules, [...events]);
     setGroupedEvents(aggregated)
   }, [date])
   return (

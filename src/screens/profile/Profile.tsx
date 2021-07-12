@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { DefaultTheme } from '@/style/styled'
-import { themes } from '@/style/themes'
+import themes from '@/style/themes'
 import ThemeBlock from './ThemeBlock'
 import MenuItem from '@/components/MenuItem'
 import useTheme from '@/modules/theme/hooks'

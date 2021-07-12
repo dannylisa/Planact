@@ -1,9 +1,6 @@
-import { dark_orange, light_orange } from "@/style/themes";
-import { DefaultTheme } from "@/style/styled";
-import { useSelector } from "react-redux";
-import { GlobalState } from "..";
+import themes from "@/style/themes";
+import { DefaultTheme, themeType } from "@/style/styled";
 
-type themeType = "theme/light/orange" | "theme/dark/orange";
 interface changeThemeAction {
     type: themeType;
 }
@@ -14,11 +11,9 @@ export const actionCreators = {
 }
 
 // const theme = (state:DefaultTheme = dark_orange, action:changeThemeAction) => {
-const theme = (state:DefaultTheme = light_orange, action:changeThemeAction) => {
-    switch(action.type){
-        case "theme/light/orange": return light_orange;
-        case "theme/dark/orange": return dark_orange;
-        default: return state;
-    }
+const theme = (state:DefaultTheme = themes[0], action:changeThemeAction) => {
+    if(action.type)
+        return themes.find(theme => theme.mode_name === action.type) || state
+    else return state
 }
 export default theme;

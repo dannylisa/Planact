@@ -60,7 +60,6 @@ export default function MarketScheduleDetails({ route }){
     const [radioButtons, setRadioButtons] = useState<RadioButtonProps[]>(
         RADIO_PROPS.map(prop => ({
             ...prop, 
-            color:theme.primary.main,
             labelStyle: {
                 color: theme.text,
                 fontSize: 16,
@@ -164,6 +163,8 @@ export default function MarketScheduleDetails({ route }){
                             <RadioButton 
                                 key={idx}
                                 {...radio}
+                                color={theme.primary.main}
+                                labelStyle={{color: theme.text}}
                                 onPress={() => onPressRadioButton(idx)}
                             />
                         ))

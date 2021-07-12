@@ -6,7 +6,7 @@ import { SafeAreaView, View, StyleSheet } from 'react-native'
 import MonthChange from './MonthChange'
 import { useUserSchedule } from '@/modules/userSchedule/hooks'
 import useTheme from '@/modules/theme/hooks'
-import useDailyList from '@/modules/userDailyList/hooks'
+import { useDailyList } from '@/modules/userDailyList/hooks'
 import { useMemo } from 'react'
 import { useUserState } from '@/modules/auth/hooks'
 
@@ -50,6 +50,7 @@ const styles = (theme: DefaultTheme) =>
   StyleSheet.create({
     container: {
       flex: 1,
+      paddingTop: 20,
       alignItems: 'stretch',
       backgroundColor: theme.mainBackground,
     },
