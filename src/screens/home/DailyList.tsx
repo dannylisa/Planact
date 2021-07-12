@@ -3,7 +3,8 @@ import { FlatList, StyleSheet } from 'react-native'
 import { DefaultTheme } from '@style/styled'
 import Daily from './Daily'
 import useTheme from '@/modules/theme/hooks'
-import useDailyList from '@/modules/userDailyList/hooks'
+import { useDailyList } from '@/modules/userDailyList/hooks'
+import { shadow } from '@/style/style-util'
 
 function DailyList() {
   const theme = useTheme();
@@ -43,7 +44,7 @@ const styles = (theme: DefaultTheme) => {
       flex: 1,
       padding: 5,
       paddingLeft: 15,
-      paddingVertical: 10,
+      paddingVertical: 15,
       backgroundColor: mainBackground,
     },
   })

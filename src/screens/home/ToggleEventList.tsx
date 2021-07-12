@@ -1,18 +1,16 @@
-import React from 'react'
+import React, { useMemo, useState } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { GroupedEvent, IUserEvent } from '@/utils/data'
+import { GroupedEvent } from '@/utils/data'
 import { DefaultTheme } from '@/style/styled'
-import { useSelector } from 'react-redux'
-import { GlobalState } from '@/modules'
 import { shadow } from '@/style/style-util'
 import { isLight } from '@/style/themes'
-import { useState } from 'react'
 import EventDetails from './EventDetails'
+import useTheme from '@/modules/theme/hooks'
 
 function ToggleEventList(props: GroupedEvent) {
-  const { schedule:{schedule:{name}, color}, events } = props
+  const { schedule:{schedule:{name}, alias, color}, events } = props
 
-  const theme = useSelector(({ theme }: GlobalState) => theme)
+  const theme = useTheme();
   const {
     toggleWrapper,
     toggleButton,
@@ -21,7 +19,8 @@ function ToggleEventList(props: GroupedEvent) {
     toggleText,
     accentText,
     text,
-  } = styles(theme, color)
+  } = useMemo(() => styles(theme, color), [theme])
+
   const [show, setShow] = useState<boolean>(true)
   const toggleShow = () => setShow((prev) => !prev)
   return (
@@ -37,7 +36,7 @@ function ToggleEventList(props: GroupedEvent) {
       {show && (
         <View>
           {events.map((event, idx) => (
-            <EventDetails {...event} key={idx} />
+            <EventDetails userevent_id={event.id} key={idx} />
           ))}
         </View>
       )}

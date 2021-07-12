@@ -6,6 +6,7 @@ import { TextInput, Button, TextButton } from '@components/materials'
 
 import { useAuthorization } from '@/modules/auth/hooks'
 import useTheme from '@/modules/theme/hooks'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 function Auth() {
   const theme = useTheme()
