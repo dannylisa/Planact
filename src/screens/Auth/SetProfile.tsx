@@ -10,7 +10,7 @@ import Text from '@/components/materials/Text';
 import { FlatList } from 'react-native-gesture-handler';
 import { useProfile, useUserState } from '@/modules/auth/hooks';
 import { UserProfile } from '@/modules/auth/reducer';
-import { TextButton } from '@components/materials';
+import { Button } from '@components/materials';
 type UserDetailInfoProps = {
   id: number;
   text: string;
@@ -105,15 +105,26 @@ function SetProfile({ route }) {
   const renderItem = ({ item }) => {
     if (item.text === '성별') {
       return (
-        <View style={genderButtonContainer}>
-          <TextButton onPress={() => setGender('M')} content={'M'}></TextButton>
-          <TextButton onPress={() => setGender('F')} content={'F'}></TextButton>
+        <View>
+          <Text content={item.text} align={'left'} marginVertical={10} />
+          <View style={genderButtonContainer}>
+            <Button
+              onPress={() => setGender('M')}
+              content={'M'}
+              color={gender === 'M' ? 'primary' : 'secondary'}
+            />
+            <Button
+              onPress={() => setGender('F')}
+              content={'F'}
+              color={gender === 'F' ? 'primary' : 'secondary'}
+            />
+          </View>
         </View>
       );
     }
     return (
       <View>
-        <Text content={item.text} align={'left'} />
+        <Text content={item.text} align={'left'} marginVertical={10} />
         <TextInput onChangeText={item.func} value={item.val} />
       </View>
     );
@@ -127,11 +138,11 @@ function SetProfile({ route }) {
           keyExtractor={(item, index) => index.toString()}
         />
       </View>
-      <TextButton onPress={onPress} content={'완료'} />
+      <Button onPress={onPress} content={'완료'} color={'primary'} flex={0} />
     </SafeAreaView>
   );
 }
-
+//TODO: 가입하기 수정하기는 닉네임 __init__에 따라서 보여주기
 const styles = (theme: DefaultTheme) => {
   const { content, text, mainBackground, primary } = theme;
   return StyleSheet.create({
@@ -147,7 +158,7 @@ const styles = (theme: DefaultTheme) => {
     },
     genderButtonContainer: {
       flexDirection: 'row',
-      justifyContent: 'space-between',
+      justifyContent: 'space-around',
       marginVertical: 10,
     },
   });

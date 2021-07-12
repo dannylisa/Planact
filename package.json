@@ -33,6 +33,7 @@
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-41.0.0.tar.gz",
+    "react-native-animated-nav-tab-bar": "^3.1.4",
     "react-native-gesture-handler": "^1.10.3",
     "react-native-modal": "^12.0.2",
     "react-native-radio-buttons-group": "^2.2.4",
