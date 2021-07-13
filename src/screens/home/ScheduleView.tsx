@@ -1,11 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { IUserEvent } from '@/utils/data'
-import { TouchableOpacity, View, Text, StyleSheet, Alert } from 'react-native'
+import { View, Text, StyleSheet, Alert } from 'react-native'
 import { DefaultTheme } from '@/style/styled'
-import { useSelector } from 'react-redux'
-import { GlobalState } from '@modules/index'
-import { MaterialIcons } from '@expo/vector-icons'
-import { Image } from 'react-native'
 import useTheme from '@/modules/theme/hooks'
 import { useUserSchedule } from '@/modules/userSchedule/hooks'
 

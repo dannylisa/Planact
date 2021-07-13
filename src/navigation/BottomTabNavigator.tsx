@@ -4,21 +4,13 @@
  */
 
 import { GlobalState } from '@modules/index';
-import { isLight } from '@/style/themes';
+import useTheme, { isLight } from '@modules/theme/hooks'
 import { Ionicons, AntDesign } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
-import { useSelector } from 'react-redux';
 import HomeNavigator from './HomeNavigator';
 import ProfileNavigator from './ProfileNavigator.tsx';
 import MarketNavigator from './MarketNavigator';
-import {
-  AnimatedTabBarNavigator,
-  DotSize,
-  TabElementDisplayOptions,
-  TabButtonLayout,
-  IAppearanceOptions,
-} from 'react-native-animated-nav-tab-bar';
 
 type BottomTabParamList = {
   Home: undefined;
@@ -28,7 +20,7 @@ type BottomTabParamList = {
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
 export default function BottomTabNavigator() {
-  const theme = useSelector(({ theme }: GlobalState) => theme);
+  const theme = useTheme()
   const iconStyle = {
     size: 30,
     style: {

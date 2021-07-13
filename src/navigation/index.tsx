@@ -1,5 +1,5 @@
 import React from 'react'
-import { isLight } from '@/style/themes'
+import useTheme, { isLight } from '@modules/theme/hooks'
 import {
   DarkTheme,
   DefaultTheme as NavDefaultTheme,
@@ -15,7 +15,7 @@ import Auth from '@/screens/Auth/Auth'
 import SetProfile from '@/screens/Auth/SetProfile'
 
 export default function Navigation() {
-  const theme = useSelector(({ theme }: GlobalState) => theme)
+  const theme = useTheme()
   return (
     <NavigationContainer
       // linking={LinkingConfiguration}

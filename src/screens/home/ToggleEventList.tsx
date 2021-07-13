@@ -2,8 +2,8 @@ import React, { useMemo, useState } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { GroupedEvent } from '@/utils/data'
 import { DefaultTheme } from '@/style/styled'
-import { shadow } from '@/style/style-util'
-import { isLight } from '@/style/themes'
+import { shadow } from "@modules/theme/hooks"
+import { isLight } from '@modules/theme/hooks'
 import EventDetails from './EventDetails'
 import useTheme from '@/modules/theme/hooks'
 

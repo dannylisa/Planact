@@ -26,9 +26,6 @@ import { DefaultTheme } from './styled'
 // 팬톤 컬러 연두 계열
 // 93DA49 형광 연두
 
-export const isLight = ({ mode_name }: DefaultTheme) =>
-  Boolean(mode_name.match('light'))
-
 const light_orange: DefaultTheme = {
   mode_name: 'theme/light/orange',
   mainBackground: '#ffffff',

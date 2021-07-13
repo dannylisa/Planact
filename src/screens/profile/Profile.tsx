@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 import { DefaultTheme } from '@/style/styled'
 import themes from '@/style/themes'
 import ThemeBlock from './ThemeBlock'

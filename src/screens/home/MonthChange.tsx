@@ -1,7 +1,7 @@
 import { DefaultTheme } from '@/style/styled'
 import React, { useEffect, useState } from 'react'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
-import { AntDesign } from '@expo/vector-icons'
+import { AntDesign, Ionicons } from '@expo/vector-icons'
 import dayjs, { Dayjs } from 'dayjs'
 import useTheme from '@/modules/theme/hooks'
 import { useDailyList } from '@/modules/userDailyList/hooks'
@@ -12,7 +12,7 @@ interface MonthChangeProps {}
 function MonthChange({}: MonthChangeProps) {
   const theme = useTheme()
   const { container } = React.useMemo( () => styles(theme), [theme])
-  const { selected, getSelectedDaily } = useDailyList();
+  const { selected, getSelectedDaily, initialDailyFetch } = useDailyList();
   const [day, setDay] = useState<Dayjs>(dayjs());
   useEffect(() => {
     setDay(dayjs(getSelectedDaily().date))
@@ -26,7 +26,10 @@ function MonthChange({}: MonthChangeProps) {
         align="left"
         content={`${
           day.year()!== dayjs().year() ? 
-            `${day.year()}년`:''}${day.month() + 1}월`} />
+            `${day.year()}년 `:''}${day.month() + 1}월`} />
+      <TouchableOpacity onPress={initialDailyFetch}>
+        <Ionicons name="refresh" size={24} />
+      </TouchableOpacity>
     </View>
   )
 }
@@ -36,7 +39,9 @@ const styles = (theme: DefaultTheme) =>
     container: {
       minHeight: 40,
       paddingTop: 15,
-      paddingHorizontal: 20
+      paddingHorizontal: 20,
+      flexDirection: "row",
+      justifyContent: "space-between"
     },
   })
 

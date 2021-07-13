@@ -30,6 +30,7 @@ function Home({}: HomeProps) {
     initialDailyFetch()
   }, [profile])
 
+
   return (
     <SafeAreaView style={container}>
       <MonthChange />

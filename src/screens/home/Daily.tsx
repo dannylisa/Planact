@@ -1,10 +1,9 @@
 import { IDaily, daytype } from '@/utils/data'
 import { getDayType } from '@/utils/date'
-import React, { useCallback, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { StyleSheet, TouchableOpacity, Text } from 'react-native'
 import { DefaultTheme } from '@/style/styled'
-import { isLight } from '@/style/themes'
-import { shadow } from '@/style/style-util'
+import { isLight, shadow, SpecificColors } from "@modules/theme/hooks"
 import useTheme from '@/modules/theme/hooks'
 import { useDailyList } from '@/modules/userDailyList/hooks'
 import ScheduleView from './ScheduleView'
@@ -53,9 +52,8 @@ function Daily({index, daily:{date, events}, onPress}: DailyProps) {
 
 const styles = (theme: DefaultTheme, daytype:daytype) => {
   const { content, text, primary } = theme
-  const shadowOption = isLight(theme) ? shadow : {}
-  const blue = '#1663f1'
-  const red = '#f02323d2'
+  const shadowOption = isLight(theme) ? shadow : {};
+  const {red, blue} = SpecificColors;
 
   return StyleSheet.create({
     container: {

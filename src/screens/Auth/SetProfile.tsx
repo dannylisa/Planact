@@ -1,9 +1,7 @@
-import { GlobalState } from '@/modules';
 import useTheme from '@/modules/theme/hooks';
 import { DefaultTheme } from '@/style/styled';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, SafeAreaView } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
 import TextInput from '@/components/materials/TextInput';
 
 import Text from '@/components/materials/Text';

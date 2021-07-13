@@ -1,67 +1,79 @@
-import React, { useMemo, useCallback } from 'react'
-import { Text } from '@components/materials';
-import { DefaultTheme } from '@/style/styled'
-import { FlatList, SafeAreaView, TouchableOpacity } from 'react-native'
-import { StyleSheet, View } from 'react-native'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import useTheme from '@/modules/theme/hooks'
-import CategoryBox from './CategoryBox';
+import { DefaultTheme } from '@/style/styled'
+import { FlatList, SafeAreaView, StyleSheet, View } from 'react-native'
+import { Text } from '@components/materials'
+import { getMarketSchedulesByCategory } from '@/api/market/'
+import { AxiosError, AxiosResponse } from 'axios'
+import { ISchedule } from '@/utils/data'
+import { useUserState } from '@/modules/auth/hooks'
+import ScheduleListItem from './ScheduleListItem'
 
-const categories = [
-  { category: '헬스', iconName: 'fitness-center' },
-  { category: '학습', iconName: 'menu-book' },
-  { category: '투자', iconName: 'attach-money' },
-  { category: '여행', iconName: 'wallet-travel' },
-  { category: '코딩', iconName: 'code' },
-  { category: '음악', iconName: 'queue-music' },
-]
+const styles = (theme: DefaultTheme) => {
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: theme.mainBackground
+    },
+    title: {
+      height: 50,
+      backgroundColor: theme.mainBackground
+    },
+    listItemWrapper: {
+      flex: 5,
+      paddingHorizontal: 20,
+      justifyContent:'flex-start',
+      backgroundColor: theme.mainBackground
+    }
+})}
 
 function MarketMain({ navigation }) {
   const theme = useTheme()
-  const { container, header, listStyle } = useMemo(() => styles(theme),[theme])
-  const onPress = useCallback((category) => () => navigation.push("Market/Category", {category}),[])
+  const { getToken } = useUserState();
+  const { container, title, listItemWrapper } = useMemo(() => {return styles(theme)}, [theme])
+  const [schedules, setSchedules] = useState<ISchedule[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    (async () => {
+      const token = await getToken();
+      if(!token) return;
+
+      //Fetch Programs
+      await getMarketSchedulesByCategory(token, 'all')
+        .then((res:AxiosResponse<ISchedule[]>) => setSchedules(res.data))
+        .catch((err:AxiosError) => {
+          console.log(err.response)
+        })
+      setIsLoading(false)
+    })()}
+  ,[])
   
-  const renderCateories = ({ item:{category, iconName} }) => {
+  const onItemPressed = (item:ISchedule) => () => navigation.push("Market/Schedule/Details", {schedule:item})
+  const renderItem = ({item}:{item:ISchedule}) => {
     return (
-      <CategoryBox category={category} icon={iconName} onPress={onPress(category)}/>
+      <ScheduleListItem 
+        onPress={onItemPressed(item)}
+        schedule={item} 
+      />
     )
   }
-
+  
   return (
     <SafeAreaView style={container}>
-      <View style={header}>
-        <Text content="hello"/>
+      <View style={title}>
       </View>
       <FlatList
-        style={listStyle}
-        data={categories}
-        renderItem={renderCateories}
-        numColumns={2}
-        keyExtractor={(item, index) => ""+index}
-        contentContainerStyle={{
-          justifyContent: 'space-evenly',
-          alignItems: 'center',
-        }}
+        data={[...schedules, ...schedules, ...schedules, ...schedules, ...schedules]}
+        // data={schedules}
+        renderItem={renderItem}
+        keyExtractor={useCallback((item:ISchedule, index:number) => ""+index, [])}
+        contentContainerStyle={listItemWrapper}
       />
     </SafeAreaView>
   )
 }
 
-const styles = (theme: DefaultTheme) => {
-  const { mainBackground } = theme
-  return StyleSheet.create({
-    container: { flex: 1, backgroundColor: mainBackground },
-    header: {
-      height: 40,
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    listStyle: {
-      padding: 20,
-      display: 'flex',
-      backgroundColor: mainBackground
-    },
-  })
-}
 
-export default MarketMain
+export default MarketMain;
+

@@ -2,7 +2,7 @@ import { getDailyList } from "@/api/home/getDailyList";
 import { AxiosError, AxiosResponse } from "axios";
 import { Dispatch } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { DailyFetchedProps, DAILY_FETCH_INITIAL, DAILY_SELECT, DAILY_UPDATE_PROOF, UserDailyListAction } from "./reducer";
+import { DailyFetchedProps, DAILY_FETCH_INITIAL, DAILY_FETCH_NEXT, DAILY_FETCH_PREV, DAILY_SELECT, DAILY_UPDATE_PROOF, UserDailyListAction } from "./reducer";
 import { GlobalState } from "..";
 import { useUserState } from "../auth/hooks";
 import updateProof_api from "@/api/home/updateProof";
@@ -26,8 +26,34 @@ export function useDailyList(){
             })
     }
 
-    const additionalFetch = async () => {
+    const previousFetch = async () => {
+        const token = await getToken();
+        if(!token) return;
+        await getDailyList({
+                token,
+                start: start.add(-7, 'days').format("YYYY-MM-DD"),
+                end: start.add(-1, 'days').format("YYYY-MM-DD")
+            })
+            .then((res:AxiosResponse<DailyFetchedProps>) => {
+                dispatch({type: DAILY_FETCH_PREV, fetchData:res.data})
+            }).catch((err:AxiosError) => {
+                console.log(err.response)
+            })
+    }
 
+    const nextFetch = async () => {
+        const token = await getToken();
+        if(!token) return;
+        await getDailyList({
+                token,
+                start: end.add(1, 'days').format("YYYY-MM-DD"),
+                end: end.add(7, 'days').format("YYYY-MM-DD")
+            })
+            .then((res:AxiosResponse<DailyFetchedProps>) => {
+                dispatch({type: DAILY_FETCH_NEXT, fetchData:res.data})
+            }).catch((err:AxiosError) => {
+                console.log(err.response)
+            })
     }
 
     return {
@@ -36,7 +62,8 @@ export function useDailyList(){
         setSelectedDaily,
         getSelectedDaily,
         initialDailyFetch,
-        additionalFetch
+        previousFetch,
+        nextFetch,
     }
 }
 

@@ -9,6 +9,8 @@ export interface ISchedule {
   id: int
   name: string
   abb: string
+  user_likes: boolean | null
+  count_likes: number | null
   icon: string
   category: string
   description: string

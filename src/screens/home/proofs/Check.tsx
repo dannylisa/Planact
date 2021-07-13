@@ -3,28 +3,17 @@ import { Feather } from '@expo/vector-icons'
 import { Alert, TouchableOpacity, View } from "react-native";
 import { StyleSheet } from "react-native";
 import { ProofProps } from ".";
+import { SpecificColors } from "@/modules/theme/hooks";
 
 const style = StyleSheet.create({
     container:{
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between"
-    },
-    ok: {
-        color: "#2783fb",
-        margin: 4
-    },
-    not: {
-        color: "#e92a2a",
-        margin: 4
-    },
-    none:{
-        color: "#888",
-        margin: 4,
     }
 })
 export default function({userevent_id, updateProof, proof}:ProofProps){
-    const { container, ok, not, none } = style;
+    const { container } = style;
     const update = async (newProof: number) => {
         await updateProof({
             userevent_id,
@@ -51,24 +40,25 @@ export default function({userevent_id, updateProof, proof}:ProofProps){
         
     }
 
+    const {blue, red} = SpecificColors;
     return (
         <View style={container}>
             {
                 proof === null ?
                 <>
                 <TouchableOpacity onPress={onPress}>
-                    <Feather style={none} name="square" size={26} />
+                    <Feather name="square" size={26} color="#888" />
                 </TouchableOpacity>
                 </>
                 :
                 proof ?
                 <TouchableOpacity onPress={onPress}>
-                    <Feather style={ok} name="check-square" size={26} />
+                    <Feather name="check-square" size={26} color={blue} />
                 </TouchableOpacity>
                 :
                 !proof ?
                 <TouchableOpacity onPress={onPress}>
-                    <Feather style={not} name="x-square" size={26} />
+                    <Feather name="x-square" size={26} color={red}/>
                 </TouchableOpacity>  : <></>
             }
         </View>

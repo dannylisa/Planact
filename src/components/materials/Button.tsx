@@ -4,7 +4,7 @@ import { DefaultTheme } from '@/style/styled';
 import React from 'react';
 import { StyleSheet, TouchableOpacity, TouchableOpacityProps, Text } from 'react-native'
 import { useSelector } from 'react-redux';
-import { shadow } from '@/style/style-util';
+import { shadow } from "@modules/theme/hooks"
 import { useMemo } from 'react';
 
 interface ButtonProps extends TouchableOpacityProps{

@@ -4,7 +4,7 @@ import { DefaultTheme } from '@/style/styled'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import { MaterialIcons } from "@expo/vector-icons"
 import useTheme from "@/modules/theme/hooks"
-import { shadow } from "@/style/style-util"
+import { shadow } from "@modules/theme/hooks"
 
 interface CategoryBoxProps {
     category: string

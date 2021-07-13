@@ -1,4 +1,3 @@
-import { shadow } from "@/style/style-util";
 import { DefaultTheme } from "@/style/styled";
 import React, { useMemo } from "react";
 import { Text } from '@components/materials';
