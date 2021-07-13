@@ -1,9 +1,14 @@
 import useTheme from '@/modules/theme/hooks';
 import { DefaultTheme } from '@/style/styled';
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, SafeAreaView } from 'react-native';
+import {
+  KeyboardAvoidingView,
+  SafeAreaView,
+  StyleSheet,
+  View,
+} from 'react-native';
 import TextInput from '@/components/materials/TextInput';
-
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Text from '@/components/materials/Text';
 import { FlatList } from 'react-native-gesture-handler';
 import { useProfile, useUserState } from '@/modules/auth/hooks';
@@ -20,7 +25,8 @@ type UserDetailInfoProps = {
 
 function SetProfile({ route }) {
   const theme = useTheme();
-  const { container, categoryView, genderButtonContainer } = styles(theme);
+  const { container, categoryView, category, genderButtonContainer } =
+    styles(theme);
 
   //다른 컴포넌트에서 navigation으로 올 때 버튼 text 전달
   //ex) 가입하기 or 프로필 변경
@@ -38,40 +44,7 @@ function SetProfile({ route }) {
   const [email, setEmail] = useState<string>('');
   //기본 값 null 설정하고 싶은데 이럴 경우 타입 지정 어떻게 하는지
   const [gender, setGender] = useState<'M' | 'F' | null>(null);
-
-  const UserDetailInfo: UserDetailInfoProps[] = [
-    {
-      id: 0,
-      text: '닉네임',
-      func: setNickname,
-      val: nickname,
-    },
-    {
-      id: 1,
-      text: '성별',
-      func: setGender,
-      val: gender,
-    },
-    {
-      id: 2,
-      text: '이메일',
-      func: setEmail,
-      val: email,
-    },
-    {
-      id: 3,
-      text: '전화번호',
-      func: setTel,
-      val: tel,
-    },
-    {
-      id: 4,
-      text: '주소',
-      func: setAddress,
-      val: address,
-    },
-  ];
-
+  const [flag, setFlat] = useState<boolean>(false);
   //프로필 정보 불러오기
   useEffect(() => {
     if (profile) {
@@ -100,44 +73,54 @@ function SetProfile({ route }) {
       }
     }
   };
-  const renderItem = ({ item }) => {
-    if (item.text === '성별') {
-      return (
-        <View>
-          <Text content={item.text} align={'left'} marginVertical={10} />
-          <View style={genderButtonContainer}>
-            <Button
-              onPress={() => setGender('M')}
-              content={'M'}
-              color={gender === 'M' ? 'primary' : 'secondary'}
-            />
-            <Button
-              onPress={() => setGender('F')}
-              content={'F'}
-              color={gender === 'F' ? 'primary' : 'secondary'}
-            />
+
+  return (
+    <KeyboardAwareScrollView>
+      <View style={container}>
+        <View style={categoryView}>
+          <View style={category}>
+            <Text content={'닉네임'} align={'left'} marginVertical={10} />
+            <TextInput onChangeText={setNickname} value={nickname} />
+          </View>
+          <View style={category}>
+            <Text content={'성별'} align={'left'} marginVertical={10} />
+            <View style={genderButtonContainer}>
+              <Button
+                onPress={() => setGender('M')}
+                content={'남성'}
+                color={gender === 'M' ? 'primary' : 'secondary'}
+              />
+              <View style={{ width: 10 }} />
+              <Button
+                onPress={() => setGender('F')}
+                content={'여성'}
+                color={gender === 'F' ? 'primary' : 'secondary'}
+              />
+            </View>
+          </View>
+          <View style={category}>
+            <Text content={'이메일'} align={'left'} marginVertical={10} />
+            <TextInput onChangeText={setEmail} value={email} />
+          </View>
+          <View style={category}>
+            <Text content={'전화번호'} align={'left'} marginVertical={10} />
+            <TextInput onChangeText={setTel} value={tel} />
+          </View>
+          <View style={[category, { marginBottom: 10 }]}>
+            <Text content={'주소'} align={'left'} marginVertical={10} />
+            <TextInput onChangeText={setAddress} value={address} />
           </View>
         </View>
-      );
-    }
-    return (
-      <View>
-        <Text content={item.text} align={'left'} marginVertical={10} />
-        <TextInput onChangeText={item.func} value={item.val} />
-      </View>
-    );
-  };
-  return (
-    <SafeAreaView style={container}>
-      <View style={categoryView}>
-        <FlatList
-          data={UserDetailInfo}
-          renderItem={renderItem}
-          keyExtractor={(item, index) => index.toString()}
+        <Button
+          onPress={onPress}
+          // content={userDetail.nickname.length > 8 && userDetail.nickname.substr(0,8) ===  "__init__" && '완료'}
+          content={'완료'}
+          color={'primary'}
+          flex={0}
+          style={category}
         />
       </View>
-      <Button onPress={onPress} content={'완료'} color={'primary'} flex={0} />
-    </SafeAreaView>
+    </KeyboardAwareScrollView>
   );
 }
 //TODO: 가입하기 수정하기는 닉네임 __init__에 따라서 보여주기
@@ -153,6 +136,9 @@ const styles = (theme: DefaultTheme) => {
     categoryView: {
       flexDirection: 'column',
       marginBottom: 10,
+    },
+    category: {
+      width: 275,
     },
     genderButtonContainer: {
       flexDirection: 'row',
