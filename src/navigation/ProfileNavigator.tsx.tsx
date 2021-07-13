@@ -1,13 +1,15 @@
 // Each tab has its own navigation stack, you can read more about this pattern here:
 import React from 'react'
-import Profile from '@/screens/profile/Profile'
+import Profile from '@/screens/profile'
 import { createStackNavigator } from '@react-navigation/stack'
-import SetProfile from '@/screens/Auth/SetProfile'
+import SetProfile from '@/screens/profile/SetProfile'
+import ScheduleManager from '@/screens/profile/ScheduleManager'
 
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
 type ProfileParamList = {
   Profile: undefined
   SetProfile: undefined
+  ScheduleManager: undefined
 }
 const ProfileStack = createStackNavigator<ProfileParamList>()
 
@@ -20,6 +22,7 @@ function ProfileNavigator() {
         options={{ headerTitle: 'Profile' }}
       />
       <ProfileStack.Screen name="SetProfile" component={SetProfile} />
+      <ProfileStack.Screen name="ScheduleManager" component={ScheduleManager} />
     </ProfileStack.Navigator>
   )
 }

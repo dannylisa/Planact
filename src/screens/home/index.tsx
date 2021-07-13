@@ -48,7 +48,6 @@ const styles = (theme: DefaultTheme) =>
   StyleSheet.create({
     container: {
       flex: 1,
-      paddingTop: 20,
       alignItems: 'stretch',
       backgroundColor: theme.mainBackground,
     },

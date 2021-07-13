@@ -1,6 +1,6 @@
 import React from 'react'
 import Auth from '@/screens/Auth/Auth'
-import SetProfile from '@/screens/Auth/SetProfile'
+import SetProfile from '@/screens/profile/SetProfile'
 import { createStackNavigator } from '@react-navigation/stack'
 
 type AuthParamList = {

@@ -16,6 +16,8 @@ export default function TextInput ({onFocus, onBlur, style, ...others}:TextInput
         onBlur && onBlur(e);
         setFocus(false);
     }
+
+
     return (
         <OriginTextInput 
             style={ focus ? [main, focused, style] : [main, style]} 

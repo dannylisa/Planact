@@ -3,7 +3,7 @@ import { View, StyleSheet } from 'react-native'
 import { DefaultTheme } from '@/style/styled'
 import themes from '@/style/themes'
 import ThemeBlock from './ThemeBlock'
-import MenuItem from '@/components/MenuItem'
+import MenuItem from '@/components/materials/MenuItem'
 import useTheme from '@/modules/theme/hooks'
 import { useAuthorization } from '@/modules/auth/hooks'
 interface ProfileProps {
@@ -33,6 +33,12 @@ function Profile({ navigation }: ProfileProps) {
         content={'프로필 설정'}
         onPress={() => {
           navigation.push('SetProfile', { text: '수정하기' })
+        }}
+      />
+      <MenuItem
+        content={'내 플랜 관리'}
+        onPress={() => {
+          navigation.push('ScheduleManager', { text: '플랜 관리' })
         }}
       />
       <MenuItem content={'로그아웃'} onPress={logOut} />

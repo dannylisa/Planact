@@ -12,7 +12,7 @@ import NotFoundScreen from '@/screens/NotFoundScreen'
 import { useSelector } from 'react-redux'
 import { GlobalState } from '@/modules'
 import Auth from '@/screens/Auth/Auth'
-import SetProfile from '@/screens/Auth/SetProfile'
+import SetProfile from '@/screens/profile/SetProfile'
 
 export default function Navigation() {
   const theme = useTheme()

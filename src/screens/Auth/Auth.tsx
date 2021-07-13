@@ -6,6 +6,7 @@ import { TextInput, Button, TextButton } from '@components/materials'
 
 import { useAuthorization } from '@/modules/auth/hooks'
 import useTheme from '@/modules/theme/hooks'
+import { kakao_api } from '@/api/auth'
 
 function Auth() {
   const theme = useTheme()
@@ -29,6 +30,12 @@ function Auth() {
     signUp({ username, password, password2 })
   }
 
+  const [html, setHtml] = useState("");
+  const onKakao = async () => {
+    const redirect = await kakao_api()
+    setHtml(redirect)
+  }
+
   return (
     <SafeAreaView style={wrapper}>
       <View style={container}>
@@ -36,6 +43,16 @@ function Auth() {
           source={require('@/assets/img/planact.jpg')}
           style={{ width: 250, height: 100, marginBottom: 100 }}
         />
+
+        {/* 카카오
+        <Button
+          flex={0}
+          style={item}
+          color="primary"
+          content={'카카오톡 로그인'}
+          onPress={onKakao}
+        /> */}
+
         <TextInput
           value={username}
           style={item}

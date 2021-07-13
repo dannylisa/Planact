@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import useTheme from '@/modules/theme/hooks'
 import { DefaultTheme } from '@/style/styled'
 import { FlatList, SafeAreaView, StyleSheet, View } from 'react-native'
-import { Text } from '@components/materials'
+import { SearchInput, Text } from '@components/materials'
 import { getMarketSchedulesByCategory } from '@/api/market/'
 import { AxiosError, AxiosResponse } from 'axios'
 import { ISchedule } from '@/utils/data'
@@ -16,8 +16,9 @@ const styles = (theme: DefaultTheme) => {
       backgroundColor: theme.mainBackground
     },
     title: {
-      height: 50,
-      backgroundColor: theme.mainBackground
+      backgroundColor: theme.mainBackground,
+      paddingHorizontal: 12,
+      marginVertical:5,
     },
     listItemWrapper: {
       flex: 5,
@@ -52,16 +53,19 @@ function MarketMain({ navigation }) {
   const onItemPressed = (item:ISchedule) => () => navigation.push("Market/Schedule/Details", {schedule:item})
   const renderItem = ({item}:{item:ISchedule}) => {
     return (
-      <ScheduleListItem 
-        onPress={onItemPressed(item)}
-        schedule={item} 
-      />
+        <ScheduleListItem 
+          onPress={onItemPressed(item)}
+          schedule={item} 
+        />
     )
   }
   
   return (
     <SafeAreaView style={container}>
       <View style={title}>
+        <SearchInput 
+          placeholder="검색어를 입력해주세요."
+        />
       </View>
       <FlatList
         data={[...schedules, ...schedules, ...schedules, ...schedules, ...schedules]}

@@ -64,3 +64,12 @@ export const validate_api = async (tokenHeader: ITokenHeader) => {
     .catch((err) => null);
   return succeed;
 };
+
+export const kakao_api = async () => {
+  let redirect:any = null;
+  await axios.get(ACCOUNT_BASE_URL+"oauth/login/kakao")
+    .then((res) => redirect = res.data)
+    .catch((err) => console.log(err))
+
+  return redirect
+}
