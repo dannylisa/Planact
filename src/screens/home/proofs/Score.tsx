@@ -1,7 +1,7 @@
 import { AntDesign } from "@expo/vector-icons";
 import React from "react";
 import { Alert, TouchableOpacity } from "react-native";
-import { Text, TextButton } from "@components/materials";
+import { Number } from "@components/materials";
 import { ProofProps } from ".";
 import { SpecificColors } from "@/modules/theme/hooks";
 
@@ -31,7 +31,7 @@ export default function ({userevent_id, updateProof, proof, title}:ProofProps) {
             proof === null ?
                 <AntDesign name="exclamationcircleo" size={24} color={red} />
                 :
-                <Text headings={1} content={proof+""} style={{color:blue}}/>
+                <Number headings={1} value={proof} style={{color:blue}}/>
             }
         </TouchableOpacity>
     )

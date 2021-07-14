@@ -1,5 +1,6 @@
 export {default as Button} from "./Button";
 export {default as Text} from "./Text";
+export {default as Number} from "./Number";
 export {default as TextButton} from "./TextButton";
 export {default as TextInput} from "./TextInput";
 export {default as MenuItem} from "./MenuItem";

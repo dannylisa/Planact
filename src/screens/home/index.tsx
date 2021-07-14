@@ -20,7 +20,7 @@ export interface HomeProps {}
 function Home({}: HomeProps) {
   const theme = useTheme()
   const { container } = useMemo(() => styles(theme), [theme])
-  const { profile, forceLogOut } = useUserState()
+  const { profile } = useUserState()
   const { fetchUserSchedule } = useUserSchedule()
   const { initialDailyFetch } = useDailyList()
 

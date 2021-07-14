@@ -20,7 +20,7 @@ function MarketNavigator() {
       <MarketStack.Screen
         name="Market/Main"
         component={MarketMain}
-        options={{ headerTitle: 'Market' }}
+        options={{ headerTitle: '플랜 마켓' }}
       />
       {/* <MarketStack.Screen
         name="Market/Category"
@@ -30,7 +30,7 @@ function MarketNavigator() {
       <MarketStack.Screen
         name="Market/Schedule/Details"
         component={MarketScheduleDetails}
-        options={{ headerTitle: 'Market' }}
+        options={{ headerTitle: '플랜' }}
       />
     </MarketStack.Navigator>
   )

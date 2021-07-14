@@ -19,7 +19,8 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.insiders.planact",
-      "buildNumber": "0.0.0"
+      "buildNumber": "0.0.0",
+      "usesIcloudStorage": true
     },
     "android": {
       "package": "com.insiders.planact",
