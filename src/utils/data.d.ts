@@ -11,6 +11,7 @@ export interface ISchedule {
   abb: string
   user_likes: boolean | null
   count_likes: number | null
+  duration: number
   icon: string
   category: string
   description: string

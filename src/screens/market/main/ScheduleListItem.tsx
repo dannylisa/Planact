@@ -26,14 +26,11 @@ const ScheduleListItem = ({schedule, onPress}:ScheduleListItemProps) => {
         if(!token) return;
         await toggleScheduleLike(token, id);
     }
+
     const {yellow} = SpecificColors;
     return(
         <View style={wrapper}>
             <TouchableOpacity style={container} onPress={onPress}>
-                <View>
-                    <Text bold headings={2} paddingVertical={5} align="left" content={name}/>
-                    <Text  headings={4} align="left" content={description}/>
-                </View>
                 <View style={star}>
                     <TouchableOpacity onPress={toggleLikes}>
                         <AntDesign 
@@ -42,6 +39,19 @@ const ScheduleListItem = ({schedule, onPress}:ScheduleListItemProps) => {
                             size={22} />
                     </TouchableOpacity>
                 </View>
+                <View>
+                    <Text bold headings={2} paddingVertical={5} align="left" content={name}/>
+                    <Text 
+                        headings={4} 
+                        align="left" 
+                        content={
+                            description.length > 36 ? 
+                            description.slice(0,30)+"..."
+                            : description
+                        }
+                    />
+                </View>
+                
             </TouchableOpacity>
             <View style={triangle} />
             <View style={tag}>
@@ -71,7 +81,7 @@ const styles = ({content}:DefaultTheme) => StyleSheet.create({
     },
     star:{
         justifyContent: "center",
-        width: 45
+        width: 40
     },
     triangle:{
         position: "absolute",

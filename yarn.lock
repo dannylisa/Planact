@@ -6077,6 +6077,11 @@ react-native-web@~0.13.12:
     prop-types "^15.6.0"
     react-timer-mixin "^0.13.4"
 
+react-native-wrapped-text@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/react-native-wrapped-text/-/react-native-wrapped-text-1.2.2.tgz#21d1a55b33d6ec03228d2a0346c3b9bfe73ba6ee"
+  integrity sha512-CglzV4GvGfbMV25W/g8DWKbcQfgOS1qG3CXkcZSMF10jKUf4GgSyf3slAeAbMaw6z96u092PeJaZhfkvQtMfyQ==
+
 "react-native@https://github.com/expo/react-native/archive/sdk-41.0.0.tar.gz":
   version "0.63.2"
   resolved "https://github.com/expo/react-native/archive/sdk-41.0.0.tar.gz"

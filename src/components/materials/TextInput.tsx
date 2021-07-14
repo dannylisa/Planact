@@ -9,7 +9,7 @@ interface CustomedTextInputProps extends TextInputProps {
 }
 export default function TextInput ({underlined, onFocus, onBlur, style, ...others}:CustomedTextInputProps){
     const theme = useTheme();
-    const {main, focused} = useMemo(() => styles(theme, underlined || false), [theme])
+    const {main, focused} = useMemo(() => styles(theme, underlined || false), [theme, underlined])
     const [focus, setFocus] = useState<boolean>(false);
     const onfocused = (e: NativeSyntheticEvent<TextInputFocusEventData>) => {
         onFocus && onFocus(e);
@@ -50,9 +50,10 @@ const styles = ({text, primary:{main}}:DefaultTheme, underlined:boolean) => {
             backgroundColor: 'transparent',
             ...mainOps,
             color: text,
-            fontSize: 16,
-            paddingVertical: 14,
-            paddingLeft: 18,
+            fontSize: 18,
+            fontWeight: "600",
+            paddingVertical: 10,
+            paddingLeft: 14,
             paddingRight: 24,
             borderRadius: 2.5,
         },

@@ -10,25 +10,20 @@ import { DefaultTextProps } from "./Text";
 interface TextButtonProps extends DefaultTextProps {
     underlined?: boolean
 }
-export default function TextButton({content, underlined, style, onPress, ...others}:TextButtonProps){
+export default function TextButton({content, underlined, style, color, onPress, ...others}:TextButtonProps){
     const theme = useSelector(({theme}:GlobalState) => theme);
-    const {container, text} = useMemo(() => styles(theme, underlined || false), [theme]);
+    const {container} = useMemo(() => styles(theme, underlined || false, color), [theme, underlined, color]);
     return(
         <TouchableOpacity onPress={onPress} style={[container, style]}>
-            <Text content={content} style={text} {...others}/>
+            <Text content={content} color={color} {...others}/>
         </TouchableOpacity>
     )
 }
 
-const styles = ({text}:DefaultTheme, underlined:boolean) => StyleSheet.create({
+const styles = ({text}:DefaultTheme, underlined:boolean, color?: string) => StyleSheet.create({
     container: {
         backgroundColor: 'transparent',
-        borderBottomColor: text,
+        borderBottomColor: color || text,
         borderBottomWidth: underlined ? 1 : 0,
-        height: 20,
-        paddingHorizontal: 5,
-    },
-    text: {
-        color: text
     }
 })

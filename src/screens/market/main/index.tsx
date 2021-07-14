@@ -68,14 +68,7 @@ function MarketMain({ navigation }) {
         />
       </View>
       <FlatList
-        data={[
-          ...schedules,
-          ...schedules,
-          ...schedules,
-          ...schedules,
-          ...schedules,
-        ]}
-        // data={schedules}
+        data={schedules}
         renderItem={renderItem}
         keyExtractor={useCallback(
           (item: ISchedule, index: number) => '' + index,

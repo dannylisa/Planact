@@ -2,6 +2,7 @@ import React from "react";
 import DateTimePicker, { Event } from '@react-native-community/datetimepicker';
 import { Button, StyleSheet, View, Text } from "react-native";
 import { isToday } from "@/utils/date";
+import TextButton from "./TextButton";
 
 interface DateTimePickerModalProps {
     mode: 'datetime' | 'date' | 'time'
@@ -44,7 +45,10 @@ export default function DateTimePickerModal(props:DateTimePickerModalProps){
                         :
                             <></>
                 }
-                <Button title="완료" onPress={hide}/>
+                <TextButton
+                    color="#5796fa" 
+                    content="완료" 
+                    onPress={hide}/>
             </View>
             <DateTimePicker
                 display="spinner"

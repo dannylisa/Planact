@@ -1,3 +1,4 @@
+import { TextButton } from "@/components/materials";
 import React from "react"
 import { Picker, StyleSheet } from "react-native"
 import { View, Button } from "react-native"
@@ -14,7 +15,11 @@ export default function({visible, value, hide, onValueChange}:SelectIntervalProp
     return(
         <View style={[wrapper, {display: visible ?  "flex": "none"}]}>
             <View style={container}>
-                <Button title="완료" onPress={hide}/>
+            <TextButton
+                color="#5796fa" 
+                content="완료" 
+                onPress={hide}
+                />
             </View>
             <Picker selectedValue={value} onValueChange={onValueChange}>
                 {
