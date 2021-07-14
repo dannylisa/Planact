@@ -3,8 +3,8 @@ import React, { useMemo } from "react";
 import { Text } from '@components/materials';
 import { StyleSheet, View } from "react-native";
 import useTheme from "@/modules/theme/hooks";
-import { Check, ProofProps, Score } from "./proofs";
 import { useDailyUpdate } from "@/modules/userDailyList/hooks";
+import { Check, ProofProps, Score, Photo, Diary } from "./proofs";
 
 
 const EventDetails = ({userevent_id}:{userevent_id:string}) => {
@@ -32,8 +32,13 @@ const EventDetails = ({userevent_id}:{userevent_id:string}) => {
             <View style={proofContainer}>
                 { proof_type === "BOOLEAN" ?
                     <Check {...checkset} />
-                    :
+                : proof_type === "SCORE" ?
                     <Score {...checkset}/>
+                : proof_type === "DIARY" ?
+                    <Diary {...checkset} />
+                : proof_type === "PHOTO" ?
+                    <Photo {...checkset} />
+                : <></>
                 }
             </View>
         </View>

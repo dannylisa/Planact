@@ -10,3 +10,5 @@ export interface ProofProps {
 }
 export {default as Check} from "./Check"
 export {default as Score} from "./Score"
+export {default as Diary} from "./Diary"
+export {default as Photo} from "./Photo"

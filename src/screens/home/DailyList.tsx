@@ -78,7 +78,7 @@ const styles = (theme: DefaultTheme) => {
       flex: 1,
       padding: 5,
       paddingLeft: 15,
-      paddingVertical: 15,
+      paddingTop: 15,
       backgroundColor: mainBackground,
     },
   })

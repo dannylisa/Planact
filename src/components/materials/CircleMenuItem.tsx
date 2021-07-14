@@ -1,10 +1,9 @@
+import React, { useMemo } from "react";
 import { GlobalState } from "@/modules";
 import { isLight, shadow } from "@/modules/theme/hooks";
 import { DefaultTheme } from "@/style/styled";
-import React from "react"
-import { useMemo } from "react";
 import { TouchableOpacity, TouchableOpacityProps, StyleSheet, View } from "react-native"
-import { Text } from ".";
+import Text from "./Text";
 import { useSelector } from "react-redux";
 
 interface MenuItemProps extends TouchableOpacityProps {
@@ -14,7 +13,7 @@ interface MenuItemProps extends TouchableOpacityProps {
 export default function (props:MenuItemProps){
     const {content, color, ...others} = props;
     const theme = useSelector(({theme}:GlobalState) => theme);
-    const {item, circleContainer, circle} = useMemo(() =>styles(theme, color), []);
+    const {item, circleContainer, circle} = useMemo(() =>styles(theme, color), [theme]);
     return (
         <TouchableOpacity style={item} {...others}>
             <View style={circleContainer}>

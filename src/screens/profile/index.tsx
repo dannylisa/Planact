@@ -13,13 +13,13 @@ interface ProfileProps {
 function Profile({ navigation }: ProfileProps) {
   const theme = useTheme();
   const { logOut } = useAuthorization()
-  const { wrapper, toggleContainer, blockContainer } = React.useMemo(() => styles(theme), [theme])
+  const { wrapper, blockContainer } = React.useMemo(() => styles(theme), [theme])
   const [showThemes, setShowThemes] = useState<boolean>(true)
   const toggleThemes = () => setShowThemes((prev) => !prev)
 
   return (
     <View style={wrapper}>
-      <View style={toggleContainer}>
+      <View>
         <MenuItem onPress={toggleThemes} content="테마 선택" />
         {showThemes && (
           <View style={blockContainer}>
@@ -47,16 +47,14 @@ function Profile({ navigation }: ProfileProps) {
 }
 
 const styles = (theme: DefaultTheme) => {
-  const { mainBackground, border, text, content } = theme
+  const { mainBackground, content } = theme
   return StyleSheet.create({
     wrapper: {
       backgroundColor: mainBackground,
       flex: 1,
     },
-    toggleContainer: {
-      backgroundColor: mainBackground,
-    },
     blockContainer: {
+      backgroundColor: content,
       flexDirection: 'row',
       padding: 15,
     },

@@ -19,10 +19,14 @@ function ProfileNavigator() {
       <ProfileStack.Screen
         name="Profile"
         component={Profile}
-        options={{ headerTitle: 'Profile' }}
+        options={{ headerTitle: '프로필 설정' }}
       />
       <ProfileStack.Screen name="SetProfile" component={SetProfile} />
-      <ProfileStack.Screen name="ScheduleManager" component={ScheduleManager} />
+      <ProfileStack.Screen 
+        name="ScheduleManager" 
+        component={ScheduleManager} 
+        options={{ headerTitle: '내 플랜'}}
+      />
     </ProfileStack.Navigator>
   )
 }
