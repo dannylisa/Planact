@@ -47,7 +47,12 @@ export const useUserState = () => {
     return null;
   };
 
-  return { profile: user?.profile || null, getToken, forceLogOut };
+  return { 
+      username: user?.username, 
+      profile: user?.profile || null, 
+      getToken, 
+      forceLogOut 
+    };
 };
 
 export const useAuthorization = () => {
@@ -119,7 +124,7 @@ export const useAuthorization = () => {
       Alert.alert(message);
       return false;
     }
-    Alert.alert('회원가입이 완료되었습니다.');
+    Alert.alert('회원가입이 완료되었습니다. 회원 정보를 입력해주세요.');
     return true;
   };
 
@@ -130,9 +135,7 @@ export const useAuthorization = () => {
 
     await logout_api(token)
       .then((res: AxiosResponse) => {
-        batch(() => {
           dispatch({ type: LOGOUT });
-        });
         return true;
       })
       .catch((err) => {

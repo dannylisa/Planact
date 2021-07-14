@@ -1,12 +1,15 @@
 import React, { useMemo, useState } from "react";
 import { DefaultTheme } from "@/style/styled";
 import { NativeSyntheticEvent, StyleSheet, TextInputFocusEventData, TextInputProps } from "react-native";
-import { TextInput as OriginTextInput } from "react-native-gesture-handler";
+import { TextInput as NativeTextInput } from "react-native-gesture-handler";
 import useTheme from "@/modules/theme/hooks";
 
-export default function TextInput ({onFocus, onBlur, style, ...others}:TextInputProps){
+interface CustomedTextInputProps extends TextInputProps {
+    underlined?: boolean 
+}
+export default function TextInput ({underlined, onFocus, onBlur, style, ...others}:CustomedTextInputProps){
     const theme = useTheme();
-    const {main, focused} = useMemo(() => styles(theme), [theme])
+    const {main, focused} = useMemo(() => styles(theme, underlined || false), [theme])
     const [focus, setFocus] = useState<boolean>(false);
     const onfocused = (e: NativeSyntheticEvent<TextInputFocusEventData>) => {
         onFocus && onFocus(e);
@@ -19,7 +22,7 @@ export default function TextInput ({onFocus, onBlur, style, ...others}:TextInput
 
 
     return (
-        <OriginTextInput 
+        <NativeTextInput 
             style={ focus ? [main, focused, style] : [main, style]} 
             placeholderTextColor={theme.disabled}
             onFocus={onfocused}
@@ -29,20 +32,33 @@ export default function TextInput ({onFocus, onBlur, style, ...others}:TextInput
     )
 }
 
-const styles = ({text, primary:{main}}:DefaultTheme) => StyleSheet.create({
-    main: {
-        backgroundColor: 'transparent',
+const styles = ({text, primary:{main}}:DefaultTheme, underlined:boolean) => {
+    const mainOps = underlined ? {
+        borderBottomColor: '#cfcfcf',
+        borderBottomWidth: 1.5,
+    } : {
         borderColor: '#cfcfcf',
         borderWidth: 1.5,
-        color: text,
-        fontSize: 16,
-        paddingVertical: 14,
-        paddingLeft: 18,
-        paddingRight: 24,
-        borderRadius: 2.5,
-    },
-    focused: {
-        borderColor: main,
-        color: text,
     }
-})
+    const focusOps = underlined ? {
+        borderBottomColor: main
+    } : {
+        borderColor: main
+    }
+    return StyleSheet.create({
+        main: {
+            backgroundColor: 'transparent',
+            ...mainOps,
+            color: text,
+            fontSize: 16,
+            paddingVertical: 14,
+            paddingLeft: 18,
+            paddingRight: 24,
+            borderRadius: 2.5,
+        },
+        focused: {
+            color: text,
+            ...focusOps
+        }
+    })
+}

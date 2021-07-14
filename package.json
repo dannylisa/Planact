@@ -28,6 +28,7 @@
     "expo-linking": "^2.2.3",
     "expo-status-bar": "~1.0.4",
     "firebase": "8.2.3",
+    "form-data": "^4.0.0",
     "holiday-kr": "^0.1.5",
     "immer": "^9.0.5",
     "immutable": "^4.0.0-rc.14",

@@ -10,7 +10,7 @@ interface ScheduleViewProps {
 
 function ScheduleView({id}: ScheduleViewProps) {
   const theme = useTheme()
-  const { loading, getScheduleById } = useUserSchedule();
+  const { schedules, getScheduleById } = useUserSchedule();
   const [alias, setAlias] = useState('')
   const [color, setColor] = useState('#999999')
   useEffect(() => {
@@ -27,6 +27,8 @@ function ScheduleView({id}: ScheduleViewProps) {
     contentWrapper, 
     content 
   } = useMemo(()=>styles(theme, color),[theme, color])
+
+  console.log(schedules)
   return (
     <View
       style={[container]}

@@ -13,6 +13,7 @@ import { useSelector } from 'react-redux'
 import { GlobalState } from '@/modules'
 import Auth from '@/screens/Auth/Auth'
 import SetProfile from '@/screens/profile/SetProfile'
+import { useUserState } from '@/modules/auth/hooks'
 
 export default function Navigation() {
   const theme = useTheme()
@@ -38,8 +39,9 @@ export type RootStackParamList = {
 const Stack = createStackNavigator<RootStackParamList>()
 
 function RootNavigator() {
-  const user = useSelector((state: GlobalState) => state.authState)
-  return user ?
+  const { profile } = useUserState();
+
+  return profile?.nickname.indexOf('__init__') === -1 ?
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Root" component={BottomTabNavigator} />
         <Stack.Screen
@@ -49,27 +51,20 @@ function RootNavigator() {
         />
       </Stack.Navigator>
     : (
-      <Stack.Navigator headerMode="none">
-          <Stack.Screen name="Auth" component={Auth} />
-          {/* <Stack.Screen name="SetProfile" component={SetProfile} /> */}
+      <Stack.Navigator>
+          { !profile ?
+          <Stack.Screen 
+            name="Auth" 
+            component={Auth} 
+            options={{ headerShown: false }}
+          />
+          :
+          <Stack.Screen 
+            name="SetProfile"
+            component={SetProfile} 
+            options={{ headerTitle: '프로필 설정' }}
+            />
+          }
       </Stack.Navigator>
   )
-  // return user ?.profile.nickname.indexOf('__init__') === -1 ?
-  //     <Stack.Navigator screenOptions={{ headerShown: false }}>
-  //       <Stack.Screen name="Root" component={BottomTabNavigator} />
-  //       <Stack.Screen
-  //         name="NotFound"
-  //         component={NotFoundScreen}
-  //         options={{ title: 'Oops!' }}
-  //       />
-  //     </Stack.Navigator>
-  //   : (
-  //     <Stack.Navigator headerMode="none">
-  //         { !user ?
-  //         <Stack.Screen name="Auth" component={Auth} />
-  //         :
-  //         <Stack.Screen name="SetProfile" component={SetProfile} />
-  //         }
-  //     </Stack.Navigator>
-  // )
 }

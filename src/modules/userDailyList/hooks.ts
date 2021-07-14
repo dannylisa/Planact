@@ -71,7 +71,7 @@ export interface UpdateProofProps {
     userevent_id: string
     proof: number
     diary?: string
-    photo?: File
+    photo?: string
 }
 export function useDailyUpdate(){
     const { getToken } = useUserState();
@@ -87,16 +87,17 @@ export function useDailyUpdate(){
         const token = await getToken();
         if(!token) return false;
         let succeed:boolean = false
-        dispatch({type: DAILY_UPDATE_PROOF, updatedDailyInfo: props})
 
         await updateProof_api({...props, token})
             .then((res:AxiosResponse) => {
+                dispatch({type: DAILY_UPDATE_PROOF, updatedDailyInfo: props})
                 succeed = true
             })
             .catch((err:AxiosError) => {
-                console.log(err.response)
+                console.log(err.response?.data)
             })
 
+        
         return succeed
     }
 

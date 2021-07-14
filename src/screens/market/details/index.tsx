@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from "react"
 import { View, StyleSheet, SafeAreaView, Button as NativeButton, ScrollView, Alert } from "react-native";
 import { DefaultTheme } from "@/style/styled";
 import useTheme from "@/modules/theme/hooks";
-import { Button, Text, useThemedStepper } from '@components/materials';
+import { Button, Text, TextInput, useThemedStepper } from '@components/materials';
 import { getMarketScheduleEvents, attachSchedule } from "@/api/market/";
 import { useUserState } from "@/modules/auth/hooks";
 import { IEvent, ISchedule } from "@/utils/data";
@@ -107,8 +107,14 @@ export default function MarketScheduleDetails({ route }){
     const attach = async () => {
         const token = await getToken();
         if(!token) return;
-        const type:attachScheduleType = radioButtons[0].selected ? 
-            'weekdays' : radioButtons[1].selected ? 'interval' : 'everyday';
+        const type:attachScheduleType = 
+            radioButtons[0].selected ? 'weekdays' 
+            : radioButtons[1].selected ? 'interval' 
+            : 'everyday';
+        
+        if(type === "weekdays" && selectedDays.every(i => !i))
+            return Alert.alert("요일을 선택해주세요!")
+
         await attachSchedule({
                 type,
                 token,

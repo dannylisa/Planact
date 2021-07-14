@@ -6,7 +6,7 @@ export interface ProofProps {
     proof: number | null
     title: string
     diary?: string
-    photo?: File
+    photo?: string
 }
 export {default as Check} from "./Check"
 export {default as Score} from "./Score"

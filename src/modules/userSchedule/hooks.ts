@@ -16,7 +16,6 @@ export const useUserSchedule = () => {
     const fetchUserSchedule = async ():Promise<boolean> => {
         const token = await getToken();
         if(!token) return false;
-        if(!shouldFetch) return false;
         
         let succeed = false;
         setLoading(true)

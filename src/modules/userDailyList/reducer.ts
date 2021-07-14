@@ -49,7 +49,7 @@ export interface UserDailyListAction {
         userevent_id: string
         proof: number
         diary?: string
-        photo?: File
+        photo?: string
     }
 }
 

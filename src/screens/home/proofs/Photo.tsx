@@ -14,8 +14,17 @@ const style = StyleSheet.create({
     }
 })
 export default function({userevent_id, updateProof, proof}:ProofProps){
-    const { container } = style;
-    const [image, setImage] = useState<string | null>(null);
+
+    const update = async (photo: string) => {
+        if(!photo) 
+            return;
+        await updateProof({
+            userevent_id,
+            proof:1,
+            photo
+        }).then((res) => null)
+        .catch((err) => Alert.alert("오류입니다."))
+    }
 
     const getImage = async () => {
         if (Platform.OS !== 'web') {
@@ -33,20 +42,10 @@ export default function({userevent_id, updateProof, proof}:ProofProps){
             quality: 1,
           });
       
-          console.log(result);
-      
-          if (!result.cancelled) {
-            setImage(result.uri);
-          }
+          if (!result.cancelled) 
+            update(result.uri)
     }
 
-    const update = async (newProof: number) => {
-        await updateProof({
-            userevent_id,
-            proof:newProof,
-        }).then((res) => null)
-        .catch((err) => Alert.alert("오류입니다."))
-    }
     const onPress = async() => {
         if(!proof) 
             Alert.alert("계획 완료 사진을 업로드 하시겠습니까?",'',[
@@ -54,20 +53,20 @@ export default function({userevent_id, updateProof, proof}:ProofProps){
                 {text: '예', onPress: getImage},
             ])
         else
-            Alert.alert("계획을 실천하지 않은 상태로 변경하시겠습니까?",'',[
-                {text: '취소', style: 'cancel'},  
-                {text: '예', onPress: () => {}},
-            ])
+            Alert.alert("인증 사진을 이미 업로드 하셨습니다!")
         
     }
+
+    const { container } = style;
 
     const {blue, red} = SpecificColors;
     return (
         <View style={container}>
             {
                 proof ?
-                <TouchableOpacity onPress={onPress}>
-                    <Ionicons name="ios-checkbox-outline" size={26} color={blue} />
+                <TouchableOpacity onPress={onPress} style={{flexDirection: "row"}}>
+                    <Ionicons name="ios-camera-outline" size={26} color={blue} />
+                    <Ionicons name="checkmark-outline" size={26} color={blue} />
                 </TouchableOpacity>
                 :
                 <TouchableOpacity onPress={onPress}>
