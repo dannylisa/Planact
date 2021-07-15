@@ -2,12 +2,13 @@ import React, { useEffect, useMemo, useState } from "react"
 import { View, StyleSheet, SafeAreaView, ScrollView, Alert } from "react-native";
 import { DefaultTheme } from "@/style/styled";
 import useTheme from "@/modules/theme/hooks";
-import { Button, Text, useThemedStepper } from '@components/materials';
+import { Button, Text, TextInput, useThemedStepper } from '@components/materials';
 import { getMarketScheduleEvents, attachSchedule } from "@/api/market/";
 import { useUserState } from "@/modules/auth/hooks";
 import { IEvent, ISchedule } from "@/utils/data";
 import { AxiosError, AxiosResponse } from "axios";
 import EventPreview from "./EventPreview";
+import Comment from './Comment';
 
 
 interface EventsGroupedByDateOf {
@@ -18,7 +19,7 @@ interface EventsGroupedByDateOf {
 export default function MarketScheduleDetails({ route, navigation }){
     // theme
     const theme = useTheme();
-    const { container, header, content, stepperWrapper, item } = useMemo(() => styles(theme), [theme]);
+    const { container, header, content, stepperWrapper, item, commentContainer, newComment } = useMemo(() => styles(theme), [theme]);
     
     // Get Detail Data from api
     const { getToken } = useUserState();
@@ -83,14 +84,56 @@ export default function MarketScheduleDetails({ route, navigation }){
                     }
                 </View>
 
-                <View style={item}> 
-                    <Button 
-                        color="primary"
-                        content="내 캘린더에 내려받기"
-                        onPress={onDownload} 
+                <View style={item}>
+                    {
+                        false ?
+                        // schedule.has_attached ?
+                        <Button
+                            color="secondary"
+                            content="현재 진행중인 플랜입니다."
+                            disabled
+                        />
+                        :
+                        <Button 
+                            color="primary"
+                            content="내 캘린더에 내려받기"
+                            onPress={onDownload} 
+                        />
+                    }
+                </View>
+                <View style={commentContainer}>
+                    <Text
+                        headings={1} 
+                        bold
+                        align="left" 
+                        content="댓글"
+                        marginBottom={10}
+                    />
+                    <Comment 
+                        username="수영"
+                        user_likes={true}
+                        count_likes={5}
+                        content="시작합니다!"
+                    />
+                    <Comment 
+                        username="수영"
+                        user_likes={true}
+                        count_likes={5}
+                        content="시작합니다!"
+                    />
+                    <Comment 
+                        username="수영"
+                        user_likes={true}
+                        count_likes={5}
+                        content="시작합니다!"
                     />
                 </View>
             </ScrollView>
+            <View style={newComment}>
+                <TextInput
+                    placeholder="댓글을 입력하세요!"
+                />
+            </View>
         </SafeAreaView>
     )
 }
@@ -125,5 +168,15 @@ const styles = ({mainBackground}:DefaultTheme) => StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "center"
+    },
+    commentContainer: {
+        marginTop: 10
+    },
+    newComment:{
+        position: "absolute",
+        bottom: 0,
+        height: 80,
+        width: "100%",
+        padding: 12
     }
 })

@@ -14,10 +14,37 @@ interface ScheduleListItemProps {
     schedule: ISchedule
     onPress: () => void
 }
+
+interface TagsProps {
+    [key: string]: {
+        color: string
+        content: string
+    }
+}
+const Tags: TagsProps = {
+    free: {
+        color: "#ffaaaa",
+        content: "Free"
+    },
+    premium: {
+        color: "#6a64dd",
+        content: "Premium"
+    },
+    downloaded: {
+        color: "#4dc583",
+        content: "Downloaded"
+    }
+}
 const ScheduleListItem = ({schedule, onPress}:ScheduleListItemProps) => {
+    const { id, name, description, price, user_likes, has_attached } = schedule;
+    const tag = useMemo(() => {
+        if(has_attached) return Tags.downloaded;
+        if(price===0) return Tags.free;
+        return Tags.free
+    }, [price, has_attached])
+    
     const theme = useTheme()
-    const { wrapper, container, triangle, tag, star } = useMemo(() => styles(theme), [theme])
-    const { id, name, description, price, user_likes } = schedule;
+    const { wrapper, container, triangle, tagContainer, star } = useMemo(() => styles(theme, tag.color), [theme, ])
     const [likes, setLikes] = React.useState<boolean>(Boolean(user_likes));
     const {getToken} = useUserState();
     const toggleLikes = async () => {
@@ -54,62 +81,66 @@ const ScheduleListItem = ({schedule, onPress}:ScheduleListItemProps) => {
                 
             </TouchableOpacity>
             <View style={triangle} />
-            <View style={tag}>
-                <Text headings={4} content={"Free"} />
+            <View style={tagContainer}>
+                <Text 
+                    headings={4} 
+                    content={tag.content} />
             </View>
         </View>
     )
 }
 
-const styles = ({content}:DefaultTheme) => StyleSheet.create({
-    wrapper:{
-        zIndex: 0,
-        marginBottom: 14,
-    },
-    container:{
-        height: 75,
-        borderRadius:5,
-        width: "98.5%",
-        zIndex: 2,
-        paddingVertical: 12,
-        paddingLeft: 20,
-        paddingRight: 50,
-        backgroundColor: content,
-        flexDirection: "row",
-        justifyContent:"space-between",
-        ...shadow
-    },
-    star:{
-        justifyContent: "center",
-        width: 40
-    },
-    triangle:{
-        position: "absolute",
-        borderBottomColor: "#ffaaaacc",
-        borderLeftColor: "#ffaaaacc",
-        top: "2%",
-        right: 0,
-        borderBottomWidth:26,
-        borderLeftWidth:17,
-        borderTopRightRadius: 16,
-        borderBottomLeftRadius: 22,
-        borderBottomRightRadius: 22,
-        zIndex: 1,
-        ...shadow
-    },
-    tag:{
-        position: "absolute",
-        top: "10%",
-        right: 0,
-        backgroundColor: "#ffaaaa",
-        paddingLeft: 12,
-        paddingRight: 16,
-        paddingVertical: 4,
-        borderTopRightRadius: 2,
-        borderRadius: 3,
-        zIndex: 3,
-        ...shadow
-    }
-})
-
+const styles = ({content}:DefaultTheme, color: string) => {
+    const backdrop = color + "c2"
+    return StyleSheet.create({
+        wrapper:{
+            zIndex: 0,
+            marginBottom: 14,
+        },
+        container:{
+            height: 75,
+            borderRadius:5,
+            width: "98.5%",
+            zIndex: 2,
+            paddingVertical: 12,
+            paddingLeft: 20,
+            paddingRight: 50,
+            backgroundColor: content,
+            flexDirection: "row",
+            justifyContent:"space-between",
+            ...shadow
+        },
+        star:{
+            justifyContent: "center",
+            width: 40
+        },
+        triangle:{
+            position: "absolute",
+            borderBottomColor: backdrop,
+            borderLeftColor: backdrop,
+            top: "2%",
+            right: 0,
+            borderBottomWidth:26,
+            borderLeftWidth:17,
+            borderTopRightRadius: 16,
+            borderBottomLeftRadius: 22,
+            borderBottomRightRadius: 22,
+            zIndex: 1,
+            ...shadow
+        },
+        tagContainer:{
+            position: "absolute",
+            top: "10%",
+            right: 0,
+            backgroundColor: color,
+            paddingLeft: 12,
+            paddingRight: 16,
+            paddingVertical: 4,
+            borderTopRightRadius: 2,
+            borderRadius: 3,
+            zIndex: 3,
+            ...shadow
+        }
+    })
+}
 export default ScheduleListItem

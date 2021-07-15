@@ -1,20 +1,22 @@
 
 import React, { useMemo, useState } from "react"
-import { View, StyleSheet, SafeAreaView, Button as NativeButton, ScrollView, Alert } from "react-native";
+import { AxiosError } from "axios";
+import { View, StyleSheet, SafeAreaView, Button as NativeButton, ScrollView, Alert, TouchableOpacity } from "react-native";
+import dayjs from "dayjs";
 import { DefaultTheme } from "@/style/styled";
-import useTheme from "@/modules/theme/hooks";
+import useTheme, { shadow } from "@/modules/theme/hooks";
 import { Button, Text, TextButton, TextInput } from '@components/materials';
 import { attachSchedule } from "@/api/market/";
+import { attachScheduleType } from "@/api/market/attachSchedule";
 import { useUserState } from "@/modules/auth/hooks";
 import { ISchedule } from "@/utils/data";
-import { AxiosError } from "axios";
 import { RadioButtonProps, RadioButton } from 'react-native-radio-buttons-group';
-import SelectDay from "../details/SelectDay";
+import SelectDay from "./SelectDay";
+import SelectInterval from "./SelectInterval";
 import DateTimePickerModal from "@/components/materials/DateTimePickerModal";
 import { isToday, korday } from "@/utils/date";
-import dayjs from "dayjs";
-import SelectInterval from "../details/SelectInterval";
-import { attachScheduleType } from "@/api/market/attachSchedule";
+import { useUserSchedule } from "@/modules/userSchedule/hooks";
+
 
 const RADIO_PROPS:RadioButtonProps[] = [
     {label: '요일 선택', id: "0", selected: true},
@@ -24,9 +26,8 @@ const RADIO_PROPS:RadioButtonProps[] = [
 
 const COLORS = [
     "#FFE4D4", "#F6FBE4", "#C6F2FF", "#B8BCFF", "#9FC9C7", "#FFE0F2", "#facba5",
-    "#B8636F", "#5D658D", "#6190AF", "#C3AFA8", "#35608A", "#358a5b", "#d458b9",
-    "#343077", "#9C599E", "#E6759E", "#F89181", "#FFCE8F", "#FFEDB3", "#2a7a85"
-].map((color, idx) => ({color, selected:idx===0}))
+    "#343077", "#2a7a85", "#9C599E", "#E6759E", "#F89181", "#FFCE8F", "#FFEDB3", 
+]
 
 const Today = new Date();
 const TwoWeeksLater = dayjs().add(14, 'days').toDate();
@@ -69,6 +70,10 @@ export default function MarketScheduleDetails({ route }){
         setIntervalSelectionVisible(prev => !prev)
     );
 
+
+    // Color Select
+    const [colorIdx, setColorIdx] = useState<number>(0);
+
     // DatePicker Setting
     const [date, setDate] = useState<Date>(Today)
     const [datepickerVisible, setDatepickerVisible] = useState<boolean>(false)
@@ -110,6 +115,7 @@ export default function MarketScheduleDetails({ route }){
     const [start_date, end_date] = useMemo(() => getStartEndDate(), [date, radioButtons, interval, selectedDays])
     
     // Use attatch api
+    const { fetchUserSchedule } = useUserSchedule();
     const attach = async () => {
         const token = await getToken();
         if(!token) return;
@@ -128,14 +134,12 @@ export default function MarketScheduleDetails({ route }){
                 interval,
                 weekdays: selectedDays,
                 start_date: date,
-                color: "#ffaaaa",
+                color: COLORS[colorIdx],
                 schedule_id: schedule.id
             }).then((res) => {
-                console.log(res);
                 Alert.alert("플랜이 다운로드 되었습니다.")
+                fetchUserSchedule();
             }).catch((err:AxiosError) => {
-                console.log(err)
-                console.log(err.response)
                 if(err.response?.status === 406)
                     Alert.alert("이미 내려받은 스케줄입니다!")
                 else
@@ -145,20 +149,17 @@ export default function MarketScheduleDetails({ route }){
 
     return(
         <SafeAreaView style={{flex: 1}}>
+            <View style={header}>
+                <Text 
+                    bold headings={1} align="left" content={`${schedule.name}`} />
+                <Text
+                    headings={3} 
+                    align="left" 
+                    marginVertical={10} 
+                    content={schedule.description} 
+                    />
+            </View>
             <ScrollView style={container}>
-                <View style={[item, header]}>
-                    <View>
-                        <Text 
-                            bold headings={1} align="left" content={`${schedule.name}`} />
-                        <Text
-                            headings={3} 
-                            align="left" 
-                            marginVertical={10} 
-                            content={schedule.description} 
-                            />
-                    </View>
-                    {/* <NativeButton title="별명 설정" onPress={onSetAlias} /> */}
-                </View>
 
                 {/* 별명 설정 */}
                 <Text
@@ -259,12 +260,12 @@ export default function MarketScheduleDetails({ route }){
                 <View>
                     <View style={rowInfo}>
                         <Text
-                            headings={1}
+                            headings={2}
                             color={theme.disabled}
                             content="시작 날짜" 
                         />
                         <Text
-                            headings={1}
+                            headings={2}
                             color={theme.disabled}
                             content={
                                 `${start_date.format("YYYY년 M월 D일")}(${korday[start_date.day()]})`
@@ -273,12 +274,12 @@ export default function MarketScheduleDetails({ route }){
                     </View>
                     <View style={rowInfo}>
                         <Text
-                            headings={1}
+                            headings={2}
                             color={theme.disabled}
                             content="종료 예상 날짜" 
                         />
                         <Text
-                            headings={1}
+                            headings={2}
                             color={theme.disabled}
                             content={
                                 end_date.isValid() ?
@@ -299,34 +300,54 @@ export default function MarketScheduleDetails({ route }){
                 />
                 <View style={colorContainer}>
                     <View style={colorRow}>
-                    {COLORS.slice(0, 7).map(({color, selected}) => (
-                        <View key={color} style={colorItem}>
-                            <View style={[colorCircle, {backgroundColor:color}]} />
-                        </View>
+                    {COLORS.slice(0, 7).map((color, idx) => (
+                        <TouchableOpacity 
+                            key={color} 
+                            style={colorItem}
+                            onPress={()=>setColorIdx(idx)}>
+                            <View 
+                                style={
+                                    colorIdx === idx ?
+                                    [colorCircle, colorSelected, {backgroundColor:color}]
+                                    : [colorCircle, {backgroundColor:color}]
+                                } 
+                            />
+                        </TouchableOpacity>
                     ))}
                     </View>
                     <View style={colorRow}>
-                    {COLORS.slice(7, 14).map(({color, selected}) => (
-                        <View key={color} style={colorItem}>
-                            <View style={[colorCircle, {backgroundColor:color}]} />
-                        </View>
-                    ))}
-                    </View>
-                    <View style={colorRow}>
-                    {COLORS.slice(14, 21).map(({color, selected}) => (
-                        <View key={color} style={colorItem}>
-                            <View style={[colorCircle, {backgroundColor:color}]} />
-                        </View>
+                    {COLORS.slice(7, 14).map((color, idx) => (
+                        <TouchableOpacity 
+                            key={color} 
+                            style={colorItem}
+                            onPress={() => setColorIdx(idx+7)}>
+                            <View 
+                                style={
+                                    colorIdx === idx+7 ?
+                                    [colorCircle, colorSelected, {backgroundColor:color}]
+                                    : [colorCircle, {backgroundColor:color}]
+                                } />
+                        </TouchableOpacity>
                     ))}
                     </View>
                 </View>
 
-                <View style={item}> 
-                    <Button 
+                <View style={[item, {marginBottom: 60}]}>
+                    {
+                        schedule.has_attached ?
+                        <Button
+                            color="secondary"
+                            content="현재 진행중인 플랜입니다."
+                            disabled
+                        />
+                        :
+                        <Button 
                         color="primary"
                         content="다운로드"
                         onPress={attach} 
                     />
+                    }
+                    
                 </View>
             </ScrollView>
             <SelectInterval 
@@ -348,7 +369,7 @@ export default function MarketScheduleDetails({ route }){
     )
 }
 
-const styles = ({mainBackground, primary:{main}}:DefaultTheme) => StyleSheet.create({
+const styles = ({mainBackground, disabled, primary:{main}}:DefaultTheme) => StyleSheet.create({
     container:{
         flex: 1,
         backgroundColor: mainBackground,
@@ -357,7 +378,11 @@ const styles = ({mainBackground, primary:{main}}:DefaultTheme) => StyleSheet.cre
     },
     header: {
         justifyContent: "space-between", 
-        padding: 5,
+        padding: 18,
+        backgroundColor: mainBackground,
+        ...shadow,
+        borderBottomColor: '#77777788',
+        borderBottomWidth: 1
     },
     buttonContainer:{
         flexDirection: "row",
@@ -377,11 +402,12 @@ const styles = ({mainBackground, primary:{main}}:DefaultTheme) => StyleSheet.cre
     rowInfo: {
         flexDirection: "row",
         justifyContent: "space-between",
-        paddingHorizontal: 18,
+        paddingHorizontal: 12,
         paddingVertical: 5
     },
     colorContainer: {
-        paddingVertical:15
+        paddingVertical:18,
+        marginBottom: 9
     },
     colorRow: {
         flexDirection: "row"
@@ -393,10 +419,13 @@ const styles = ({mainBackground, primary:{main}}:DefaultTheme) => StyleSheet.cre
     },
     colorCircle: {
         padding: 16,
-        borderRadius:16
+        borderRadius: 12,
+        borderColor: "transparent",
+        borderWidth: 2
     },
     colorSelected:{
-        borderColor: main
+        borderColor: main,
+        borderWidth: 2
     },
     item:{
         marginBottom: 6,

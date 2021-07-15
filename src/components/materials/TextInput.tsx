@@ -24,7 +24,7 @@ export default function TextInput ({underlined, onFocus, onBlur, style, ...other
     return (
         <NativeTextInput 
             style={ focus ? [main, focused, style] : [main, style]} 
-            placeholderTextColor={theme.disabled}
+            placeholderTextColor="#999"
             onFocus={onfocused}
             onBlur={onblur}
             {...others} 
