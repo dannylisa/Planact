@@ -25,7 +25,7 @@ const RADIO_PROPS:RadioButtonProps[] = [
 ]
 
 const COLORS = [
-    "#FFE4D4", "#F6FBE4", "#C6F2FF", "#B8BCFF", "#9FC9C7", "#FFE0F2", "#facba5",
+    "#FFE4D4", "#eff8cc", "#C6F2FF", "#B8BCFF", "#9FC9C7", "#FFE0F2", "#faa5a9",
     "#343077", "#2a7a85", "#9C599E", "#E6759E", "#F89181", "#FFCE8F", "#FFEDB3", 
 ]
 

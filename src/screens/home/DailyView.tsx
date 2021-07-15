@@ -46,13 +46,13 @@ function DailyView() {
   }, [date]);
   return (
     <View style={container}>
-      <View style={title}>
         <Text
           bold
           headings={2}
           content={date.format(`M월 D일 ${korday[date.day()]}요일`)}
+          marginTop={10}
+          marginBottom={20}
         />
-      </View>
       {groupedEvents.map(({ schedule, events }, idx) => (
         <ToggleEventList schedule={schedule} events={events} key={idx} />
       ))}

@@ -104,23 +104,16 @@ export default function MarketScheduleDetails({ route, navigation }){
                     }
                 </View>
 
-                <View style={item}>
                     {
-                        false ?
-                        // schedule.has_attached ?
-                        <Button
-                            color="secondary"
-                            content="현재 진행중인 플랜입니다."
-                            disabled
-                        />
-                        :
-                        <Button 
-                            color="primary"
-                            content="내 캘린더에 내려받기"
-                            onPress={onDownload} 
-                        />
+                        !schedule.has_attached ?
+                        <View style={item}>
+                            <Button 
+                                color="primary"
+                                content="내 캘린더에 내려받기"
+                                onPress={onDownload} 
+                                /> 
+                        </View>: <></>
                     }
-                </View>
                 <View style={commentContainer}>
                     <Text
                         headings={1} 
