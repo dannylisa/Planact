@@ -11,14 +11,12 @@ export const useUserSchedule = () => {
     const dispatch:Dispatch<UserScheduleAction> = useDispatch();
     const {shouldFetch, schedules} = useSelector( ({ userSchedulesState }: GlobalState) => userSchedulesState);
     const { getToken } = useUserState();
-    const [loading, setLoading] = useState<boolean>(false)
     
     const fetchUserSchedule = async ():Promise<boolean> => {
         const token = await getToken();
         if(!token) return false;
         
         let succeed = false;
-        setLoading(true)
         await getUserSchedule(token)
             .then((res:AxiosResponse<IUserSchedule[]>) => {
                 dispatch({type: USER_SCHEDULES_FETCH, schedules: res.data})
@@ -26,7 +24,6 @@ export const useUserSchedule = () => {
             }).catch((err:AxiosError) => {
                 console.log(err.response)
             })
-        setLoading(false)
         return succeed
     }
     
@@ -39,7 +36,6 @@ export const useUserSchedule = () => {
     }
 
     return {
-        loading,
         shouldFetch,
         schedules,
         fetchUserSchedule,

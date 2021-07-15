@@ -46,7 +46,6 @@ export default function MarketScheduleDetails({ route, navigation }){
             .then((res:AxiosResponse<IScheduleComment[]>) => {
                 resetComments()
             }).catch((err:AxiosError) => {
-                console.log(err.message)
                 Alert.alert("서버 오류입니다.")
             });
     }

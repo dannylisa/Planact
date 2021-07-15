@@ -33,7 +33,7 @@ const groupBySchedule = (
 
 function DailyView() {
   const theme = useTheme();
-  const { getSelectedDaily, selected } = useDailyList();
+  const { getSelectedDaily, dailys} = useDailyList();
   const { schedules } = useUserSchedule();
   const { date, events } = getSelectedDaily();
 

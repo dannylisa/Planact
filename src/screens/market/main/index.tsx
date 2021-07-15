@@ -8,6 +8,7 @@ import { AxiosError, AxiosResponse } from 'axios';
 import { ISchedule } from '@/utils/data';
 import { useUserState } from '@/modules/auth/hooks';
 import ScheduleListItem from './ScheduleListItem';
+import { useUserSchedule } from '@/modules/userSchedule/hooks';
 
 const styles = (theme: DefaultTheme) => {
   return StyleSheet.create({
@@ -35,8 +36,8 @@ function MarketMain({ navigation }) {
   const { container, title, listItemWrapper } = useMemo(() => {
     return styles(theme);
   }, [theme]);
+  const useSchedule = useUserSchedule();
   const [schedules, setSchedules] = useState<ISchedule[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     (async () => {
@@ -49,9 +50,8 @@ function MarketMain({ navigation }) {
         .catch((err: AxiosError) => {
           console.log(err.response);
         });
-      setIsLoading(false);
     })();
-  }, []);
+  }, [useSchedule.schedules]);
 
   const onItemPressed = (item: ISchedule) => () =>
     navigation.push('Market/Schedule/Details', { schedule: item });

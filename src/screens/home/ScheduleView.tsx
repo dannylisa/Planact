@@ -28,7 +28,6 @@ function ScheduleView({id}: ScheduleViewProps) {
     content 
   } = useMemo(()=>styles(theme, color),[theme, color])
 
-  console.log(schedules)
   return (
     <View
       style={[container]}

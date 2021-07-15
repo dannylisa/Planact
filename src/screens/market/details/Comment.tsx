@@ -9,7 +9,6 @@ import { IScheduleComment } from "@/utils/data";
 
 export default function Comment({comment}: {comment: IScheduleComment}){
     const {nickname, content, user_likes, count_likes} = comment;
-    console.log(comment)
     const theme = useTheme();
     const {container, likeContainer} = useMemo(() => styles(theme), [theme])
     const {red} = SpecificColors;

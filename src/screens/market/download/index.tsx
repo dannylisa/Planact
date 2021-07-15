@@ -32,7 +32,7 @@ const COLORS = [
 const Today = new Date();
 const TwoWeeksLater = dayjs().add(14, 'days').toDate();
 
-export default function MarketScheduleDetails({ route }){
+export default function MarketScheduleDetails({ route, navigation }){
     // theme
     const theme = useTheme();
     const { container, header, buttonContainer, 
@@ -138,8 +138,13 @@ export default function MarketScheduleDetails({ route }){
                 schedule_id: schedule.id
             }).then((res) => {
                 Alert.alert("플랜이 다운로드 되었습니다.")
+            }).then(() => {
                 fetchUserSchedule();
-            }).catch((err:AxiosError) => {
+            })
+            .then(() => {
+                navigation.push('Market/Main')
+            })
+            .catch((err:AxiosError) => {
                 if(err.response?.status === 406)
                     Alert.alert("이미 내려받은 스케줄입니다!")
                 else
