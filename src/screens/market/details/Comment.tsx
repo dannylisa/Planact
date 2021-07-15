@@ -4,15 +4,12 @@ import React, { useMemo, useState } from "react"
 import { StyleSheet, TouchableOpacity, View } from "react-native"
 import { Text, Number } from "@components/materials";
 import { AntDesign, FontAwesome } from "@expo/vector-icons";
+import { IScheduleComment } from "@/utils/data";
 
-export interface CommentProps {
-    username: string
-    content: string
-    user_likes: boolean
-    count_likes: number
-}
 
-export default function Comment({username, content, user_likes, count_likes}: CommentProps){
+export default function Comment({comment}: {comment: IScheduleComment}){
+    const {nickname, content, user_likes, count_likes} = comment;
+    console.log(comment)
     const theme = useTheme();
     const {container, likeContainer} = useMemo(() => styles(theme), [theme])
     const {red} = SpecificColors;
@@ -27,7 +24,7 @@ export default function Comment({username, content, user_likes, count_likes}: Co
                 <Text 
                     align="left"
                     bold
-                    content={username}
+                    content={nickname}
                     flex={1}
                     marginBottom={8}
                     headings={2}
@@ -53,7 +50,7 @@ export default function Comment({username, content, user_likes, count_likes}: Co
                     value={
                         user_likes ?
                         (likes ? count_likes : count_likes-1)
-                        : (likes ? count_likes : count_likes+1)
+                        : (likes ? count_likes+1 : count_likes)
                     } 
                     marginHorizontal={8}
                 />

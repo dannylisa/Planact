@@ -5,11 +5,12 @@ import { TextInput as NativeTextInput } from "react-native-gesture-handler";
 import useTheme from "@/modules/theme/hooks";
 
 interface CustomedTextInputProps extends TextInputProps {
-    underlined?: boolean 
+    underlined?: boolean
+    flex?: number
 }
-export default function TextInput ({underlined, onFocus, onBlur, style, ...others}:CustomedTextInputProps){
+export default function TextInput ({underlined, flex, onFocus, onBlur, style, ...others}:CustomedTextInputProps){
     const theme = useTheme();
-    const {main, focused} = useMemo(() => styles(theme, underlined || false), [theme, underlined])
+    const {main, focused} = useMemo(() => styles(theme, underlined || false, flex || 0), [theme, underlined, flex])
     const [focus, setFocus] = useState<boolean>(false);
     const onfocused = (e: NativeSyntheticEvent<TextInputFocusEventData>) => {
         onFocus && onFocus(e);
@@ -32,7 +33,7 @@ export default function TextInput ({underlined, onFocus, onBlur, style, ...other
     )
 }
 
-const styles = ({text, primary:{main}}:DefaultTheme, underlined:boolean) => {
+const styles = ({text, primary:{main}}:DefaultTheme, underlined:boolean, flex?: number) => {
     const mainOps = underlined ? {
         borderBottomColor: '#cfcfcf',
         borderBottomWidth: 1.5,
@@ -56,6 +57,7 @@ const styles = ({text, primary:{main}}:DefaultTheme, underlined:boolean) => {
             paddingLeft: 14,
             paddingRight: 24,
             borderRadius: 2.5,
+            flex: flex
         },
         focused: {
             color: text,

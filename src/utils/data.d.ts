@@ -67,3 +67,12 @@ export interface IDaily {
   date: Dayjs
   events: IUserEvent[]
 }
+
+export interface IScheduleComment {
+  schedule : string
+  nickname : string
+  user_likes: boolean
+  count_likes: number
+  updated_at : Date
+  content : string
+}

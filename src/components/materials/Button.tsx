@@ -15,7 +15,7 @@ interface ButtonProps extends TouchableOpacityProps{
 
 const Button = function({color, flex, disabled, content, style, ...others}:ButtonProps){
     const theme = useSelector(({theme}:GlobalState) => theme);
-    const {container, text} = useMemo(() => styles(theme, color, flex), [color, theme]);
+    const {container, text} = useMemo(() => styles(theme, color, flex || 1), [color, theme]);
   return(
     <TouchableOpacity 
         style={[container, style, {opacity: (disabled ? 0.6 : 1)}]} 
@@ -41,7 +41,7 @@ const styles = (theme:DefaultTheme, color?:ButtonColors, flex?:number) => {
             borderWidth: 0,
             borderRadius: 5,
             padding: 10,
-            flex: flex===undefined ? 1 : flex ,
+            flex: flex,
             ...shadow
         },
         text:{

@@ -3,9 +3,9 @@ import { View, StyleSheet, SafeAreaView, ScrollView, Alert } from "react-native"
 import { DefaultTheme } from "@/style/styled";
 import useTheme from "@/modules/theme/hooks";
 import { Button, Text, TextInput, useThemedStepper } from '@components/materials';
-import { getMarketScheduleEvents, attachSchedule } from "@/api/market/";
+import { getMarketScheduleEvents, attachSchedule, getScheduleComment, createScheduleComment } from "@/api/market/";
 import { useUserState } from "@/modules/auth/hooks";
-import { IEvent, ISchedule } from "@/utils/data";
+import { IEvent, ISchedule, IScheduleComment } from "@/utils/data";
 import { AxiosError, AxiosResponse } from "axios";
 import EventPreview from "./EventPreview";
 import Comment from './Comment';
@@ -19,13 +19,37 @@ interface EventsGroupedByDateOf {
 export default function MarketScheduleDetails({ route, navigation }){
     // theme
     const theme = useTheme();
-    const { container, header, content, stepperWrapper, item, commentContainer, newComment } = useMemo(() => styles(theme), [theme]);
+    const { container, header, content, stepperWrapper, item, commentContainer, newCommentContainer } = useMemo(() => styles(theme), [theme]);
     
     // Get Detail Data from api
     const { getToken } = useUserState();
     const schedule:ISchedule = route.params.schedule;
     const [schedulePreviewEvents, setSchedulePreviewEvents] = useState<EventsGroupedByDateOf[]>([]);
     const [stepperSize, setStepperSize] = useState<number>(3);
+
+    // Comments
+    const [newComment, setNewComment] = useState<string>('');
+    const [comments, setComments] = useState<IScheduleComment[]>([]);
+    const resetComments = async () => {
+        const token = await getToken();
+        if(!token) return;
+        await getScheduleComment(token, schedule.id)
+            .then((res:AxiosResponse<IScheduleComment[]>) => {
+                setComments(res.data)
+            }).catch((err:AxiosError) => Alert.alert("서버 오류입니다."));
+    }
+    const createComment = async () => {
+        const token = await getToken();
+        if(!token) return;
+        if(!newComment) return Alert.alert("댓글을 입력해주세요.")
+        await createScheduleComment(token, schedule.id, newComment)
+            .then((res:AxiosResponse<IScheduleComment[]>) => {
+                resetComments()
+            }).catch((err:AxiosError) => {
+                console.log(err.message)
+                Alert.alert("서버 오류입니다.")
+            });
+    }
 
     // Stepper Setting
     const {StepperGetter, active} = useThemedStepper({size: stepperSize});
@@ -35,24 +59,21 @@ export default function MarketScheduleDetails({ route, navigation }){
     // Initial Setting
     useEffect(() => {
         (async () => {
-            if(+schedule <= 0) return;
             const token = await getToken();
             if(!token) return;
-            await getMarketScheduleEvents(schedule.id, token)
+            await getMarketScheduleEvents(token, schedule.id)
                 .then((res:AxiosResponse<EventsGroupedByDateOf[]>) => {
                     setSchedulePreviewEvents(res.data)
                     setStepperSize(Math.min(res.data.length, 5))
                 })
                 .catch((err:AxiosError) => console.log(err))
-        })()
+        })();
+        resetComments();
     }, [schedule])
 
 
-    const onDownload = () => {
-        navigation.push('Market/Schedule/Download', {
-            schedule
-        })
-    }
+    const onDownload = () => navigation.push('Market/Schedule/Download', {schedule})
+
     return(
         <SafeAreaView style={{flex: 1}}>
             <ScrollView style={container}>
@@ -109,30 +130,28 @@ export default function MarketScheduleDetails({ route, navigation }){
                         content="댓글"
                         marginBottom={10}
                     />
-                    <Comment 
-                        username="수영"
-                        user_likes={true}
-                        count_likes={5}
-                        content="시작합니다!"
-                    />
-                    <Comment 
-                        username="수영"
-                        user_likes={true}
-                        count_likes={5}
-                        content="시작합니다!"
-                    />
-                    <Comment 
-                        username="수영"
-                        user_likes={true}
-                        count_likes={5}
-                        content="시작합니다!"
-                    />
+                    {
+                        comments.map((comment, idx) => (
+                            <Comment comment={comment} key={idx}/>
+                        ))
+                    }
                 </View>
             </ScrollView>
-            <View style={newComment}>
+            <View style={newCommentContainer}>
                 <TextInput
+                    flex={4}
+                    underlined
                     placeholder="댓글을 입력하세요!"
+                    value={newComment}
+                    onChangeText={setNewComment}
                 />
+                <View style={{padding: 5, flex: 1}}>
+                    <Button
+                    color="primary"
+                    content="입력"
+                    onPress={createComment}
+                    />
+                </View>
             </View>
         </SafeAreaView>
     )
@@ -172,8 +191,9 @@ const styles = ({mainBackground}:DefaultTheme) => StyleSheet.create({
     commentContainer: {
         marginTop: 10
     },
-    newComment:{
+    newCommentContainer:{
         position: "absolute",
+        flexDirection: "row",
         bottom: 0,
         height: 80,
         width: "100%",
