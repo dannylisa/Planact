@@ -1,6 +1,6 @@
 import useTheme from "@/modules/theme/hooks";
 import React from "react";
-import useStepper, {UseStepperProps} from "./useStepper";
+import useStepper, {UseStepperProps} from "../useStepper";
 
 const useThemedStepper = (props:UseStepperProps) => {
     const {size, activeStepColor, doneStepColor, todoStepColor, accentOnlyActive, doneBarColor, todoBarColor} = props;

@@ -1,20 +1,26 @@
 import React, { useState } from "react";
-import { Ionicons } from '@expo/vector-icons'
+import { Entypo, Ionicons } from '@expo/vector-icons'
 import { Alert, Platform, TouchableOpacity, View } from "react-native";
 import { StyleSheet } from "react-native";
 import { ProofProps } from ".";
 import { SpecificColors } from "@/modules/theme/hooks";
 import * as ImagePicker from 'expo-image-picker';
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
     container:{
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between"
+    },
+    checkmark:{
+        position: "absolute",
+        right: -10, 
+        top: -5,
+        fontWeight: "900"
     }
 })
-export default function({userevent_id, updateProof, proof}:ProofProps){
 
+export default function({userevent_id, updateProof, proof}:ProofProps){
     const update = async (photo: string) => {
         if(!photo) 
             return;
@@ -57,20 +63,26 @@ export default function({userevent_id, updateProof, proof}:ProofProps){
         
     }
 
-    const { container } = style;
+    const { container, checkmark } = styles;
 
     const {blue, red} = SpecificColors;
     return (
-        <View style={container}>
+        <View >
             {
-                proof ?
-                <TouchableOpacity onPress={onPress} style={{flexDirection: "row"}}>
-                    <Ionicons name="ios-camera-outline" size={26} color={blue} />
-                    <Ionicons name="checkmark-outline" size={26} color={blue} />
-                </TouchableOpacity>
-                :
-                <TouchableOpacity onPress={onPress}>
-                    <Ionicons name="ios-camera-outline" size={26} color={red} />
+                <TouchableOpacity onPress={onPress} style={container}>
+                    {proof ?
+                        <>
+                            <Ionicons name="ios-camera-outline" size={26} color={blue} />
+                            <Entypo
+                                style={styles.checkmark}
+                                name="check" 
+                                size={16} 
+                                color={blue} 
+                            />                       
+                        </>
+                        :
+                        <Ionicons name="ios-camera-outline" size={26} color={red} />
+                    }
                 </TouchableOpacity>
             }
         </View>

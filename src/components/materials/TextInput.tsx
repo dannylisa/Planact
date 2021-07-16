@@ -21,7 +21,6 @@ export default function TextInput ({underlined, flex, onFocus, onBlur, style, ..
         setFocus(false);
     }
 
-
     return (
         <NativeTextInput 
             style={ focus ? [main, focused, style] : [main, style]} 
@@ -53,7 +52,8 @@ const styles = ({text, primary:{main}}:DefaultTheme, underlined:boolean, flex?: 
             color: text,
             fontSize: 18,
             fontWeight: "600",
-            paddingVertical: 10,
+            paddingTop: 10,
+            paddingBottom: 10,
             paddingLeft: 14,
             paddingRight: 24,
             borderRadius: 2.5,

@@ -3,8 +3,8 @@ import { StyleSheet, View } from 'react-native'
 import { GroupedEvent } from '@/utils/data'
 import { DefaultTheme } from '@/style/styled'
 import useTheme, { shadow, isLight } from '@modules/theme/hooks'
-import EventDetails from './EventDetails'
 import { CircleMenuItem } from '@/components/materials'
+import EventItem from './EventItem'
 
 function ToggleEventList(props: GroupedEvent) {
   const { schedule:{schedule:{name}, alias, color}, events } = props
@@ -26,7 +26,7 @@ function ToggleEventList(props: GroupedEvent) {
       {show && (
         <View>
           {events.map((event, idx) => (
-            <EventDetails userevent_id={event.id} key={idx} />
+            <EventItem userevent_id={event.id} key={idx} />
           ))}
         </View>
       )}

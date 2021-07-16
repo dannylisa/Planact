@@ -3,10 +3,12 @@ import React from 'react'
 import Home from '@/screens/home'
 import { createStackNavigator } from '@react-navigation/stack'
 import dayjs from 'dayjs'
+import EventDetails from '@/screens/home/details'
 
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
 type HomeParamList = {
   Home: undefined
+  "Event/Details": undefined
 }
 const HomeStack = createStackNavigator<HomeParamList>()
 
@@ -17,6 +19,17 @@ function HomeNavigator() {
       <HomeStack.Screen
         name="Home"
         component={Home}
+        options={{
+          headerTitle: 'PLANACT',
+          headerTitleStyle: {
+            fontWeight: '800',
+            fontSize: 20,
+          },
+        }}
+      />
+      <HomeStack.Screen
+        name="Event/Details"
+        component={EventDetails}
         options={{
           headerTitle: 'PLANACT',
           headerTitleStyle: {

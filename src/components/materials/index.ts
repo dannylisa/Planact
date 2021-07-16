@@ -4,6 +4,7 @@ export {default as Number} from "./Number";
 export {default as TextButton} from "./TextButton";
 export {default as TextInput} from "./TextInput";
 export {default as MenuItem} from "./MenuItem";
+export {default as Youtube} from "./Youtube";
 export {default as CircleMenuItem} from "./CircleMenuItem";
 export {default as SearchInput} from "./SearchInput";
 export {default as useThemedStepper} from "./useThemedStepper";

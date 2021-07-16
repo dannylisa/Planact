@@ -6,4 +6,8 @@ export {
     getScheduleComment,
     updateScheduleComment,
     deleteScheduleComment
-} from "./scheduleComment"
+} from "./scheduleComment";
+export {
+    toggleScheduleLike,
+    toggleScheduleCommentLike
+} from "./likes"

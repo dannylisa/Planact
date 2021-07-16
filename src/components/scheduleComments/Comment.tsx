@@ -5,15 +5,22 @@ import { StyleSheet, TouchableOpacity, View } from "react-native"
 import { Text, Number } from "@components/materials";
 import { AntDesign, FontAwesome } from "@expo/vector-icons";
 import { IScheduleComment } from "@/utils/data";
+import { toggleScheduleCommentLike } from "@/api/market";
+import { useUserState } from "@/modules/auth/hooks";
 
 
 export default function Comment({comment}: {comment: IScheduleComment}){
-    const {nickname, content, user_likes, count_likes} = comment;
+    const {id, nickname, content, user_likes, count_likes} = comment;
     const theme = useTheme();
     const {container, likeContainer} = useMemo(() => styles(theme), [theme])
     const {red} = SpecificColors;
     const [likes, setLikes] = useState<Boolean>(user_likes);
-    const toggleLike = () => {
+    const {getToken} = useUserState();
+
+    const toggleLike = async () => {
+        const token = await getToken();
+        if(token)
+            toggleScheduleCommentLike(token, id);
         setLikes(prev => !prev)
     }
 

@@ -69,6 +69,7 @@ export interface IDaily {
 }
 
 export interface IScheduleComment {
+  id: string
   schedule : string
   nickname : string
   user_likes: boolean

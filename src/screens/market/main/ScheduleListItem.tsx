@@ -7,7 +7,7 @@ import { useMemo } from "react"
 import useTheme from "@/modules/theme/hooks"
 import { Text, TextButton } from "@components/materials"
 import { AntDesign } from "@expo/vector-icons"
-import toggleScheduleLike from "@/api/market/toggleScheduleLike"
+import toggleScheduleLike from "@/api/market/likes"
 import { useUserState } from "@/modules/auth/hooks"
 
 interface ScheduleListItemProps {
