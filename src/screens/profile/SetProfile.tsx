@@ -8,7 +8,6 @@ import Text from '@/components/materials/Text';
 import { useProfile, useUserState } from '@/modules/auth/hooks';
 import { UserProfile } from '@/modules/auth/reducer';
 import { Button } from '@components/materials';
-import { platform } from 'node:os';
 
 function SetProfile({ route }) {
   const theme = useTheme();

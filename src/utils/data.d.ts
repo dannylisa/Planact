@@ -9,6 +9,7 @@ export interface ISchedule {
   id: int
   name: string
   abb: string
+  count_events: number
   user_likes: boolean | null
   count_likes: number | null
   has_attached: boolean | null
@@ -27,6 +28,7 @@ export interface IUserSchedule {
   start_date: string
   end_date: string
   color: string
+  achievement: number
 }
 
 type proofType = "NONE" | 'BOOLEAN'| 'SCORE'| 'STAR'| 'PHOTO'| 'DIARY'

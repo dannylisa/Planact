@@ -5,9 +5,9 @@ import { shadow, SpecificColors } from "@modules/theme/hooks"
 import { DefaultTheme } from "@/style/styled"
 import { useMemo } from "react"
 import useTheme from "@/modules/theme/hooks"
-import { Text, TextButton } from "@components/materials"
+import { Text } from "@components/materials"
 import { AntDesign } from "@expo/vector-icons"
-import toggleScheduleLike from "@/api/market/likes"
+import {toggleScheduleLike} from "@/api/market"
 import { useUserState } from "@/modules/auth/hooks"
 
 interface ScheduleListItemProps {

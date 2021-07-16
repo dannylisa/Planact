@@ -9,6 +9,7 @@ export default function () {
     const theme = useTheme()
     const { container, title } = useMemo(() => styles(theme), [theme]);
     const { schedules } = useUserSchedule();
+    console.log(schedules)
     return (
         <SafeAreaView style={container}>
             <View>

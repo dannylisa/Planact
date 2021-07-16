@@ -27,7 +27,7 @@ export default function ScheduleComments ({schedule_id, comments, resetComments,
                 content="댓글"
                 marginBottom={10}
             />
-            {!comments.length?
+            {comments.length?
                 comments.map((comment, idx) => (
                     <Comment comment={comment} key={idx}/>
                 ))

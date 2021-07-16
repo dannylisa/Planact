@@ -3,7 +3,7 @@ import { DefaultTheme } from "@/style/styled";
 import React, { useMemo, useState } from "react"
 import { StyleSheet, TouchableOpacity, View } from "react-native"
 import { Text, Number } from "@components/materials";
-import { AntDesign, FontAwesome } from "@expo/vector-icons";
+import { FontAwesome } from "@expo/vector-icons";
 import { IScheduleComment } from "@/utils/data";
 import { toggleScheduleCommentLike } from "@/api/market";
 import { useUserState } from "@/modules/auth/hooks";
