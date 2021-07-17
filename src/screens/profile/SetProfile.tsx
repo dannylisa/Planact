@@ -11,11 +11,15 @@ import { Button } from '@components/materials';
 
 function SetProfile({ route }) {
   const theme = useTheme();
-  const { container, item, genderButtonContainer, wrapper } = React.useMemo(
-    () => styles(theme),
-    [theme]
-  );
-
+  const {
+    container,
+    item,
+    item_and,
+    genderButtonContainer,
+    wrapper,
+    wrapper_and,
+  } = React.useMemo(() => styles(theme), [theme]);
+  const isAnd = Platform.OS === 'android';
   //다른 컴포넌트에서 navigation으로 올 때 버튼 text 전달
   //ex) 가입하기 or 프로필 변경
 
@@ -69,8 +73,8 @@ function SetProfile({ route }) {
     Platform.OS === 'android' ? KeyboardAwareScrollView : SafeAreaView;
   return (
     <Wrapper style={container}>
-      <View style={wrapper}>
-        <View style={item}>
+      <View style={[wrapper, isAnd && wrapper_and]}>
+        <View style={[item, isAnd && item_and]}>
           <Text
             bold
             headings={1}
@@ -78,11 +82,11 @@ function SetProfile({ route }) {
             align="left"
           />
         </View>
-        <View style={item}>
+        <View style={[item, isAnd && item_and]}>
           <Text content="별명" align="left" />
           <TextInput underlined onChangeText={setNickname} value={nickname} />
         </View>
-        <View style={item}>
+        <View style={[item, isAnd && item_and]}>
           <Text content="성별" align="left" />
           <View style={genderButtonContainer}>
             <Button
@@ -100,13 +104,18 @@ function SetProfile({ route }) {
             />
           </View>
         </View>
-        <View style={item}>
+        <View style={[item, isAnd && item_and]}>
           <Text content="이메일" align="left" />
           <TextInput underlined onChangeText={setEmail} value={email} />
         </View>
-        <View style={item}>
+        <View style={[item, isAnd && item_and]}>
           <Text content="전화번호" align="left" />
-          <TextInput underlined onChangeText={setTel} value={tel} />
+          <TextInput
+            underlined
+            onChangeText={setTel}
+            value={tel}
+            placeholder="숫자만 입력해주세요."
+          />
         </View>
         <View style={[item, { height: 90 }]}>
           <Button
@@ -124,6 +133,7 @@ function SetProfile({ route }) {
 //TODO: 가입하기 수정하기는 닉네임 __init__에 따라서 보여주기
 const styles = (theme: DefaultTheme) => {
   const { content, text, mainBackground, primary } = theme;
+
   return StyleSheet.create({
     container: {
       backgroundColor: mainBackground,
@@ -134,8 +144,14 @@ const styles = (theme: DefaultTheme) => {
       flex: 1,
       paddingTop: 50,
     },
+    wrapper_and: {
+      paddingTop: 10,
+    },
     item: {
       marginBottom: 40,
+    },
+    item_and: {
+      marginBottom: 15,
     },
     genderButtonContainer: {
       flexDirection: 'row',

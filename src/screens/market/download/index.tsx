@@ -8,6 +8,7 @@ import {
   ScrollView,
   Alert,
   TouchableOpacity,
+  Platform,
 } from 'react-native';
 import dayjs from 'dayjs';
 import { DefaultTheme } from '@/style/styled';
@@ -211,7 +212,7 @@ export default function MarketScheduleDetails({ route, navigation }) {
           bold
           headings={1}
           align="left"
-          content="  플랜에 붙일 이름을 입력해주세요."
+          content="  플랜 이름 설정"
           marginBottom={3}
         />
         <TextInput underlined value={alias} onChangeText={setAlias} />
@@ -391,15 +392,17 @@ export default function MarketScheduleDetails({ route, navigation }) {
         visible={intervalSelectionVisible}
         hide={toggleIntervalSelectionVisible}
       />
-      <DateTimePickerModal
-        value={date}
-        onChange={setDate}
-        mode="date"
-        visible={datepickerVisible}
-        hide={toggleDatepickerVisible}
-        minimumDate={Today}
-        maximumDate={TwoWeeksLater}
-      />
+      {Platform.OS === 'ios' && (
+        <DateTimePickerModal
+          value={date}
+          onChange={setDate}
+          mode="date"
+          visible={datepickerVisible}
+          hide={toggleDatepickerVisible}
+          minimumDate={Today}
+          maximumDate={TwoWeeksLater}
+        />
+      )}
     </SafeAreaView>
   );
 }
