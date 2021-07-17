@@ -3,7 +3,12 @@ import { IUserSchedule } from "@/utils/data";
 import { AxiosError, AxiosResponse } from "axios";
 import { Dispatch, useState } from "react";
 import { useDispatch, useSelector } from "react-redux"
-import { UserScheduleAction, USER_SCHEDULES_FETCH, USER_SCHEDULES_SHOULD_FETCH_SIGNAL } from "./reducer";
+import { 
+    UserScheduleAction, 
+    USER_SCHEDULES_ACHIEVEMENT_UPDATE, 
+    USER_SCHEDULES_FETCH, 
+    USER_SCHEDULES_SHOULD_FETCH_SIGNAL 
+} from "./reducer";
 import { GlobalState } from "../index"
 import { useUserState } from "../auth/hooks";
 
@@ -35,11 +40,22 @@ export const useUserSchedule = () => {
         return schedules.find((schedule) => schedule.schedule.id === schedule_id)
     }
 
+    const updateAchievement = (userschedule_id:string, changedProof:number) => {
+        dispatch({
+            type: USER_SCHEDULES_ACHIEVEMENT_UPDATE, 
+            proofChanges:{
+                userschedule_id,
+                value: changedProof
+            }
+        })
+    }
+
     return {
         shouldFetch,
         schedules,
         fetchUserSchedule,
         setShouldFetchTrue,
-        getScheduleById
+        getScheduleById,
+        updateAchievement
     }
 }

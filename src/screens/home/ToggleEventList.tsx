@@ -7,7 +7,7 @@ import { CircleMenuItem } from '@/components/materials'
 import EventItem from './EventItem'
 
 function ToggleEventList(props: GroupedEvent) {
-  const { schedule:{schedule:{name}, alias, color}, events } = props
+  const { schedule:{id, schedule:{name}, alias, color}, events } = props
 
   const theme = useTheme();
   const {
@@ -26,7 +26,11 @@ function ToggleEventList(props: GroupedEvent) {
       {show && (
         <View>
           {events.map((event, idx) => (
-            <EventItem userevent_id={event.id} key={idx} />
+            <EventItem
+              userschedule_id={id}
+              userevent_id={event.id} 
+              key={idx} 
+            />
           ))}
         </View>
       )}

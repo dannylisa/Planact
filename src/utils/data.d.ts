@@ -19,7 +19,8 @@ export interface ISchedule {
   description: string
   thumbnail: string
   fixed: Fixables
-  price: int
+  price: number
+  downloads: number
 }
 export interface IUserSchedule {
   schedule: ISchedule

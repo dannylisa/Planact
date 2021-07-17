@@ -6,17 +6,17 @@ import FormData from 'form-data'
 
 export interface UpdateProofAPIProps {
     token: ITokenHeader
+    userschedule_id: string
     userevent_id: string
     proof: number
     photo?: string
     diary?: string
 }
-export default async function updateProof_api({token, userevent_id, photo, ...rest}:UpdateProofAPIProps){
-    const api = `${APP_BASE_URL}user/event/proof/${userevent_id}`;
+export default async function updateProof_api({token, userschedule_id, userevent_id, photo, ...rest}:UpdateProofAPIProps){
+    const api = `${APP_BASE_URL}user/event/proof/${userschedule_id}/${userevent_id}`;
     if(photo){
         const fd = new FormData();
         //FormData에 key, value 추가하기
-        fd.append('userevent_id', userevent_id)
         fd.append('proof', "1")
         fd.append('photo', {
             uri: photo,

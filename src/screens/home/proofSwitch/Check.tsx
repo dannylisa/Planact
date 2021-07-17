@@ -12,12 +12,14 @@ const style = StyleSheet.create({
         justifyContent: "space-between"
     }
 })
-export default function({userevent_id, updateProof, proof}:ProofProps){
+export default function({userschedule_id, userevent_id, updateProof, proof}:ProofProps){
     const { container } = style;
     const update = async (newProof: number) => {
         await updateProof({
+            userschedule_id,
             userevent_id,
             proof:newProof,
+            prev_proof: proof,
         }).then((res) => null)
         .catch((err) => Alert.alert("오류입니다."))
     }
@@ -45,21 +47,18 @@ export default function({userevent_id, updateProof, proof}:ProofProps){
         <View style={container}>
             {
                 proof === null ?
-                <>
                 <TouchableOpacity onPress={onPress}>
                     <Feather name="square" size={26} color="#888" />
                 </TouchableOpacity>
-                </>
                 :
-                proof ?
+                Number(proof) ?
                 <TouchableOpacity onPress={onPress}>
                     <Feather name="check-square" size={26} color={blue} />
                 </TouchableOpacity>
                 :
-                !proof ?
                 <TouchableOpacity onPress={onPress}>
                     <Feather name="x-square" size={26} color={red}/>
-                </TouchableOpacity>  : <></>
+                </TouchableOpacity> 
             }
         </View>
     )

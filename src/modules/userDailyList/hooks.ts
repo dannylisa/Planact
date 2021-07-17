@@ -6,6 +6,7 @@ import { DailyFetchedProps, DAILY_FETCH_INITIAL, DAILY_FETCH_NEXT, DAILY_FETCH_P
 import { GlobalState } from "..";
 import { useUserState } from "../auth/hooks";
 import updateProof_api from "@/api/home/updateProof";
+import { useUserSchedule } from "../userSchedule/hooks";
 
 export function useDailyList(){
     const dispatch:Dispatch<UserDailyListAction> = useDispatch();
@@ -68,14 +69,17 @@ export function useDailyList(){
 }
 
 export interface UpdateProofProps {
+    userschedule_id: string
     userevent_id: string
     proof: number
+    prev_proof: number | null
     diary?: string
     photo?: string
 }
 export function useDailyUpdate(){
     const { getToken } = useUserState();
     const { getSelectedDaily } = useDailyList();
+    const { updateAchievement } = useUserSchedule();
     const dispatch:Dispatch<UserDailyListAction> = useDispatch();
 
     const getEventOfDailyById = (userevent_id:string) => {
@@ -83,16 +87,19 @@ export function useDailyUpdate(){
         return daily.events.find(event => event.id === userevent_id)
     }
 
-    const updateProof = async (props:UpdateProofProps) => {
+    const updateProof = async ({prev_proof, ...props}:UpdateProofProps) => {
         const token = await getToken();
         if(!token) return false;
         let succeed:boolean = false
-
         await updateProof_api({...props, token})
             .then((res:AxiosResponse) => {
                 dispatch({type: DAILY_UPDATE_PROOF, updatedDailyInfo: props})
                 succeed = true
             })
+            .then(() => updateAchievement(
+                props.userschedule_id, 
+                +Boolean(props.proof) - (+Boolean(prev_proof))
+            ))
             .catch((err:AxiosError) => {
                 console.log(err.response?.data)
             })

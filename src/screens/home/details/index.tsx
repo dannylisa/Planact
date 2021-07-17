@@ -30,6 +30,7 @@ export default function EventDetails({route}){
     const {comments, resetComments, createComment} = useScheduleComments(schedule);
     const checkset: ProofSwitchProps = {
         proof_type,
+        userschedule_id:user_schedule?.id || "-1",
         userevent_id,
         updateProof,
         proof,
@@ -48,8 +49,10 @@ export default function EventDetails({route}){
             return toggleDiaryMode();
 
         updateProof({
+            userschedule_id:user_schedule?.id || "-1",
             userevent_id,
             proof:1,
+            prev_proof: proof,
             diary:newDiary
         });
 
@@ -81,10 +84,7 @@ export default function EventDetails({route}){
                         marginBottom={10}
                     />
                     <GaugeBar 
-                        num={
-                            (user_schedule?.achievement || 0)
-                            + (+Boolean(proof)-initialProof)
-                        }
+                        num={user_schedule?.achievement || 0}
                         denom={(user_schedule?.schedule.count_events || 1)} />
                 </View>
 
@@ -176,7 +176,7 @@ const styles = (theme: DefaultTheme) => {
             paddingBottom: 80
         },
         header:{
-            padding: 18,
+            padding: 12,
         },
         contentWrapper:{
             padding: 20,

@@ -8,6 +8,7 @@ import Photo from "./Photo"
 import Score from "./Score"
 
 export interface ProofProps {
+    userschedule_id: string
     userevent_id: string
     updateProof: (props: UpdateProofProps) => Promise<boolean>
     proof: number | null
@@ -41,8 +42,12 @@ export default function ProofSwitch ({proof_type, flex, ...props}:ProofSwitchPro
 }
 
 export const proofMessage = (proof_type:proofType):string[] => {
-    const res = ['일정을 완료하셨나요? 완료 체크를 눌러주세요!', '완료한 일정입니다.'];
+    const res = ['일정을 완료하셨나요? 체크를 눌러주세요!', '완료한 일정입니다.'];
     switch (proof_type) {
+        case "SCORE":
+            res[0] = "기록을 남겨주세요!";
+            res[1] = "기록이 작성되었습니다!";
+            return res;
         case "DIARY":
             res[0] = "오늘의 일정을 기록으로 남겨주세요!";
             res[1] = "기록이 작성되었습니다!";

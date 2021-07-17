@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     }
 })
 
-export default function ({userevent_id, proof}:ProofProps) {
+export default function ({userschedule_id, userevent_id, proof}:ProofProps) {
     const navigation = useNavigation();
     const toDetails = () => navigation.navigate('Event/Details', {userevent_id});
 

@@ -8,7 +8,7 @@ import ProofSwitch, { ProofSwitchProps } from "./proofSwitch";
 import { Feather } from "@expo/vector-icons";
 import { useNavigation } from '@react-navigation/native';
 
-const EventItem = ({userevent_id}:{userevent_id:string}) => {
+const EventItem = ({userschedule_id, userevent_id}:{userschedule_id:string, userevent_id:string}) => {
     const { getEventOfDailyById, updateProof } = useDailyUpdate()
     const userevent = getEventOfDailyById(userevent_id)
 
@@ -19,6 +19,7 @@ const EventItem = ({userevent_id}:{userevent_id:string}) => {
     const {id, event: {seq, title, proof_type, origin_time}, proof, diary, photo} = userevent;
     const checkset: ProofSwitchProps = {
         proof_type,
+        userschedule_id,
         userevent_id,
         updateProof,
         proof,

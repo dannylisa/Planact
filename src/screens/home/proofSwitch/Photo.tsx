@@ -20,13 +20,15 @@ const styles = StyleSheet.create({
     }
 })
 
-export default function({userevent_id, updateProof, proof}:ProofProps){
+export default function({userschedule_id, userevent_id, updateProof, proof}:ProofProps){
     const update = async (photo: string) => {
         if(!photo) 
             return;
         await updateProof({
+            userschedule_id,
             userevent_id,
             proof:1,
+            prev_proof: proof,
             photo
         }).then((res) => null)
         .catch((err) => Alert.alert("오류입니다."))
