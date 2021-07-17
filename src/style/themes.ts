@@ -36,7 +36,7 @@ const light_orange: DefaultTheme = {
   disabled: '#000000aa',
   primary: {
     main: '#ff9425',
-    text: `#fff`,
+    text: '#ffffff',
     border: 'transparent',
   },
   secondary: {
@@ -45,7 +45,7 @@ const light_orange: DefaultTheme = {
     border: 'transparent',
   },
   ghost: {
-    main: '#fff',
+    main: '#ffffff',
     text: '#ff9425',
     border: '#ffffff00',
     // border: '#000000',
@@ -55,7 +55,7 @@ const light_orange: DefaultTheme = {
 const dark_orange: DefaultTheme = {
   mode_name: 'theme/dark/orange',
   mainBackground: '#121212',
-  content: '#333',
+  content: '#303030',
   border: '#707789',
   text: '#dedede',
   title: `rgba(255,255,255,0.85)`,
@@ -87,16 +87,16 @@ const light_luigi: DefaultTheme = {
   disabled: '#000000aa',
   primary: {
     main: '#7ace67',
-    text: `#fff`,
+    text: '#ffffff',
     border: 'transparent',
   },
   secondary: {
     main: '#ffe3b3',
-    text: '#777',
+    text: '#707070',
     border: 'transparent',
   },
   ghost: {
-    main: '#fff',
+    main: '#ffffff',
     text: '#7ace67',
     border: '#ffffff00',
     // border: '#000000',
@@ -114,7 +114,7 @@ const light_cove: DefaultTheme = {
   disabled: '#000000aa',
   primary: {
     main: '#2a9df4',
-    text: `#fff`,
+    text: '#ffffff',
     border: 'transparent',
   },
   secondary: {
@@ -123,7 +123,7 @@ const light_cove: DefaultTheme = {
     border: 'transparent',
   },
   ghost: {
-    main: '#fff',
+    main: '#ffffff',
     text: '#2a9df4',
     border: '#ffffff00',
     // border: '#000000',

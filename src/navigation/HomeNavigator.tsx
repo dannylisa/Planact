@@ -20,6 +20,7 @@ function HomeNavigator() {
         name="Home"
         component={Home}
         options={{
+          headerShown:false,
           headerTitle: 'PLANACT',
           headerTitleStyle: {
             fontWeight: '800',

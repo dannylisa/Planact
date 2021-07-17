@@ -85,17 +85,20 @@ export default function () {
                         width={Dimensions.get('screen').width*0.95}
                         height={220}
                         chartConfig={{
-                            backgroundColor:theme.primary.main+"66",
-                            backgroundGradientFrom: theme.primary.main+"00",
-                            backgroundGradientTo: theme.primary.main+"00",
-                            decimalPlaces: 2, // optional, defaults to 2dp
-                            color: (opacity = 1) => theme.primary.text,
-                            // color: (opacity = 1) => theme.primary.text,
+                            backgroundColor:theme.primary.main,
+                            backgroundGradientFrom: theme.primary.main,
+                            backgroundGradientFromOpacity: 1,
+                            backgroundGradientTo: theme.primary.main,
+                            backgroundGradientToOpacity: 0.85,
+                            decimalPlaces: 0, // optional, defaults to 2dp
+                            color: (opacity = 1) => (
+                                theme.primary.text
+                            ),
                         }}
                         bezier
                         fromZero
                         style={{
-                            borderRadius: 16
+                            borderRadius: 16,
                         }}
                     />
                 </View>

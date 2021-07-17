@@ -16,6 +16,7 @@ import { useUserState } from '@/modules/auth/hooks';
 import ScheduleListItem from './ScheduleListItem';
 import { useUserSchedule } from '@/modules/userSchedule/hooks';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { useNavigation } from '@react-navigation/native';
 
 const styles = (theme: DefaultTheme) => {
   return StyleSheet.create({
@@ -37,7 +38,9 @@ const styles = (theme: DefaultTheme) => {
   });
 };
 
-function MarketMain({ navigation }) {
+function MarketMain() {
+  const navigation = useNavigation()
+  
   const theme = useTheme();
   const { getToken } = useUserState();
   const { container, title, listItemWrapper } = useMemo(() => {
@@ -61,7 +64,7 @@ function MarketMain({ navigation }) {
   }, [useSchedule.schedules]);
 
   const onItemPressed = (item: ISchedule) => () =>
-    navigation.push('Market/Schedule/Details', { schedule: item });
+    navigation.navigate('Market/Schedule/Details', { schedule: item });
   const renderItem = ({ item }: { item: ISchedule }) => {
     return <ScheduleListItem onPress={onItemPressed(item)} schedule={item} />;
   };

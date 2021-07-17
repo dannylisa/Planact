@@ -1,7 +1,7 @@
 import useTheme from '@/modules/theme/hooks';
 import { DefaultTheme } from '@/style/styled';
 import React, { useEffect, useState } from 'react';
-import { Alert, Platform, SafeAreaView, StyleSheet, View } from 'react-native';
+import { Alert, Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
 import TextInput from '@/components/materials/TextInput';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Text from '@/components/materials/Text';
@@ -47,15 +47,20 @@ function SetProfile({ route }) {
   }, []);
 
   const onPress = () => {
-    if (!nickname) return Alert.alert('별명을 입력해주세요!');
-    if (!gender) return Alert.alert('성별을 선택해주세요!');
+    if (!nickname) 
+      return Alert.alert('별명을 입력해주세요!');
+    if (!gender) 
+      return Alert.alert('성별을 선택해주세요!');
     // 전화번호 에러 처리
-    if (!tel) return Alert.alert('전화번호를 입력해주세요!');
-    const retel = /^\d{11}$/;
-    if (!retel.test(tel)) return Alert.alert('전화번호 형식이 잘못되었습니다.');
-    var regEmail =
+    if (!tel) 
+      return Alert.alert('전화번호를 입력해주세요!');
+    const regtel = /^\d{11}$/;
+    if (!regtel.test(tel)) 
+      return Alert.alert('전화번호 형식이 잘못되었습니다.');
+    const regEmail =
       /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-    if (!email) return Alert.alert('이메일 주소를 입력해주세요!');
+    if (!email) 
+      return Alert.alert('이메일 주소를 입력해주세요!');
     if (!regEmail.test(email))
       return Alert.alert('이메일 형식이 잘못되었습니다.');
 
@@ -74,7 +79,7 @@ function SetProfile({ route }) {
     Platform.OS === 'android' ? KeyboardAwareScrollView : SafeAreaView;
   return (
     <Wrapper style={container}>
-      <View style={[wrapper, isAnd && wrapper_and]}>
+      <ScrollView style={[wrapper, isAnd && wrapper_and]}>
         <View style={[item, isAnd && item_and]}>
           <Text bold headings={1} content={`${username}님,`} align="left" />
           <Text
@@ -128,7 +133,7 @@ function SetProfile({ route }) {
             style={item}
           />
         </View>
-      </View>
+      </ScrollView>
     </Wrapper>
   );
 }
@@ -142,9 +147,8 @@ const styles = (theme: DefaultTheme) => {
       flex: 1,
     },
     wrapper: {
-      padding: 32,
+      padding: 24,
       flex: 1,
-      paddingTop: 50,
     },
     wrapper_and: {
       paddingTop: 10,

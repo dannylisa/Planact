@@ -14,6 +14,7 @@ import { GlobalState } from '@/modules'
 import Auth from '@/screens/Auth/Auth'
 import SetProfile from '@/screens/profile/SetProfile'
 import { useUserState } from '@/modules/auth/hooks'
+import { StatusBar, StatusBarIOS } from 'react-native'
 
 export default function Navigation() {
   const theme = useTheme()
