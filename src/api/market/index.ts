@@ -11,3 +11,4 @@ export {
     toggleScheduleLike,
     toggleScheduleCommentLike
 } from "./likes"
+export { default as getTrends } from './trends';

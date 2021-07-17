@@ -22,7 +22,10 @@ function MarketNavigator() {
       <MarketStack.Screen
         name="Market/Main"
         component={MarketMain}
-        options={{ headerShown: false }}
+        options={{ 
+          headerShown: false,
+          headerTitle: "마켓"
+        }}
       />
       {/* <MarketStack.Screen
         name="Market/Category"

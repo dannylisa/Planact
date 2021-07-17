@@ -25,9 +25,7 @@ export default function ({
 }: NewCommentProps) {
   const theme = useTheme();
   const { iconButton, newCommentContainer, newCommentContainerANd } = useMemo(
-    () => styles(theme),
-    []
-  );
+    () => styles(theme), [theme]);
   const [comment, setComment] = useState<string>('');
   const create = () => {
     createComment(comment);
@@ -55,7 +53,6 @@ export default function ({
 }
 
 const styles = (theme: DefaultTheme) => {
-  const isAnd = Platform.OS === 'android';
   return StyleSheet.create({
     iconButton: {
       position: 'absolute',

@@ -2,21 +2,20 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import useTheme from '@/modules/theme/hooks';
 import { DefaultTheme } from '@/style/styled';
 import {
+  Alert,
   FlatList,
   Platform,
   SafeAreaView,
   StyleSheet,
   View,
 } from 'react-native';
-import { SearchInput, Text } from '@components/materials';
-import { getMarketSchedulesByCategory } from '@/api/market/';
+import { Button, SearchInput, Text } from '@components/materials';
 import { AxiosError, AxiosResponse } from 'axios';
-import { ISchedule } from '@/utils/data';
 import { useUserState } from '@/modules/auth/hooks';
-import ScheduleListItem from './ScheduleListItem';
-import { useUserSchedule } from '@/modules/userSchedule/hooks';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { useNavigation } from '@react-navigation/native';
+import Category, { CategoryProps } from './Category';
+import { ScrollView } from 'react-native-gesture-handler';
+import { getTrends } from '@/api/market';
 
 const styles = (theme: DefaultTheme) => {
   return StyleSheet.create({
@@ -29,64 +28,85 @@ const styles = (theme: DefaultTheme) => {
       paddingHorizontal: 12,
       marginVertical: 5,
     },
-    listItemWrapper: {
-      flex: 5,
-      paddingHorizontal: 20,
-      justifyContent: 'flex-start',
-      backgroundColor: theme.mainBackground,
+    scroll:{
+      flexGrow: 1,
+      height: 50,
+      paddingVertical: 6,
+    },
+    button: {
+      paddingHorizontal:18,
+      marginRight:10
     },
   });
 };
 
+const initCategory:CategoryProps = {
+  name:"What's New?", 
+  keyword:'all'
+}
 function MarketMain() {
-  const navigation = useNavigation()
-  
   const theme = useTheme();
   const { getToken } = useUserState();
-  const { container, title, listItemWrapper } = useMemo(() => {
-    return styles(theme);
-  }, [theme]);
-  const useSchedule = useUserSchedule();
-  const [schedules, setSchedules] = useState<ISchedule[]>([]);
+  const { container, title, scroll, button } = useMemo(() => styles(theme), [theme]);
+
+  const [Categories, setCategories] = useState<CategoryProps[]>([initCategory])
+  const [categoryIdx, setCategoryIdx] = useState<number>(0);
+  const selectCategory = (idx:number) => () => setCategoryIdx(idx);
+
+  const [search, setSearch] = useState<string>('');
 
   useEffect(() => {
-    (async () => {
-      const token = await getToken();
-      if (!token) return;
+    getToken()
+      .then(
+        token => {
+          if(token) 
+            return getTrends(token)
+          else
+            throw Error
+      })
+      .then(
+        (res:AxiosResponse<CategoryProps[]>) => {
+          setCategories(res.data)
+        })
+      .catch(err => 
+        Alert.alert('서버 점검 중입니다.')
+      )
+  }, [])
 
-      //Fetch Programs
-      await getMarketSchedulesByCategory(token, 'all')
-        .then((res: AxiosResponse<ISchedule[]>) => setSchedules(res.data))
-        .catch((err: AxiosError) => {
-          console.log(err.response);
-        });
-    })();
-  }, [useSchedule.schedules]);
-
-  const onItemPressed = (item: ISchedule) => () =>
-    navigation.navigate('Market/Schedule/Details', { schedule: item });
-  const renderItem = ({ item }: { item: ISchedule }) => {
-    return <ScheduleListItem onPress={onItemPressed(item)} schedule={item} />;
-  };
   const Wrapper =
     Platform.OS === 'android' ? KeyboardAwareScrollView : SafeAreaView;
   return (
     <Wrapper style={container}>
       <View style={title}>
         <SearchInput
-          placeholder="검색어를 입력해주세요."
-          placeholderTextColor={theme.text}
-        />
+            placeholder="검색어를 두 글자 이상 입력해주세요."
+            placeholderTextColor={theme.text}
+            value={search}
+            onChangeText={setSearch}
+          />
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={scroll}
+          >
+            {
+              Categories.map(({name}, idx) => (
+                <Button
+                  style={button}
+                  color={idx === categoryIdx ? "primary" : "ghost"}
+                  content={name}
+                  key={idx}
+                  headings={2}
+                  onPress={selectCategory(idx)}
+                />
+              ))
+            }
+        </ScrollView>
       </View>
-      <FlatList
-        data={[...schedules]}
-        renderItem={renderItem}
-        keyExtractor={useCallback(
-          (item: ISchedule, index: number) => '' + index,
-          []
-        )}
-        contentContainerStyle={listItemWrapper}
-      />
+      <Category
+        search={search}
+         {...Categories[categoryIdx]} 
+        />
     </Wrapper>
   );
 }

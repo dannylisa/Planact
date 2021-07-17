@@ -1,30 +1,4 @@
 import { DefaultTheme } from './styled'
-//e0f4f4 파스텔 하늘색
-// fff3f1 파스텔 주황색
-// f6f5fb 파스텔 보라색
-// fafafa 파스텔 회색
-// 7b89fb 쨍한 파랑보랑
-// fd999b 쨍한 분홍색
-// 49c2ae 쨍한 초록
-// 라이너 색깔 모음
-// #ffff83 노랑
-// #a6ffe9 민트
-// #ffc7ba 주황
-// #d9c3ff 바이올렛
-// #b8dcff 파랑
-// #ffd0ef 핑크
-// #33cac6 버튼색 쨍한 초록
-//팬톤 컬러 초록 계열
-// 9BE3BF 말차색
-// 8FD6BD 더 쨍함
-// 3CDBC0 형광 초록 -> 이 색 좀 괜찮은 듯
-// 8CE2D0 같은 계열 좀 더 연함
-
-// 팬톤 컬러 파랑 계열
-// 59CBE8 형광 파랑
-
-// 팬톤 컬러 연두 계열
-// 93DA49 형광 연두
 
 const light_orange: DefaultTheme = {
   mode_name: 'theme/light/orange',
@@ -32,8 +6,8 @@ const light_orange: DefaultTheme = {
   content: '#fdfdfd',
   border: '#423944',
   text: '#190d31',
-  title: '#000000',
-  disabled: '#000000aa',
+  title: '#121212',
+  disabled: '#121212aa',
   primary: {
     main: '#ff9425',
     text: '#ffffff',
@@ -48,7 +22,7 @@ const light_orange: DefaultTheme = {
     main: '#ffffff',
     text: '#ff9425',
     border: '#ffffff00',
-    // border: '#000000',
+    // border: '#121212',
   },
 }
 
@@ -71,9 +45,9 @@ const dark_orange: DefaultTheme = {
     border: '#464646',
   },
   ghost: {
-    main: `rgba(255,255,255,0)`,
+    main: '#121212',
     text: '#ff9425',
-    border: 'rgba(255,255,255,0)',
+    border: '#121212',
   },
 }
 
@@ -83,8 +57,8 @@ const light_luigi: DefaultTheme = {
   content: '#fdfdfd',
   border: '#423944',
   text: '#190d31',
-  title: '#000000',
-  disabled: '#000000aa',
+  title: '#121212',
+  disabled: '#121212aa',
   primary: {
     main: '#7ace67',
     text: '#ffffff',
@@ -99,10 +73,34 @@ const light_luigi: DefaultTheme = {
     main: '#ffffff',
     text: '#7ace67',
     border: '#ffffff00',
-    // border: '#000000',
+    // border: '#121212',
   },
 }
 
+const dark_luigi: DefaultTheme = {
+  mode_name: 'theme/dark/luigi',
+  mainBackground: '#121212',
+  content: '#303030',
+  border: '#707789',
+  text: '#dedede',
+  title: `rgba(255,255,255,0.85)`,
+  disabled: `rgba(255,255,255,0.25)`,
+  primary: {
+    main: '#6dbf5a',
+    text: '#ffffff',
+    border: 'transparent',
+  },
+  secondary: {
+    main: '#464646',
+    text: `rgba(255,255,255,0.85)`,
+    border: '#464646',
+  },
+  ghost: {
+    main: '#222222',
+    text: '#6dbf5a',
+    border: '#222222',
+  },
+}
 
 const light_cove: DefaultTheme = {
   mode_name: 'theme/light/cove',
@@ -110,8 +108,8 @@ const light_cove: DefaultTheme = {
   content: '#fdfdfd',
   border: '#423944',
   text: '#190d31',
-  title: '#000000',
-  disabled: '#000000aa',
+  title: '#121212',
+  disabled: '#121212aa',
   primary: {
     main: '#2a9df4',
     text: '#ffffff',
@@ -126,7 +124,90 @@ const light_cove: DefaultTheme = {
     main: '#ffffff',
     text: '#2a9df4',
     border: '#ffffff00',
-    // border: '#000000',
+    // border: '#121212',
   },
 }
-export default [light_orange, dark_orange, light_luigi, light_cove];
+
+const dark_cove: DefaultTheme = {
+  mode_name: 'theme/dark/cove',
+  mainBackground: '#121212',
+  content: '#303030',
+  border: '#707789',
+  text: '#dedede',
+  title: `rgba(255,255,255,0.85)`,
+  disabled: `rgba(255,255,255,0.25)`,
+  primary: {
+    main: '#2a9df4',
+    text: '#ffffff',
+    border: 'transparent',
+  },
+  secondary: {
+    main: '#464646',
+    text: `rgba(255,255,255,0.85)`,
+    border: '#464646',
+  },
+  ghost: {
+    main: '#222222',
+    text: '#2a9df4',
+    border: '#222222',
+  },
+}
+
+const light_cherry: DefaultTheme = {
+  mode_name: 'theme/light/cherry',
+  mainBackground: '#ffffff',
+  content: '#fdfdfd',
+  border: '#423944',
+  text: '#190d31',
+  title: '#121212',
+  disabled: '#121212aa',
+  primary: {
+    main: '#ff0032',
+    text: '#ffffff',
+    border: 'transparent',
+  },
+  secondary: {
+    main: '#ffe7e5',
+    text: '#525252',
+    border: 'transparent',
+  },
+  ghost: {
+    main: '#ffffff',
+    text: '#ff0032',
+    border: '#ffffff00',
+    // border: '#121212',
+  },
+}
+
+const dark_cherry: DefaultTheme = {
+  mode_name: 'theme/dark/cherry',
+  mainBackground: '#121212',
+  content: '#303030',
+  border: '#707789',
+  text: '#dedede',
+  title: `rgba(255,255,255,0.85)`,
+  disabled: `rgba(255,255,255,0.25)`,
+  primary: {
+    main: '#C20039',
+    text: '#ffffff',
+    border: 'transparent',
+  },
+  secondary: {
+    main: '#464646',
+    text: `rgba(255,255,255,0.85)`,
+    border: '#464646',
+  },
+  ghost: {
+    main: '#222222',
+    text: '#cf022b',
+    border: '#222222',
+  },
+}
+
+
+export default [
+    light_orange, dark_orange, 
+    light_luigi, dark_luigi, 
+    light_cove, dark_cove,
+    light_cherry, dark_cherry
+  ];

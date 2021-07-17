@@ -22,11 +22,11 @@ const MenuItem = (props:MenuItemProps) => {
 
 export default MenuItem;
 
-const styles = ({content, text}:DefaultTheme) => StyleSheet.create({
+const styles = ({mainBackground, text}:DefaultTheme) => StyleSheet.create({
     item:{
         paddingVertical: 24,
         justifyContent: "center",
-        backgroundColor: content,
+        backgroundColor: mainBackground,
         paddingHorizontal: 18,
     },
     itemText: {

@@ -13,7 +13,7 @@ function Profile() {
   const navigation = useNavigation()
   const { logOut } = useAuthorization()
   const { wrapper, blockContainer } = React.useMemo(() => styles(theme), [theme])
-  const [showThemes, setShowThemes] = useState<boolean>(true)
+  const [showThemes, setShowThemes] = useState<boolean>(false)
   const toggleThemes = () => setShowThemes((prev) => !prev)
 
   return (
@@ -21,10 +21,17 @@ function Profile() {
       <View>
         <MenuItem onPress={toggleThemes} content="테마 선택" />
         {showThemes && (
+          <View style={{paddingVertical: 6}}>
           <View style={blockContainer}>
-            {themes.map((theme, idx) => (
+            {themes.slice(0,4).map((theme, idx) => (
               <ThemeBlock theme={theme} key={idx} />
             ))}
+          </View>
+          <View style={blockContainer}>
+            {themes.slice(4).map((theme, idx) => (
+              <ThemeBlock theme={theme} key={idx} />
+            ))}
+          </View>
           </View>
         )}
       </View>
@@ -49,16 +56,18 @@ function Profile() {
 }
 
 const styles = (theme: DefaultTheme) => {
-  const { mainBackground, content } = theme
+  const { mainBackground } = theme
   return StyleSheet.create({
     wrapper: {
       backgroundColor: mainBackground,
       flex: 1,
     },
     blockContainer: {
-      backgroundColor: content,
+      backgroundColor: mainBackground,
       flexDirection: 'row',
-      padding: 15,
+      paddingVertical: 5,
+      paddingHorizontal:10,
+      justifyContent: "space-evenly"
     },
   })
 }

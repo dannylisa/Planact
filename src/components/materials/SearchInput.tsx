@@ -54,7 +54,7 @@ const styles = ({text, disabled, primary:{main}}:DefaultTheme) => StyleSheet.cre
         paddingLeft: 42,
         paddingRight: 24,
         borderRadius: 2.5,
-        margin: 10
+        margin: 7
     },
     focused: {
         borderWidth:0,
