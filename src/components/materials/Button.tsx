@@ -6,6 +6,7 @@ import { StyleSheet, TouchableOpacity, TouchableOpacityProps, Text } from 'react
 import { useSelector } from 'react-redux';
 import { shadow } from "@modules/theme/hooks"
 import { useMemo } from 'react';
+import media from '@/style/media';
 
 interface ButtonProps extends TouchableOpacityProps{
     content: string
@@ -46,7 +47,7 @@ const styles = (theme:DefaultTheme, color?:ButtonColors, flex?:number) => {
             ...shadow
         },
         text:{
-            fontSize: 20,
+            ...media.vertical('fontSize', 20, 17),
             color: text
         },
 

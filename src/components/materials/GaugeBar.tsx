@@ -2,7 +2,7 @@ import useTheme from "@/modules/theme/hooks";
 import { DefaultTheme } from "@/style/styled";
 import React, { useMemo } from "react";
 import { StyleSheet, View } from "react-native";
-import {Text} from "."
+import Text from "./Text"
 
 interface GaugeBarProps {
     denom: number

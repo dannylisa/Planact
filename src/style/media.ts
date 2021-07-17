@@ -30,7 +30,6 @@ const verticalSizes = {
 }
 
 const vertical = (item:string, large:any, medium?:any, small?:any) => {
-    console.log(width, height)
     if(height >= verticalSizes.large || !medium)
         return {[item]: large}
     else if(height >= verticalSizes.medium || !small)

@@ -18,9 +18,6 @@ export default function DateTimePickerModal(props:DateTimePickerModalProps){
     const {mode, value, onChange, visible, hide, minimumDate, maximumDate} = props;
     const { modal, container, text } = styles
     const onDateChange = (event:Event, date: Date | undefined) => onChange(date || new Date())
-    const conditionalHide = () => {
-        hide();
-    }
     return (
         <View style={[modal, {display: visible ? "flex" : "none"}]}>
             <View style={container}>
@@ -50,7 +47,7 @@ export default function DateTimePickerModal(props:DateTimePickerModalProps){
                     content="완료" 
                     onPress={hide}/>
             </View>
-            <DateTimePicker
+            <DateTimePicker 
                 display="spinner"
                 value={value}
                 testID="dateTimePicker"

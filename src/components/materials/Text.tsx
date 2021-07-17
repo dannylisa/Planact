@@ -1,4 +1,5 @@
 import useTheme from '@/modules/theme/hooks'
+import media from '@/style/media'
 import { DefaultTheme } from '@/style/styled'
 import React, { FC, useMemo } from 'react'
 import { StyleProp, StyleSheet, TextStyle } from 'react-native'
@@ -45,7 +46,7 @@ const styles = ({text}: DefaultTheme, props: AdditionalProps) => {
       textAlign: align,
       alignContent: 'center',
       fontWeight,
-      fontSize,
+      ...media.vertical('fontSize', fontSize, fontSize-0.6, fontSize-1.2),
       flex,
       paddingHorizontal,
       paddingVertical,

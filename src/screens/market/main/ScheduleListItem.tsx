@@ -9,6 +9,7 @@ import { Text } from '@components/materials';
 import { AntDesign } from '@expo/vector-icons';
 import { toggleScheduleLike } from '@/api/market';
 import { useUserState } from '@/modules/auth/hooks';
+import media from '@/style/media';
 
 interface ScheduleListItemProps {
   schedule: ISchedule;
@@ -56,8 +57,7 @@ const ScheduleListItem = ({ schedule, onPress }: ScheduleListItemProps) => {
     if (!token) return;
     await toggleScheduleLike(token, id);
   };
-  const isAnd = Platform.OS === 'android';
-  const textLength = isAnd ? 30 : 36;
+
   const { yellow } = SpecificColors;
   return (
     <View style={wrapper}>
@@ -71,7 +71,7 @@ const ScheduleListItem = ({ schedule, onPress }: ScheduleListItemProps) => {
             />
           </TouchableOpacity>
         </View>
-        <View>
+        <View style={{flex: 1}}>
           <Text
             bold
             headings={2}
@@ -82,11 +82,7 @@ const ScheduleListItem = ({ schedule, onPress }: ScheduleListItemProps) => {
           <Text
             headings={4}
             align="left"
-            content={
-              description.length > textLength
-                ? description.slice(0, 30) + '...'
-                : description
-            }
+            content={description}
           />
         </View>
       </TouchableOpacity>
@@ -117,6 +113,7 @@ const styles = ({ content }: DefaultTheme, color: string) => {
       flexDirection: 'row',
       justifyContent: 'space-between',
       ...shadow,
+
     },
     star: {
       justifyContent: 'center',
