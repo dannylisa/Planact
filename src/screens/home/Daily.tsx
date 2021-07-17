@@ -68,7 +68,7 @@ const styles = (theme: DefaultTheme, daytype:daytype) => {
     },
     selectedBorder:{
       borderColor: primary.main,
-      borderWidth: 2
+      borderWidth: 3
     },
     datetext: {
       color: daytype === 0 ? text : daytype === 1 ? blue : red,

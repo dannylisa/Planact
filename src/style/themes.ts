@@ -117,7 +117,7 @@ const light_cove: DefaultTheme = {
   },
   secondary: {
     main: '#f6e3d4',
-    text: '#828282',
+    text: '#333333',
     border: 'transparent',
   },
   ghost: {
@@ -168,7 +168,7 @@ const light_cherry: DefaultTheme = {
   },
   secondary: {
     main: '#ffe7e5',
-    text: '#525252',
+    text: '#333333',
     border: 'transparent',
   },
   ghost: {

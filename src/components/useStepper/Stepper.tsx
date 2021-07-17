@@ -3,7 +3,6 @@ import { View, StyleSheet } from "react-native"
 import { UseStepperProps } from "./index";
 import Bar from "./Bar";
 import Step from "./Step";
-
 interface StepperProps extends UseStepperProps {
     active:number
     onStepPress: (idx:number) => any
@@ -78,6 +77,6 @@ const styles = StyleSheet.create({
     wrapper: {
         flex: 1,
         flexDirection: "row",
-        paddingHorizontal: 20,
+        paddingHorizontal: 10,
     }
 })

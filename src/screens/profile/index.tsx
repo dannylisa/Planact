@@ -18,7 +18,12 @@ function Profile() {
 
   return (
     <View style={wrapper}>
-      <View>
+      <MenuItem
+        content={'프로필 설정'}
+        onPress={() => {
+          navigation.navigate('SetProfile', { text: '수정하기' })
+        }}
+      />
         <MenuItem onPress={toggleThemes} content="테마 선택" />
         {showThemes && (
           <View style={{paddingVertical: 6}}>
@@ -34,13 +39,6 @@ function Profile() {
           </View>
           </View>
         )}
-      </View>
-      <MenuItem
-        content={'프로필 설정'}
-        onPress={() => {
-          navigation.navigate('SetProfile', { text: '수정하기' })
-        }}
-      />
       <MenuItem
         content={'내 플랜 관리'}
         onPress={() => {

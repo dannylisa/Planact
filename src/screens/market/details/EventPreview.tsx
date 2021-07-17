@@ -13,7 +13,14 @@ const EventPreview = ({event}:{event: IEvent}) => {
 
     return(
         <View style={wrapper}>
-            <Text bold flex={1} content={`Step ${seq+1} `}/>
+            <Text 
+                bold 
+                flex={1} 
+                content={
+                    event.origin_time ?
+                    `${event.origin_time.slice(0,5)} `
+                    : `Step ${seq+1} `
+                }/>
             <Text align="left" flex={4} content={title} />
         </View>
     )

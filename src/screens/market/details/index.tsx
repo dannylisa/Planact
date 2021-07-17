@@ -30,7 +30,7 @@ interface EventsGroupedByDateOf {
 export default function MarketScheduleDetails({ route, navigation }) {
   // theme
   const theme = useTheme();
-  const { container, header, content, stepperWrapper, item } =
+  const { container, header, content, stepperWrapper, item, alreadyButton } =
     useMemo(() => styles(theme), [theme]);
 
   // Get Detail Data from api
@@ -72,11 +72,14 @@ export default function MarketScheduleDetails({ route, navigation }) {
   const isAnd = Platform.OS === 'android';
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <ScrollView 
-        style={container}>
-        <View style={[item, header]}>
+      <ScrollView style={container}>
+        <View style={header}>
           <View>
-            <Text bold headings={1} align="left" content={`${schedule.name}`} />
+            <Text 
+              bold 
+              headings={1} 
+              align="left" 
+              content={`${schedule.name}`} />
             <Text
               headings={3}
               align="left"
@@ -85,29 +88,52 @@ export default function MarketScheduleDetails({ route, navigation }) {
             />
           </View>
         </View>
-        {/* Stepper */}
-        <View style={stepperWrapper}>{Stepper}</View>
-        <View style={content}>
-          {schedulePreviewEvents.length ? (
-            schedulePreviewEvents[active].events.map((event, idx) => (
-              <EventPreview event={event} key={idx} />
-            ))
-          ) : (
-            <></>
-          )}
-        </View>
-        {!schedule.has_attached ? (
-          <View style={item}>
+
+        {
+          !schedule.has_attached ?
+          <>
+          {/* Stepper */}
+            <View style={stepperWrapper}>
+              <Text 
+                bold 
+                headings={1} 
+                align="left" 
+                content={`플랜 ${stepperSize}일 미리보기`}
+                marginBottom={16}
+              />
+              {Stepper}
+            </View>
+            <View style={content}>
+              {schedulePreviewEvents.length ? (
+                schedulePreviewEvents[active].events.map((event, idx) => (
+                  <EventPreview event={event} key={idx} />
+                ))
+              ) : (
+                <></>
+              )}
+            </View>
+            <View style={item}>
+              <Button
+                flex={1}
+                color="primary"
+                content="내 캘린더에 내려받기"
+                onPress={onDownload}
+              />
+            </View>
+          </>
+          :
+          <View style={alreadyButton}>
             <Button
-              color="primary"
-              content="내 캘린더에 내려받기"
-              onPress={onDownload}
+              flex={1}
+              color="ghost"
+              content="현재 진행중인 플랜입니다."
+              disabled
             />
           </View>
-        ) : (
-          <></>
-        )}
+        }
+        
         <ScheduleCommentsList
+          style={{paddingTop: 20}}
           schedule_id={schedule.id}
           count_events={schedule.count_events}
           comments={comments}
@@ -125,8 +151,6 @@ export default function MarketScheduleDetails({ route, navigation }) {
 }
 
 const styles = ({ mainBackground }: DefaultTheme) => {
-  const andheight = Dimensions.get('window').height - 60;
-
   return StyleSheet.create({
     container: {
       flex: 1,
@@ -136,7 +160,6 @@ const styles = ({ mainBackground }: DefaultTheme) => {
     header: {
       justifyContent: 'space-between',
       padding: 12,
-      minHeight: 100,
     },
     content: {
       paddingHorizontal: 16,
@@ -152,5 +175,8 @@ const styles = ({ mainBackground }: DefaultTheme) => {
       alignItems: 'center',
       justifyContent: 'center',
     },
+    alreadyButton:{
+      paddingHorizontal: 20,
+    }
   });
 };

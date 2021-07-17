@@ -10,6 +10,7 @@ import { DefaultTheme } from "@/style/styled";
 import { useDailyList } from "@/modules/userDailyList/hooks";
 import dayjs from "dayjs";
 import { LineChart } from "react-native-chart-kit";
+import media from "@/style/media";
 
 type RouteParams = {
     Detail: {
@@ -94,7 +95,13 @@ export default function () {
                             color: (opacity = 1) => (
                                 theme.primary.text
                             ),
+                            propsForLabels:{
+                                ...media.vertical('fontSize', 15, 14),
+                            }
                         }}
+                        yAxisSuffix="%"
+                        yLabelsOffset={12}
+                        withInnerLines={false}
                         bezier
                         fromZero
                         style={{

@@ -1,16 +1,13 @@
-/**
- * Learn more about createBottomTabNavigator:
- * https://reactnavigation.org/docs/bottom-tab-navigator
- */
-
-import { GlobalState } from '@modules/index';
-import useTheme, { isLight } from '@modules/theme/hooks'
-import { Ionicons, AntDesign } from '@expo/vector-icons';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
+import useTheme from '@modules/theme/hooks'
+import { Ionicons, AntDesign, Feather } from '@expo/vector-icons';
+import { BottomTabNavigationOptions, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeNavigator from './HomeNavigator';
 import ProfileNavigator from './ProfileNavigator.tsx';
 import MarketNavigator from './MarketNavigator';
+import { Dimensions, StyleSheet, View } from 'react-native';
+import { DefaultTheme } from '@/style/styled';
+import { Text } from "@components/materials";
 
 type BottomTabParamList = {
   Home: undefined;
@@ -21,23 +18,29 @@ const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
 export default function BottomTabNavigator() {
   const theme = useTheme()
-  const iconStyle = {
-    size: 30,
-    style: {
-      marginBottom: -3,
-    },
-  };
   return (
     <BottomTab.Navigator
       initialRouteName="Home"
-      tabBarOptions={{ activeTintColor: isLight(theme) ? '#2f95dc' : '#fff' }}
+      tabBarOptions={{ 
+        activeTintColor: theme.primary.main,
+        showLabel: false,
+        style:{
+          height: 55,
+          alignItems:"flex-end"
+        }
+      }}
     >
       <BottomTab.Screen
         name="Home"
         component={HomeNavigator}
         options={{
-          tabBarIcon: ({ color }) => (
-            <Ionicons name="ios-home-outline" color={color} {...iconStyle} />
+          tabBarIcon: ({ focused, color }) => (
+            <TabBarIcon
+              alignSelf="flex-end"
+              title="Home"
+              name="calendar" 
+              {...{ focused, color }}
+            />
           ),
         }}
       />
@@ -45,18 +48,30 @@ export default function BottomTabNavigator() {
         name="Market"
         component={MarketNavigator}
         options={{
-          tabBarIcon: ({ color }) => (
-            <AntDesign name="appstore-o" color={color} {...iconStyle} />
+          tabBarIcon: ({ focused, color }) => (
+            <TabBarIcon
+              alignSelf="center"
+              title="Market"
+              name="package" 
+              {...{ focused, color }}
+            />
           ),
         }}
       />
       <BottomTab.Screen
         name="Profile"
         component={ProfileNavigator}
+        
         options={{
-          tabBarIcon: ({ color }) => (
-            <Ionicons name="ios-person-outline" color={color} {...iconStyle} />
+          tabBarIcon: ({ focused, color }) => (
+            <TabBarIcon
+              alignSelf="flex-start"
+              title="Profile"
+              name="user" 
+              {...{ focused, color }}
+            />
           ),
+          
         }}
       />
     </BottomTab.Navigator>
@@ -65,9 +80,58 @@ export default function BottomTabNavigator() {
 
 // You can explore the built-in icon families and icons on the web at:
 // https://icons.expo.fyi/
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof Ionicons>['name'];
-  color: string;
-}) {
-  return <Ionicons size={30} style={{ marginBottom: -3 }} {...props} />;
+interface TabBarIconProps {
+  focused: boolean
+  color: string
+  name: React.ComponentProps<typeof Feather>['name']
+  title:string
+  alignSelf: "flex-start" | "center" | "flex-end"
+}
+function TabBarIcon({focused, color, name, title, alignSelf}: TabBarIconProps) {
+  const {wrapper, focusWrapper, text} = styles(useTheme())
+  return !focused ? (
+    <View style={wrapper}>
+      <Feather 
+        name={name} 
+        color={color}
+        size={30}
+      />
+    </View>
+  ) : (
+    <View style={[focusWrapper, {alignSelf}]} >
+      <Feather 
+        name={name} 
+        color={color}
+        size={30}
+      />
+      <Text
+        style={text}
+        content={title}
+        headings={3}
+      />
+    </View>
+  )
+}
+
+const styles = (theme:DefaultTheme) => {
+  const {width} = Dimensions.get('screen');
+  return StyleSheet.create({
+    wrapper:{
+      justifyContent: "center",
+    },
+    focusWrapper:{
+      paddingVertical:5,
+      paddingHorizontal: 10,
+      backgroundColor:theme.primary.main+"30",
+      borderRadius:15,
+      flexDirection:"row",
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    text:{
+      marginLeft:8,
+      color: theme.primary.main,
+      fontWeight: "700",
+    }
+  })
 }
