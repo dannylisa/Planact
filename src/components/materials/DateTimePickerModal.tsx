@@ -14,7 +14,6 @@ interface DateTimePickerModalProps {
   minimumDate?: Date;
 }
 
-<<<<<<< Updated upstream
 export default function DateTimePickerModal(props:DateTimePickerModalProps){
     const {mode, value, onChange, visible, hide, minimumDate, maximumDate} = props;
     const { modal, container, text } = styles
@@ -59,58 +58,6 @@ export default function DateTimePickerModal(props:DateTimePickerModalProps){
             /> 
         </View>
     )
-=======
-export default function DateTimePickerModal(props: DateTimePickerModalProps) {
-  const { mode, value, onChange, visible, hide, minimumDate, maximumDate } =
-    props;
-  const { modal, container, text } = styles;
-  const onDateChange = (event: Event, date: Date | undefined) => {
-    if (Platform.OS === 'android') hide();
-    onChange(date || new Date());
-  };
-  const conditionalHide = () => {
-    hide();
-  };
-  return (
-    <View style={[modal, { display: visible ? 'flex' : 'none' }]}>
-      <View style={container}>
-        {minimumDate ? (
-          maximumDate ? (
-            <Text style={text}>
-              {isToday(minimumDate)
-                ? '오늘'
-                : `${minimumDate.getMonth() + 1}월 ${minimumDate.getDate()}일`}
-              부터
-              {isToday(maximumDate)
-                ? ' 오늘'
-                : ` ${maximumDate.getMonth() + 1}월 ${maximumDate.getDate()}일`}
-              까지 선택 가능합니다.
-            </Text>
-          ) : (
-            <Text style={text}>
-              {isToday(minimumDate)
-                ? '오늘'
-                : `${minimumDate.getMonth() + 1}월 ${minimumDate.getDate()}일`}
-              부터 선택 가능합니다.
-            </Text>
-          )
-        ) : (
-          <></>
-        )}
-        <TextButton color="#5796fa" content="완료" onPress={hide} />
-      </View>
-      <DateTimePicker
-        display="spinner"
-        value={value}
-        testID="dateTimePicker"
-        onChange={onDateChange}
-        mode={mode}
-        maximumDate={maximumDate}
-        minimumDate={minimumDate}
-      />
-    </View>
-  );
->>>>>>> Stashed changes
 }
 
 const styles = StyleSheet.create({
