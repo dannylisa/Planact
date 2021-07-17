@@ -5,6 +5,8 @@ import {
   SafeAreaView,
   ScrollView,
   Platform,
+  KeyboardAvoidingView,
+  Dimensions,
 } from 'react-native';
 import { DefaultTheme } from '@/style/styled';
 import useTheme from '@/modules/theme/hooks';
@@ -29,10 +31,8 @@ interface EventsGroupedByDateOf {
 export default function MarketScheduleDetails({ route, navigation }) {
   // theme
   const theme = useTheme();
-  const { container, header, content, stepperWrapper, item } = useMemo(
-    () => styles(theme),
-    [theme]
-  );
+  const { container, header, content, stepperWrapper, item, containerAnd } =
+    useMemo(() => styles(theme), [theme]);
 
   // Get Detail Data from api
   const { getToken } = useUserState();
@@ -68,10 +68,12 @@ export default function MarketScheduleDetails({ route, navigation }) {
   const onDownload = () =>
     navigation.push('Market/Schedule/Download', { schedule });
   const Wrapper =
-    Platform.OS === 'android' ? KeyboardAwareScrollView : SafeAreaView;
+    Platform.OS === 'android' ? KeyboardAvoidingView : SafeAreaView;
+
+  const isAnd = Platform.OS === 'android';
   return (
-    <Wrapper style={[container]}>
-      <ScrollView style={container}>
+    <SafeAreaView style={[container]}>
+      <ScrollView style={[container, containerAnd]}>
         <View style={[item, header]}>
           <View>
             <Text bold headings={1} align="left" content={`${schedule.name}`} />
@@ -83,7 +85,6 @@ export default function MarketScheduleDetails({ route, navigation }) {
             />
           </View>
         </View>
-
         {/* Stepper */}
         <View style={stepperWrapper}>{Stepper}</View>
         <View style={content}>
@@ -116,19 +117,22 @@ export default function MarketScheduleDetails({ route, navigation }) {
         floorFixed
         createComment={createComment}
         resetComments={resetComments}
-        style={{ backgroundColor: 'red' }}
       />
-    </Wrapper>
+    </SafeAreaView>
   );
 }
 
-const styles = ({ mainBackground }: DefaultTheme) =>
-  StyleSheet.create({
+const styles = ({ mainBackground }: DefaultTheme) => {
+  const andheight = Dimensions.get('window').height - 60;
+
+  return StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: mainBackground,
       padding: 20,
+      paddingBottom: 0,
     },
+    containerAnd: {},
     header: {
       justifyContent: 'space-between',
       padding: 12,
@@ -149,3 +153,4 @@ const styles = ({ mainBackground }: DefaultTheme) =>
       justifyContent: 'center',
     },
   });
+};
