@@ -20,6 +20,7 @@ export default function ScheduleComments({
 }: ScheduleCommentsProps) {
   const theme = useTheme();
 
+
   useEffect(() => {
     resetComments();
   }, [schedule_id]);
@@ -37,4 +38,5 @@ export default function ScheduleComments({
       )}
     </ScrollView>
   );
+
 }

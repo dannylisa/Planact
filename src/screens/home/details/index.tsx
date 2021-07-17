@@ -4,20 +4,24 @@ import { DefaultTheme } from "@/style/styled";
 import React, { useMemo, useState } from "react";
 import { StyleSheet, View, SafeAreaView, ScrollView, Image, Alert } from "react-native";
 import ProofSwitch, { proofMessage, ProofSwitchProps } from "../proofSwitch";
-import { Button, Text, TextInput } from "@components/materials";
+import { Button, GaugeBar, Text, TextInput } from "@components/materials";
 import ContentParser from "./ContentParser";
 import { NewScheduleComment, ScheduleCommentsList, useScheduleComments } from "@/components/scheduleComments";
+import { useUserSchedule } from "@/modules/userSchedule/hooks";
 
 export default function EventDetails({route}){
     const { userevent_id }= route.params
+    const { getScheduleById} = useUserSchedule();
     const { getEventOfDailyById, updateProof } = useDailyUpdate()
     const userevent = getEventOfDailyById(userevent_id)
     const theme = useTheme();
     const { wrapper, header, contentWrapper, row, image } = useMemo(() => styles(theme), [theme]);
     
     if(!userevent) return <></>
-    const {id, event: {seq, title, proof_type, content}, proof, diary, photo} = userevent;
-    const {comments, resetComments, createComment} = useScheduleComments(id);
+    const {event: {schedule, title, proof_type, content}, proof, diary, photo} = userevent;
+    const user_schedule = getScheduleById(schedule);
+
+    const {comments, resetComments, createComment} = useScheduleComments(schedule);
     const checkset: ProofSwitchProps = {
         proof_type,
         userevent_id,
@@ -47,7 +51,7 @@ export default function EventDetails({route}){
         toggleDiaryMode()
         Alert.alert('기록 작성이 완료되었습니다.')
     }
-    console.log(photo)
+
     return (
         <SafeAreaView style={{flex: 1, backgroundColor:"#dff", padding:0}}>
             <ScrollView style={wrapper}>
@@ -62,6 +66,20 @@ export default function EventDetails({route}){
                 {/* 컨텐츠 */}
                 <ContentParser content={content} />
                 
+                {/* 성취율 */}
+                <View style={contentWrapper}>
+                    <Text
+                        align="left"
+                        bold
+                        headings={1}
+                        content="내 성취율"
+                        marginBottom={10}
+                    />
+                    <GaugeBar 
+                        num={(user_schedule?.achievement || 0)}
+                        denom={(user_schedule?.schedule.count_events || 1)} />
+                </View>
+
                 {/* 인증 방식 */}
                 <View style={contentWrapper}>
                     <Text
@@ -127,7 +145,7 @@ export default function EventDetails({route}){
                 {/* 댓글 */}
                 <ScheduleCommentsList
                     style={contentWrapper}
-                    schedule_id={id}
+                    schedule_id={schedule}
                     comments={comments}
                     resetComments={resetComments}
                 />
