@@ -67,6 +67,7 @@ function SetProfile({ route }) {
       email,
     };
     setProfile(profile);
+    Alert.alert('변경되었습니다.');
   };
 
   const Wrapper =

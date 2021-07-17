@@ -72,8 +72,8 @@ export default function MarketScheduleDetails({ route, navigation }) {
 
   const isAnd = Platform.OS === 'android';
   return (
-    <SafeAreaView style={[container]}>
-      <ScrollView style={[container, containerAnd]}>
+    <SafeAreaView style={{ flex: 1 }}>
+      <ScrollView style={[container]}>
         <View style={[item, header]}>
           <View>
             <Text bold headings={1} align="left" content={`${schedule.name}`} />
