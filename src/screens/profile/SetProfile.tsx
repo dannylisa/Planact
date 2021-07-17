@@ -11,7 +11,10 @@ import { Button } from '@components/materials';
 
 function SetProfile({ route }) {
   const theme = useTheme();
-  const { container, item, genderButtonContainer, wrapper } = React.useMemo(() => styles(theme), [theme]);
+  const { container, item, genderButtonContainer, wrapper } = React.useMemo(
+    () => styles(theme),
+    [theme]
+  );
 
   //다른 컴포넌트에서 navigation으로 올 때 버튼 text 전달
   //ex) 가입하기 or 프로필 변경
@@ -30,9 +33,9 @@ function SetProfile({ route }) {
   useEffect(() => {
     if (profile) {
       setAddress(profile.address);
-      profile.nickname.indexOf('__init__') === -1 ?
-        setNickname(profile.nickname):
-        setNickname('');
+      profile.nickname.indexOf('__init__') === -1
+        ? setNickname(profile.nickname)
+        : setNickname('');
       setTel(profile.tel);
       setEmail(profile.email);
       setGender(profile.gender);
@@ -40,10 +43,17 @@ function SetProfile({ route }) {
   }, []);
 
   const onPress = () => {
-    if (!nickname) return Alert.alert('별명을 입력해주세요!')
-    if (!gender) return Alert.alert('성별을 선택해주세요!')
-    if (!tel) return Alert.alert('전화번호를 입력해주세요!')
-    if (!email) return Alert.alert('이메일 주소를 입력해주세요!')
+    if (!nickname) return Alert.alert('별명을 입력해주세요!');
+    if (!gender) return Alert.alert('성별을 선택해주세요!');
+    // 전화번호 에러 처리
+    if (!tel) return Alert.alert('전화번호를 입력해주세요!');
+    const retel = /^\d{11}$/;
+    if (!retel.test(tel)) return Alert.alert('전화번호 형식이 잘못되었습니다.');
+    var regEmail =
+      /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+    if (!email) return Alert.alert('이메일 주소를 입력해주세요!');
+    if (!regEmail.test(email))
+      return Alert.alert('이메일 형식이 잘못되었습니다.');
 
     const profile: UserProfile = {
       address,
@@ -55,62 +65,58 @@ function SetProfile({ route }) {
     setProfile(profile);
   };
 
-  const Wrapper = Platform.OS === 'android' ? KeyboardAwareScrollView : SafeAreaView
+  const Wrapper =
+    Platform.OS === 'android' ? KeyboardAwareScrollView : SafeAreaView;
   return (
     <Wrapper style={container}>
-      <View style={wrapper} >
-          <View style={item}>
-            <Text 
-              bold
-              headings={1}
-              content={`${username}님, 회원정보를 입력해주세요!`} align="left" />
-          </View>
-          <View style={item}>
-            <Text content='별명' align='left' />
-            <TextInput
-              underlined
-              onChangeText={setNickname} 
-              value={nickname} />
-          </View>
-          <View style={item}>
-            <Text content='성별' align='left' />
-            <View style={genderButtonContainer}>
-              <Button
-                onPress={() => setGender('M')}
-                content={'남성'}
-                color={gender === 'M' ? 'primary' : 'secondary'}
-              />
-              <View style={{ width: 12 }} />
-              <Button
-                onPress={() => setGender('F')}
-                content={'여성'}
-                color={gender === 'F' ? 'primary' : 'secondary'}
-              />
-            </View>
-          </View>
-          <View style={item}>
-            <Text content='이메일' align="left" />
-            <TextInput 
-              underlined
-              onChangeText={setEmail} 
-              value={email} />
-          </View>
-          <View style={item}>
-            <Text content='전화번호' align='left' />
-            <TextInput 
-              underlined
-              onChangeText={setTel}
-              value={tel} />
-          </View>
-          <View style={[item, {height: 90}]}>
+      <View style={wrapper}>
+        <View style={item}>
+          <Text
+            bold
+            headings={1}
+            content={`${username}님, 회원정보를 입력해주세요!`}
+            align="left"
+          />
+        </View>
+        <View style={item}>
+          <Text content="별명" align="left" />
+          <TextInput underlined onChangeText={setNickname} value={nickname} />
+        </View>
+        <View style={item}>
+          <Text content="성별" align="left" />
+          <View style={genderButtonContainer}>
             <Button
-              onPress={onPress}
-              // content={userDetail.nickname.length > 8 && userDetail.nickname.substr(0,8) ===  "__init__" && '완료'}
-              content='완료'
-              color={'primary'}
-              style={item}
+              onPress={() => setGender('M')}
+              content={'남성'}
+              color={gender === 'M' ? 'primary' : 'secondary'}
+              flex={1}
+            />
+            <View style={{ width: 12 }} />
+            <Button
+              onPress={() => setGender('F')}
+              content={'여성'}
+              color={gender === 'F' ? 'primary' : 'secondary'}
+              flex={1}
             />
           </View>
+        </View>
+        <View style={item}>
+          <Text content="이메일" align="left" />
+          <TextInput underlined onChangeText={setEmail} value={email} />
+        </View>
+        <View style={item}>
+          <Text content="전화번호" align="left" />
+          <TextInput underlined onChangeText={setTel} value={tel} />
+        </View>
+        <View style={[item, { height: 90 }]}>
+          <Button
+            onPress={onPress}
+            // content={userDetail.nickname.length > 8 && userDetail.nickname.substr(0,8) ===  "__init__" && '완료'}
+            content="완료"
+            color={'primary'}
+            style={item}
+          />
+        </View>
       </View>
     </Wrapper>
   );
@@ -123,13 +129,13 @@ const styles = (theme: DefaultTheme) => {
       backgroundColor: mainBackground,
       flex: 1,
     },
-    wrapper:{
+    wrapper: {
       padding: 32,
       flex: 1,
-      paddingTop: 50
+      paddingTop: 50,
     },
     item: {
-      marginBottom: 40
+      marginBottom: 40,
     },
     genderButtonContainer: {
       flexDirection: 'row',
