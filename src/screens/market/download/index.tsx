@@ -218,14 +218,14 @@ export default function MarketScheduleDetails({ route, navigation }) {
         <TextInput underlined value={alias} onChangeText={setAlias} />
 
         {/* 요일 / 간격 선택 */}
-        {/* <Text
+        <Text
           bold
           headings={1}
           align="left"
           content="  얼마나 자주 실천할 계획인가요?"
           marginTop={55}
           marginBottom={12}
-        /> */}
+        />
         <View style={item}>
           {radioButtons.map((radio, idx) => (
             <RadioButton
