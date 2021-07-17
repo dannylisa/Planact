@@ -20,13 +20,12 @@ export default function ScheduleComments({
 }: ScheduleCommentsProps) {
   const theme = useTheme();
 
-
   useEffect(() => {
     resetComments();
   }, [schedule_id]);
 
   return (
-    <ScrollView {...others}>
+    <View {...others}>
       <Text headings={1} bold align="left" content="댓글" marginBottom={10} />
       {comments.length ? (
         comments.map((comment, idx) => <Comment comment={comment} key={idx} />)
@@ -36,7 +35,6 @@ export default function ScheduleComments({
           <Text content="가장 먼저 댓글을 남겨보세요!" marginBottom={12} />
         </>
       )}
-    </ScrollView>
+    </View>
   );
-
 }

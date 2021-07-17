@@ -75,10 +75,11 @@ function SetProfile({ route }) {
     <Wrapper style={container}>
       <View style={[wrapper, isAnd && wrapper_and]}>
         <View style={[item, isAnd && item_and]}>
+          <Text bold headings={1} content={`${username}님,`} align="left" />
           <Text
             bold
             headings={1}
-            content={`${username}님, 회원정보를 입력해주세요!`}
+            content={`회원정보를 입력해주세요!`}
             align="left"
           />
         </View>

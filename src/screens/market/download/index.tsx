@@ -270,14 +270,14 @@ export default function MarketScheduleDetails({ route, navigation }) {
         </View>
 
         {/* 시작 날짜 선택 */}
-        {/* <Text
-                    bold
-                    headings={1}
-                    align="left" 
-                    content="  언제부터 실천할 계획인가요?"
-                    marginTop={55}
-                    marginBottom={6}
-                /> */}
+        <Text
+          bold
+          headings={1}
+          align="left"
+          content="  언제부터 실천할 계획인가요?"
+          marginTop={55}
+          marginBottom={6}
+        />
         <View style={buttonContainer}>
           <Button
             style={button}
