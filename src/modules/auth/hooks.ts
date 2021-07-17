@@ -42,7 +42,6 @@ export const useUserState = () => {
   };
 
   const forceLogOut = () => {
-    console.log('ada');
     dispatch({ type: LOGOUT });
     return null;
   };

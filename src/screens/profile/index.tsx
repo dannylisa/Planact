@@ -5,7 +5,7 @@ import themes from '@/style/themes'
 import ThemeBlock from './ThemeBlock'
 import MenuItem from '@/components/materials/MenuItem'
 import useTheme from '@/modules/theme/hooks'
-import { useAuthorization, useUserState } from '@/modules/auth/hooks'
+import { useAuthorization } from '@/modules/auth/hooks'
 import { useNavigation } from '@react-navigation/native'
 
 function Profile() {
@@ -37,7 +37,10 @@ function Profile() {
       <MenuItem
         content={'내 플랜 관리'}
         onPress={() => {
-          navigation.navigate('ScheduleManager', { text: '플랜 관리' })
+          navigation.navigate(
+            "Profile/ScheduleManager", 
+            { text: '플랜 관리' }
+          )
         }}
       />
       <MenuItem content={'로그아웃'} onPress={logOut} />

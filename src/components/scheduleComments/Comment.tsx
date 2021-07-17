@@ -8,11 +8,14 @@ import { IScheduleComment } from "@/utils/data";
 import { toggleScheduleCommentLike } from "@/api/market";
 import { useUserState } from "@/modules/auth/hooks";
 
-
-export default function Comment({comment}: {comment: IScheduleComment}){
-    const {id, nickname, content, user_likes, count_likes} = comment;
+interface CommentProps{
+    comment: IScheduleComment
+    count_events:number
+}
+export default function Comment({comment, count_events}: CommentProps){
+    const {id, nickname, content, user_likes, count_likes, user_achievement} = comment;
     const theme = useTheme();
-    const {container, likeContainer} = useMemo(() => styles(theme), [theme])
+    const {container, rowContainer} = useMemo(() => styles(theme), [theme])
     const {red} = SpecificColors;
     const [likes, setLikes] = useState<Boolean>(user_likes);
     const {getToken} = useUserState();
@@ -27,23 +30,31 @@ export default function Comment({comment}: {comment: IScheduleComment}){
     return (
         <View style={container}>
             <View>
-                <Text 
-                    align="left"
-                    bold
-                    content={nickname}
-                    flex={1}
-                    marginBottom={8}
-                    headings={2}
-                />
+                <View style={[rowContainer,{flex:1}]}>
+                    <Text 
+                        align="left"
+                        bold
+                        content={nickname}
+                        headings={2}
+                        />
+                    <Text 
+                        align="left"
+                        marginHorizontal={10}
+                        content={
+                            Math.floor(10000*user_achievement/count_events)/100+"% 진행 중"
+                        }
+                        headings={4}
+                        />
+                </View>
                 <Text 
                     align="left" 
                     content={content}
                     flex={1}
-                    marginBottom={5}
+                    marginVertical={6}
                     headings={2}
-                />
+                    />
             </View>
-            <View style={likeContainer}>
+            <View style={rowContainer}>
                 <TouchableOpacity onPress={toggleLike}>
                     <FontAwesome
                         name={likes ? "heart" : "heart-o"}
@@ -53,6 +64,7 @@ export default function Comment({comment}: {comment: IScheduleComment}){
                 </TouchableOpacity>
                 <Number
                     headings={2}
+                    // count_likes + +Boolean(likes) - +Boolean(user_likes)
                     value={
                         user_likes ?
                         (likes ? count_likes : count_likes-1)
@@ -75,9 +87,10 @@ const styles = (theme:DefaultTheme) => {
             marginTop: 14,
             minHeight: 60
         },
-        likeContainer:{
+        rowContainer:{
             flexDirection: "row",
-            paddingHorizontal: 10
+            justifyContent:"flex-end",
+            paddingRight: 10
         }
     })
 }

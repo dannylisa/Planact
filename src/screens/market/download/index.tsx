@@ -199,33 +199,33 @@ export default function MarketScheduleDetails({ route, navigation }) {
     <SafeAreaView style={{ flex: 1 }}>
       <View style={header}>
         <Text bold headings={1} align="left" content={`${schedule.name}`} />
+      </View>
+      <ScrollView style={container}>
         <Text
           headings={3}
           align="left"
-          marginVertical={10}
+          marginBottom={30}
           content={schedule.description}
         />
-      </View>
-      <ScrollView style={container}>
         {/* 별명 설정 */}
         <Text
           bold
           headings={1}
           align="left"
-          content="  플랜 이름 설정"
+          content="플랜 이름 설정"
           marginBottom={3}
         />
         <TextInput underlined value={alias} onChangeText={setAlias} />
 
         {/* 요일 / 간격 선택 */}
-        {/* <Text
+        <Text
           bold
           headings={1}
           align="left"
-          content="  얼마나 자주 실천할 계획인가요?"
-          marginTop={55}
+          content="얼마나 자주 실천할 계획인가요?"
+          marginTop={40}
           marginBottom={12}
-        /> */}
+        />
         <View style={item}>
           {radioButtons.map((radio, idx) => (
             <RadioButton
@@ -274,7 +274,7 @@ export default function MarketScheduleDetails({ route, navigation }) {
           bold
           headings={1}
           align="left"
-          content="  언제부터 실천할 계획인가요?"
+          content="언제부터 실천할 계획인가요?"
           marginTop={55}
           marginBottom={6}
         />
@@ -409,7 +409,6 @@ export default function MarketScheduleDetails({ route, navigation }) {
 
 const styles = ({
   mainBackground,
-  disabled,
   primary: { main },
 }: DefaultTheme) =>
   StyleSheet.create({
@@ -421,11 +420,11 @@ const styles = ({
     },
     header: {
       justifyContent: 'space-between',
-      padding: 18,
+      paddingHorizontal: 18,
+      paddingTop:12,
+      paddingBottom:12,
       backgroundColor: mainBackground,
       ...shadow,
-      borderBottomColor: '#77777788',
-      borderBottomWidth: 1,
     },
     buttonContainer: {
       flexDirection: 'row',

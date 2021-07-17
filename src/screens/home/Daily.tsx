@@ -63,7 +63,7 @@ const styles = (theme: DefaultTheme, daytype:daytype) => {
       padding: 5,
       paddingTop: 3,
       borderRadius: 10,
-      marginRight: 20,
+      marginRight: 16,
       ...shadowOption,
     },
     selectedBorder:{

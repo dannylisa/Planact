@@ -4,13 +4,14 @@ import { DefaultTheme } from '@/style/styled';
 import React from 'react';
 import { StyleSheet, TouchableOpacity, TouchableOpacityProps, Text } from 'react-native'
 import { useSelector } from 'react-redux';
-import { shadow } from "@modules/theme/hooks"
+import { isLight, shadow, SpecificColors } from "@modules/theme/hooks"
 import { useMemo } from 'react';
 import media from '@/style/media';
 
+type ButtonColors =  "primary" | "secondary" | "ghost" | "danger";
 interface ButtonProps extends TouchableOpacityProps{
     content: string
-    color?: "primary" | "secondary" | "ghost"
+    color?: ButtonColors
     flex?: number
 }
 
@@ -31,9 +32,22 @@ const Button = function({color, flex, disabled, content, style, ...others}:Butto
   )
 }
 
-type ButtonColors =  "primary" | "secondary" | "ghost";
 const styles = (theme:DefaultTheme, color?:ButtonColors, flex?:number) => {
-    const {main, text, border} = color ? theme[color] : theme.primary;
+    const dangerColors = isLight(theme) ? {
+        main: theme.mainBackground,
+        text: SpecificColors.red,
+        border: SpecificColors.red
+    } : {
+        main: SpecificColors.red,
+        text: theme.primary.text,
+        border: "#ffffff00"
+    }
+
+    const {main, text, border} = color ? 
+        color==="danger" ? 
+            dangerColors 
+        : theme[color] 
+            : theme.primary;
     return StyleSheet.create({
         container: {
             alignItems: 'center',
@@ -48,7 +62,8 @@ const styles = (theme:DefaultTheme, color?:ButtonColors, flex?:number) => {
         },
         text:{
             ...media.vertical('fontSize', 20, 17),
-            color: text
+            color: text,
+            fontWeight: color==="danger" ? "800" : "500"
         },
 
     })

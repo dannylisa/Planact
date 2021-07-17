@@ -21,7 +21,6 @@ import {
   ScheduleCommentsList,
   useScheduleComments,
 } from '@/components/scheduleComments';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 interface EventsGroupedByDateOf {
   date: string;
@@ -31,7 +30,7 @@ interface EventsGroupedByDateOf {
 export default function MarketScheduleDetails({ route, navigation }) {
   // theme
   const theme = useTheme();
-  const { container, header, content, stepperWrapper, item, containerAnd } =
+  const { container, header, content, stepperWrapper, item } =
     useMemo(() => styles(theme), [theme]);
 
   // Get Detail Data from api
@@ -73,7 +72,8 @@ export default function MarketScheduleDetails({ route, navigation }) {
   const isAnd = Platform.OS === 'android';
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <ScrollView style={[container]}>
+      <ScrollView 
+        style={container}>
         <View style={[item, header]}>
           <View>
             <Text bold headings={1} align="left" content={`${schedule.name}`} />
@@ -109,9 +109,11 @@ export default function MarketScheduleDetails({ route, navigation }) {
         )}
         <ScheduleCommentsList
           schedule_id={schedule.id}
+          count_events={schedule.count_events}
           comments={comments}
           resetComments={resetComments}
         />
+        <View style={{paddingVertical: 40}}/>
       </ScrollView>
       <NewScheduleComment
         floorFixed
@@ -130,9 +132,7 @@ const styles = ({ mainBackground }: DefaultTheme) => {
       flex: 1,
       backgroundColor: mainBackground,
       padding: 20,
-      paddingBottom: 0,
     },
-    containerAnd: {},
     header: {
       justifyContent: 'space-between',
       padding: 12,

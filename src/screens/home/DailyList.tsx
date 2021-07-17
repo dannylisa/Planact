@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import {
-  Alert,
   FlatList,
   NativeScrollEvent,
   NativeSyntheticEvent,
-  RefreshControl,
   StyleSheet,
 } from 'react-native';
 import { DefaultTheme } from '@style/styled';
@@ -28,7 +26,7 @@ function DailyList() {
 
   const toTop = () => {
     // use current
-    flatListRef.current?.scrollToOffset({ animated: true, offset: 980 });
+    flatListRef.current?.scrollToOffset({ animated: true, offset: 956 });
   };
 
   useEffect(() => {

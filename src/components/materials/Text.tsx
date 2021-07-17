@@ -31,7 +31,7 @@ export default function Text({style,content, ...props}:DefaultTextProps){
   )
 }
 
-const headingsSize = [25, 22, 18, 16, 12, 10];
+const headingsSize = [32, 22, 18, 16, 14, 12, 10];
 const styles = ({text}: DefaultTheme, props: AdditionalProps) => {
   let {bold, align, flex, headings, color,
       marginHorizontal, marginVertical, marginTop, marginBottom,

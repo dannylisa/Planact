@@ -1,7 +1,7 @@
 import useTheme, { shadow } from "@/modules/theme/hooks";
 import { useDailyUpdate } from "@/modules/userDailyList/hooks";
 import { DefaultTheme } from "@/style/styled";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { StyleSheet, View, SafeAreaView, ScrollView, Image, Alert } from "react-native";
 import ProofSwitch, { proofMessage, ProofSwitchProps } from "../proofSwitch";
 import { Button, GaugeBar, Text, TextInput } from "@components/materials";
@@ -11,7 +11,7 @@ import { useUserSchedule } from "@/modules/userSchedule/hooks";
 
 export default function EventDetails({route}){
     const { userevent_id }= route.params
-    const { getScheduleById} = useUserSchedule();
+    const { getScheduleById } = useUserSchedule();
     const { getEventOfDailyById, updateProof } = useDailyUpdate()
     const userevent = getEventOfDailyById(userevent_id)
     const theme = useTheme();
@@ -21,6 +21,12 @@ export default function EventDetails({route}){
     const {event: {schedule, title, proof_type, content}, proof, diary, photo} = userevent;
     const user_schedule = getScheduleById(schedule);
 
+    const [initialProof, setInitialProof] = useState<number>(0)
+    useEffect(() => {
+        setInitialProof(+Boolean(proof))
+    }, [])
+
+    // Comments
     const {comments, resetComments, createComment} = useScheduleComments(schedule);
     const checkset: ProofSwitchProps = {
         proof_type,
@@ -32,7 +38,6 @@ export default function EventDetails({route}){
         title
     }
     const messages = useMemo(() => proofMessage(proof_type), [proof_type]);
-
 
     // Only for "DIARY"
     const [isDiaryWriteMode, setDiaryWriteMode] = useState<boolean>(false);
@@ -72,11 +77,14 @@ export default function EventDetails({route}){
                         align="left"
                         bold
                         headings={1}
-                        content="내 성취율"
+                        content="플랜 성취율"
                         marginBottom={10}
                     />
                     <GaugeBar 
-                        num={(user_schedule?.achievement || 0)}
+                        num={
+                            (user_schedule?.achievement || 0)
+                            + (+Boolean(proof)-initialProof)
+                        }
                         denom={(user_schedule?.schedule.count_events || 1)} />
                 </View>
 
@@ -146,6 +154,7 @@ export default function EventDetails({route}){
                 <ScheduleCommentsList
                     style={contentWrapper}
                     schedule_id={schedule}
+                    count_events={user_schedule?.schedule.count_events || 1}
                     comments={comments}
                     resetComments={resetComments}
                 />

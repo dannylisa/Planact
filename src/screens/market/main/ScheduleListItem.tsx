@@ -33,7 +33,7 @@ const Tags: TagsProps = {
   },
   downloaded: {
     color: '#4dc583',
-    content: 'Downloaded',
+    content: 'Started',
   },
 };
 const ScheduleListItem = ({ schedule, onPress }: ScheduleListItemProps) => {
@@ -102,7 +102,7 @@ const styles = ({ content }: DefaultTheme, color: string) => {
       marginBottom: 14,
     },
     container: {
-      height: 80,
+      minHeight: 80,
       borderRadius: 5,
       width: '98.5%',
       zIndex: 2,

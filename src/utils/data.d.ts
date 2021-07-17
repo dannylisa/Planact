@@ -72,10 +72,11 @@ export interface IDaily {
 
 export interface IScheduleComment {
   id: string
-  schedule : string
-  nickname : string
+  schedule: string
+  nickname: string
+  user_achievement: number
   user_likes: boolean
   count_likes: number
-  updated_at : Date
-  content : string
+  updated_at: Date
+  content: string
 }
