@@ -9,6 +9,7 @@ import useTheme from '@/modules/theme/hooks'
 import { useDailyList } from '@/modules/userDailyList/hooks'
 import { useMemo } from 'react'
 import { useUserState } from '@/modules/auth/hooks'
+import media from '@/style/media'
 
 // 1회당 가져올 날짜 수
 const UNIT_FETCH_ONCE = 7
@@ -23,6 +24,9 @@ function Home({}: HomeProps) {
   const { profile } = useUserState()
   const { fetchUserSchedule } = useUserSchedule()
   const { initialDailyFetch } = useDailyList()
+
+  const aa = media.vertical("padding", 12, 9, 7)
+
 
   useEffect(() => {
     if (!profile) return
@@ -48,6 +52,7 @@ function Home({}: HomeProps) {
 const styles = (theme: DefaultTheme) =>
   StyleSheet.create({
     container: {
+      ...media.vertical("padding", 12, 9),
       flex: 1,
       alignItems: 'stretch',
       backgroundColor: theme.mainBackground,
