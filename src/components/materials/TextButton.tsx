@@ -1,4 +1,3 @@
-
 import React, { useMemo } from "react";
 import { StyleSheet, TouchableOpacity, TouchableOpacityProps } from "react-native";
 import Text from "./Text"
@@ -7,7 +6,7 @@ import { useSelector } from "react-redux";
 import { GlobalState } from "@/modules";
 import { DefaultTextProps } from "./Text";
 
-interface TextButtonProps extends DefaultTextProps {
+export interface TextButtonProps extends DefaultTextProps {
     underlined?: boolean
 }
 export default function TextButton({content, underlined, style, color, onPress, ...others}:TextButtonProps){

@@ -8,4 +8,5 @@ export {default as Youtube} from "./Youtube";
 export {default as GaugeBar} from "./GaugeBar";
 export {default as CircleMenuItem} from "./CircleMenuItem";
 export {default as SearchInput} from "./SearchInput";
+export {default as OpenUrlButton} from "./OpenUrlButton";
 export {default as useThemedStepper} from "./useThemedStepper";
