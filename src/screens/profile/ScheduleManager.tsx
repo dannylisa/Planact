@@ -43,7 +43,6 @@ const styles = (theme: DefaultTheme) =>
       backgroundColor: theme.mainBackground,
     },
     title:{
-        paddingHorizontal: 15,
-        paddingVertical: 20
+        padding: 16,
     }
   })

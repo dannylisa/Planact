@@ -27,6 +27,7 @@ import SelectInterval from './SelectInterval';
 import DateTimePickerModal from '@/components/materials/DateTimePickerModal';
 import { isToday, korday } from '@/utils/date';
 import { useUserSchedule } from '@/modules/userSchedule/hooks';
+import { useNavigation } from '@react-navigation/native';
 
 const RADIO_PROPS: RadioButtonProps[] = [
   { label: '요일 선택', id: '0', selected: true },
@@ -54,7 +55,9 @@ const COLORS = [
 const Today = new Date();
 const TwoWeeksLater = dayjs().add(14, 'days').toDate();
 
-export default function MarketScheduleDetails({ route, navigation }) {
+export default function MarketScheduleDetails({ route }) {
+  const navigation = useNavigation()
+
   // theme
   const theme = useTheme();
   const {
@@ -104,10 +107,6 @@ export default function MarketScheduleDetails({ route, navigation }) {
   // Color Select
   const [colorIdx, setColorIdx] = useState<number>(0);
 
-  // DatePicker Setting
-  const [date, setDate] = useState<Date>(Today);
-  const [datepickerVisible, setDatepickerVisible] = useState<boolean>(false);
-  const toggleDatepickerVisible = () => setDatepickerVisible((prev) => !prev);
   const [selectedDays, setSelectedDays] = useState<boolean[]>([
     false,
     false,
@@ -117,7 +116,12 @@ export default function MarketScheduleDetails({ route, navigation }) {
     false,
     false,
   ]);
-
+  
+  // DatePicker Setting
+  const [date, setDate] = useState<Date>(Today);
+  const [datepickerVisible, setDatepickerVisible] = useState<boolean>(false);
+  const toggleDatepickerVisible = () => setDatepickerVisible((prev) => !prev);
+  
   const getStartEndDate = () => {
     const type: attachScheduleType = radioButtons[0].selected
       ? 'weekdays'
@@ -186,7 +190,7 @@ export default function MarketScheduleDetails({ route, navigation }) {
         fetchUserSchedule();
       })
       .then(() => {
-        navigation.push('Market/Main');
+        navigation.navigate('Market/Main');
       })
       .catch((err: AxiosError) => {
         if (err.response?.status === 406)
@@ -407,10 +411,7 @@ export default function MarketScheduleDetails({ route, navigation }) {
   );
 }
 
-const styles = ({
-  mainBackground,
-  primary: { main },
-}: DefaultTheme) =>
+const styles = ({ mainBackground, primary: { main }}: DefaultTheme) =>
   StyleSheet.create({
     container: {
       flex: 1,

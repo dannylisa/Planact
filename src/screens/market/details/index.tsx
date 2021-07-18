@@ -21,13 +21,14 @@ import {
   ScheduleCommentsList,
   useScheduleComments,
 } from '@/components/scheduleComments';
+import { useNavigation } from '@react-navigation/native';
 
 interface EventsGroupedByDateOf {
   date: string;
   events: IEvent[];
 }
 
-export default function MarketScheduleDetails({ route, navigation }) {
+export default function MarketScheduleDetails({ route }) {
   // theme
   const theme = useTheme();
   const { container, header, content, stepperWrapper, item, alreadyButton } =
@@ -64,8 +65,14 @@ export default function MarketScheduleDetails({ route, navigation }) {
     })();
   }, [schedule]);
 
+  // navigate
+  const navigation = useNavigation()
   const onDownload = () =>
-    navigation.push('Market/Schedule/Download', { schedule });
+    navigation.navigate('Market/Schedule/Download/alias', { schedule });
+    // navigation.push('Market/Schedule/Download', { schedule });
+
+
+  /// Android
   const Wrapper =
     Platform.OS === 'android' ? KeyboardAvoidingView : SafeAreaView;
 

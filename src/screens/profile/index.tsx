@@ -33,7 +33,7 @@ function Profile() {
             ))}
           </View>
           <View style={blockContainer}>
-            {themes.slice(4).map((theme, idx) => (
+            {themes.slice(4).reverse().map((theme, idx) => (
               <ThemeBlock theme={theme} key={idx} />
             ))}
           </View>
@@ -63,9 +63,9 @@ const styles = (theme: DefaultTheme) => {
     blockContainer: {
       backgroundColor: mainBackground,
       flexDirection: 'row',
-      paddingVertical: 5,
+      paddingVertical: 3,
       paddingHorizontal:10,
-      justifyContent: "space-evenly"
+      justifyContent: "center",
     },
   })
 }

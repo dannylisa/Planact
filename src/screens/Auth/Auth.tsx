@@ -2,7 +2,7 @@ import { DefaultTheme } from '@/style/styled'
 import React, { useMemo, useState } from 'react'
 import { Image } from 'react-native'
 import { StyleSheet, View, SafeAreaView } from 'react-native'
-import { TextInput, Button, TextButton } from '@components/materials'
+import { TextInput, Button, TextButton, Text } from '@components/materials'
 
 import { useAuthorization } from '@/modules/auth/hooks'
 import useTheme from '@/modules/theme/hooks'
@@ -39,10 +39,22 @@ function Auth() {
   return (
     <SafeAreaView style={wrapper}>
       <View style={container}>
-        <Image
-          source={require('@/assets/img/planact.jpg')}
-          style={{ width: 250, height: 100, marginBottom: 100 }}
+        <Text 
+          content="PLANACT" 
+          style={{
+            fontSize:36,
+            fontWeight: "800",
+            marginBottom: loginMode? 60: 25
+          }} 
         />
+        {
+          !loginMode &&
+          <Text 
+            content="회원가입" 
+            headings={2}
+            marginBottom={35}
+          />
+        }
 
         {/* 카카오
         <Button
@@ -83,7 +95,7 @@ function Auth() {
           onPress={loginMode ? onLogin : onSignUp}
         />
         <TextButton
-          style={{ marginTop: 60 }}
+          style={{ marginTop: 40 }}
           underlined
           content={
             loginMode
@@ -109,7 +121,6 @@ const styles = (theme: DefaultTheme) => {
       backgroundColor: mainBackground,
       justifyContent: 'center',
       alignItems: 'center',
-      marginBottom: 60,
     },
     item: {
       marginBottom: 10,

@@ -24,12 +24,12 @@ const styles = (isCurrentTheme:boolean, content:string, text:string, main:string
         borderWidth: (isCurrentTheme ? 3 : 2),
         backgroundColor: content,
         borderRadius: 10,
-        width: 80,
-        height: 80,
-        padding: 10,
-        alignContent: 'flex-end',
+        flex: 1,
+        aspectRatio:1,
+        padding: 8,
+        alignItems: 'flex-end',
         justifyContent: 'flex-end',
-        marginRight: 10
+        marginHorizontal: 3
     },
     point:{
         borderRadius: 11,

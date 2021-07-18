@@ -53,8 +53,8 @@ const styles = ({text, primary:{main}}:DefaultTheme, underlined:boolean, flex?: 
             fontSize: 18,
             fontWeight: "600",
             paddingTop: 10,
-            paddingBottom: 10,
-            paddingLeft: 14,
+            paddingBottom: 8,
+            paddingLeft: 10,
             paddingRight: 24,
             borderRadius: 2.5,
             flex: flex

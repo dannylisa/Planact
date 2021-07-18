@@ -27,6 +27,7 @@ interface AttachScheduleProps extends AttachSchedulePropsBase, IntervalProps, We
 
 export default function (props:(AttachScheduleProps)): Promise<any> {
     let {type, interval, weekdays, start_date, ...others} = props;
+    console.log(others.alias)
     if(others.color.indexOf("#")!==0 && 
         (others.color.length===7 || others.color.length===9)) 
         throw Error(`Not Color Type: ${others.color}`)
