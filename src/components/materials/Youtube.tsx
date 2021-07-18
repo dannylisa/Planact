@@ -1,9 +1,7 @@
 import React from "react"
 import { WebView } from 'react-native-webview';
 import { StyleSheet, View } from "react-native";
-
-
-interface YoutubeProps {
+export interface YoutubeProps {
     vid: string
     t?: number | string
 }

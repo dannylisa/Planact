@@ -15,7 +15,7 @@ type ColorSelectRouteParams = {
     Detail: {
         schedule: ISchedule
         alias: string
-        start_at: string
+        start_at?: string
         method: {
             methodIdx: number
             weekdays?: boolean[],
@@ -74,7 +74,7 @@ export default function ColorSelect () {
           token,
           alias,
           ...m,
-          start_date: start_at,
+          start_date: start_at || new Date(),
           color: COLORS[colorIdx],
           schedule_id: schedule.id,
         }).then(() => {
@@ -91,7 +91,15 @@ export default function ColorSelect () {
       };
     
     const navigation = useNavigation();
-    const onPrev = () => navigation.navigate('Market/Schedule/Download/freq', params)
+    const onPrev = () => {
+        if(['datetime', 'date'].includes(params.schedule.fixed))
+            navigation.navigate('Market/Schedule/Download/alias', {
+                schedule: params.schedule,
+                alias: params.alias
+            })
+        else
+            navigation.navigate('Market/Schedule/Download/freq', params)
+    }
 
     return (
         <SafeAreaView style={{flex:1}}>

@@ -33,6 +33,7 @@
     "holiday-kr": "^0.1.5",
     "immer": "^9.0.5",
     "immutable": "^4.0.0-rc.14",
+    "parse-json": "^5.2.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-41.0.0.tar.gz",
