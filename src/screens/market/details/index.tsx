@@ -7,6 +7,7 @@ import {
   Platform,
   KeyboardAvoidingView,
   Dimensions,
+  Alert,
 } from 'react-native';
 import { DefaultTheme } from '@/style/styled';
 import useTheme from '@/modules/theme/hooks';
@@ -58,7 +59,15 @@ export default function MarketScheduleDetails({ route }) {
       if (!token) return;
       await getMarketScheduleEvents(token, schedule.id)
         .then((res: AxiosResponse<EventsGroupedByDateOf[]>) => {
-          setSchedulePreviewEvents(res.data);
+          let result: IEvent[] = [];
+          for (let i = 0; i < res.data.length; i++) {
+            let tmp = res.data[i].events.sort(function (a, b) {
+              return a.seq - b.seq;
+            });
+            result.push({ ...res.data, events: tmp });
+          }
+
+          setSchedulePreviewEvents(result);
           setStepperSize(Math.min(res.data.length, 5));
         })
         .catch((err: AxiosError) => console.log(err));
@@ -66,11 +75,10 @@ export default function MarketScheduleDetails({ route }) {
   }, [schedule]);
 
   // navigate
-  const navigation = useNavigation()
+  const navigation = useNavigation();
   const onDownload = () =>
     navigation.navigate('Market/Schedule/Download/alias', { schedule });
-    // navigation.push('Market/Schedule/Download', { schedule });
-
+  // navigation.push('Market/Schedule/Download', { schedule });
 
   /// Android
   const Wrapper =
@@ -82,11 +90,7 @@ export default function MarketScheduleDetails({ route }) {
       <ScrollView style={container}>
         <View style={header}>
           <View>
-            <Text 
-              bold 
-              headings={1} 
-              align="left" 
-              content={`${schedule.name}`} />
+            <Text bold headings={1} align="left" content={`${schedule.name}`} />
             <Text
               headings={3}
               align="left"
@@ -96,15 +100,14 @@ export default function MarketScheduleDetails({ route }) {
           </View>
         </View>
 
-        {
-          !schedule.has_attached ?
+        {!schedule.has_attached ? (
           <>
-          {/* Stepper */}
+            {/* Stepper */}
             <View style={stepperWrapper}>
-              <Text 
-                bold 
-                headings={1} 
-                align="left" 
+              <Text
+                bold
+                headings={1}
+                align="left"
                 content={`플랜 ${stepperSize}일 미리보기`}
                 marginBottom={16}
               />
@@ -128,7 +131,7 @@ export default function MarketScheduleDetails({ route }) {
               />
             </View>
           </>
-          :
+        ) : (
           <View style={alreadyButton}>
             <Button
               flex={1}
@@ -137,16 +140,16 @@ export default function MarketScheduleDetails({ route }) {
               disabled
             />
           </View>
-        }
-        
+        )}
+
         <ScheduleCommentsList
-          style={{paddingTop: 20}}
+          style={{ paddingTop: 20 }}
           schedule_id={schedule.id}
           count_events={schedule.count_events}
           comments={comments}
           resetComments={resetComments}
         />
-        <View style={{paddingVertical: 40}}/>
+        <View style={{ paddingVertical: 40 }} />
       </ScrollView>
       <NewScheduleComment
         floorFixed
@@ -166,7 +169,7 @@ const styles = ({ mainBackground }: DefaultTheme) => {
     },
     header: {
       justifyContent: 'space-between',
-      marginBottom: 20
+      marginBottom: 20,
     },
     content: {
       paddingHorizontal: 16,
@@ -182,8 +185,8 @@ const styles = ({ mainBackground }: DefaultTheme) => {
       alignItems: 'center',
       justifyContent: 'center',
     },
-    alreadyButton:{
+    alreadyButton: {
       paddingHorizontal: 20,
-    }
+    },
   });
 };
