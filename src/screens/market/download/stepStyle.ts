@@ -65,5 +65,17 @@ export default ({ mainBackground, primary:{main} }: DefaultTheme) => (
             borderColor: main,
             borderWidth: 3,
           },
+          rowContainer:{
+            marginTop:20,
+            width: "82%",
+            height: 80,
+            marginBottom:-20
+          },
+          rowInfo:{
+            flex: 1,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems:"center",
+          }
     })
 )
