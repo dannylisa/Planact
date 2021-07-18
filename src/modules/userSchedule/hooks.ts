@@ -1,20 +1,19 @@
 import { getUserSchedule } from "@/api/home/getSchedule";
 import { IUserSchedule } from "@/utils/data";
 import { AxiosError, AxiosResponse } from "axios";
-import { Dispatch, useState } from "react";
+import { Dispatch } from "react";
 import { useDispatch, useSelector } from "react-redux"
 import { 
     UserScheduleAction, 
     USER_SCHEDULES_ACHIEVEMENT_UPDATE, 
     USER_SCHEDULES_FETCH, 
-    USER_SCHEDULES_SHOULD_FETCH_SIGNAL 
 } from "./reducer";
 import { GlobalState } from "../index"
 import { useUserState } from "../auth/hooks";
 
 export const useUserSchedule = () => {
     const dispatch:Dispatch<UserScheduleAction> = useDispatch();
-    const {shouldFetch, schedules} = useSelector( ({ userSchedulesState }: GlobalState) => userSchedulesState);
+    const schedules = useSelector( ({ userSchedulesState }: GlobalState) => userSchedulesState);
     const { getToken } = useUserState();
     
     const fetchUserSchedule = async ():Promise<boolean> => {
@@ -31,9 +30,6 @@ export const useUserSchedule = () => {
             })
         return succeed
     }
-    
-
-    const setShouldFetchTrue = () => dispatch({type: USER_SCHEDULES_SHOULD_FETCH_SIGNAL})
 
     // Schedule의 ID로 스케쥴 찾음
     const getScheduleById = (schedule_id: string) => {
@@ -51,10 +47,8 @@ export const useUserSchedule = () => {
     }
 
     return {
-        shouldFetch,
         schedules,
         fetchUserSchedule,
-        setShouldFetchTrue,
         getScheduleById,
         updateAchievement
     }

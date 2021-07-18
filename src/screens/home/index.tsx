@@ -30,10 +30,8 @@ function Home({}: HomeProps) {
 
   useEffect(() => {
     if (!profile) return
-    (async () => {
-      await fetchUserSchedule();
-      await initialDailyFetch();
-    })()
+    fetchUserSchedule(); 
+    initialDailyFetch();
   }, [profile])
 
   return (

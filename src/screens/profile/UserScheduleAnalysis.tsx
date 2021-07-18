@@ -1,6 +1,6 @@
 import useTheme from "@/modules/theme/hooks";
 import React, { useEffect, useMemo } from "react";
-import { Dimensions, Platform, SafeAreaView, StyleSheet, View } from "react-native";
+import { Alert, Dimensions, Platform, SafeAreaView, StyleSheet, View } from "react-native";
 import { Button, GaugeBar, Text } from "@components/materials"
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
@@ -11,6 +11,9 @@ import { useDailyList } from "@/modules/userDailyList/hooks";
 import dayjs from "dayjs";
 import { LineChart } from "react-native-chart-kit";
 import media from "@/style/media";
+import {deleteUserSchedule, deleteUserScheduleAfter} from "@/api/profile/deleteUserSchedule";
+import { useUserState } from "@/modules/auth/hooks";
+import { useUserSchedule } from "@/modules/userSchedule/hooks";
 
 type RouteParams = {
     Detail: {
@@ -18,6 +21,10 @@ type RouteParams = {
     };
 }
 export default function () {
+    const { getToken } = useUserState();
+    const { fetchUserSchedule } = useUserSchedule()
+    const { initialDailyFetch } = useDailyList()
+
     // Route Settings
     const {params:{user_schedule}} = useRoute<RouteProp<RouteParams, 'Detail'>>()
     const navigation = useNavigation()
@@ -51,6 +58,43 @@ export default function () {
         ).filter(daily => daily.count)
     ), [user_schedule.id])
 
+    const onDeleteAll = (all:boolean) => () => {
+        Alert.alert(
+            (all?
+                '플랜을 정말 삭제하겠습니까? 삭제된 플랜은 복구되지 않습니다.'
+                :
+                `${user_schedule.alias}의 모든 이후 일정을 삭제하시겠습니까?`
+            ),
+            '',
+            [
+                {
+                  text: "취소",
+                  style: "cancel"
+                },
+                { 
+                    text: "네", 
+                    onPress: 
+                    () =>  getToken()
+                        .then((token) => {
+                            if(!token)
+                                throw Error
+                            return  all ?
+                                deleteUserSchedule(token, user_schedule.id)
+                                :
+                                deleteUserScheduleAfter(token, user_schedule.id)
+                        }).then(() => {
+                            Alert.alert('플랜이 삭제되었습니다.');
+                            fetchUserSchedule(); 
+                            initialDailyFetch();
+                            navigation.navigate('Profile');
+                        })
+                        .catch((err:Error) => {
+                            console.log(err.message)
+                        })
+                },
+            ])
+    }
+
 
     const Wrapper = Platform.OS === 'android' ? KeyboardAwareScrollView : SafeAreaView;
     return(
@@ -75,6 +119,7 @@ export default function () {
                 </View>
                 
                 {/* 성취율 그래프 */}
+                {latest.length ?
                 <View style={chartContainer} >
                     <LineChart 
                         data={{
@@ -109,6 +154,19 @@ export default function () {
                         }}
                     />
                 </View>
+                :
+                <>
+                <Text 
+                    marginTop={70}
+                    content="아직 성취한 플랜이 없습니다." 
+                />
+                <Text
+                    marginTop={5}
+                    marginBottom={70}
+                    content="플랜 진행이 시작되면 성취도 분석을 제공합니다." 
+                />
+                </>
+                }
 
                 <View style={menu}>
                     <View style={{flex: 5}}>
@@ -129,6 +187,7 @@ export default function () {
                         flex={2}
                         content="삭제" 
                         color="danger" 
+                        onPress={onDeleteAll(false)}
                     />
                 </View>
                 <View style={menu}>
@@ -149,7 +208,8 @@ export default function () {
                     <Button
                         flex={2}
                         content="삭제" 
-                        color="danger" 
+                        color="danger"
+                        onPress={onDeleteAll(true)}
                     />
                 </View>
             </ScrollView>
@@ -170,7 +230,7 @@ const styles = ({mainBackground}:DefaultTheme) => {
             flexDirection: "row",
             alignItems: "center",
             padding: 12,
-            paddingHorizontal: 20
+            paddingHorizontal: 20,
         },
         chartContainer:{
             flex: 1,

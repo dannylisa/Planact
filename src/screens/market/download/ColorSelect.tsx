@@ -8,6 +8,8 @@ import { ISchedule } from "@/utils/data"
 import { useUserState } from "@/modules/auth/hooks"
 import attachSchedule, { attachScheduleType } from "@/api/market/attachSchedule"
 import { AxiosError } from "axios"
+import { useUserSchedule } from "@/modules/userSchedule/hooks"
+import { useDailyList } from "@/modules/userDailyList/hooks"
 
 type ColorSelectRouteParams = {
     Detail: {
@@ -44,6 +46,8 @@ const TYPES:attachScheduleType[] = ['weekdays','interval','everyday']
 
 export default function ColorSelect () {
     const { getToken } = useUserState();
+    const { fetchUserSchedule } = useUserSchedule();
+    const { initialDailyFetch } = useDailyList();
     
     const theme = useTheme()
     const {params} = useRoute<RouteProp<ColorSelectRouteParams, 'Detail'>>()
@@ -52,8 +56,6 @@ export default function ColorSelect () {
     
     // Color Select
     const [colorIdx, setColorIdx] = useState<number>(0);
-
-    console.log(params)
 
     const attach = async () => {
         const token = await getToken();
@@ -75,21 +77,17 @@ export default function ColorSelect () {
           start_date: start_at,
           color: COLORS[colorIdx],
           schedule_id: schedule.id,
-        })
-          .then((res) => {
+        }).then(() => {
             Alert.alert('플랜이 다운로드 되었습니다.');
-          })
-          .then(() => {
-              navigation.navigate('Market/Main');
-            })
-            .then(() => {
-                fetchUserSchedule();
-            })
-          .catch((err: AxiosError) => {
-            if (err.response?.status === 406)
-              Alert.alert('이미 내려받은 스케줄입니다!');
-            else Alert.alert(err.response?.data);
-          });
+            navigation.navigate('Market/Main');
+        })
+        .catch((err: AxiosError) => {
+        if (err.response?.status === 406)
+            Alert.alert('이미 내려받은 스케줄입니다!');
+            console.log(err)
+        })
+        fetchUserSchedule();
+        initialDailyFetch();
       };
     
     const navigation = useNavigation();
@@ -187,6 +185,3 @@ export default function ColorSelect () {
     )
 }
 
-function fetchUserSchedule() {
-    throw new Error("Function not implemented.")
-}

@@ -47,7 +47,7 @@ const ScheduleListItem = ({ schedule, onPress }: ScheduleListItemProps) => {
   const theme = useTheme();
   const { wrapper, container, triangle, tagContainer, star } = useMemo(
     () => styles(theme, tag.color),
-    [theme]
+    [theme, has_attached]
   );
   const [likes, setLikes] = React.useState<boolean>(Boolean(user_likes));
   const { getToken } = useUserState();
