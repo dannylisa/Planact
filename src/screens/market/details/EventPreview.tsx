@@ -19,7 +19,7 @@ const EventPreview = ({event}:{event: IEvent}) => {
                 content={
                     event.origin_time ?
                     `${event.origin_time.slice(0,5)} `
-                    : `Step ${seq+1} `
+                    : `# ${seq+1} `
                 }/>
             <Text align="left" flex={4} content={title} />
         </View>
@@ -31,8 +31,10 @@ const styles = (theme:DefaultTheme) => {
     return StyleSheet.create({
         wrapper:{
             flexDirection: "row",
-            height: 45,
             backgroundColor: mainBackground,
+            marginTop: 5,
+            marginBottom: 10,
+            alignItems:"center"
         }
     })
 }

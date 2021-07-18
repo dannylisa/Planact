@@ -162,11 +162,11 @@ const styles = ({ mainBackground }: DefaultTheme) => {
     container: {
       flex: 1,
       backgroundColor: mainBackground,
-      padding: 20,
+      padding: 18,
     },
     header: {
       justifyContent: 'space-between',
-      padding: 12,
+      marginBottom: 20
     },
     content: {
       paddingHorizontal: 16,

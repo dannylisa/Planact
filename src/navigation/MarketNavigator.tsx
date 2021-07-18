@@ -3,7 +3,7 @@ import React from 'react'
 import MarketMain from '@/screens/market/main'
 import { createStackNavigator } from '@react-navigation/stack'
 import MarketScheduleDetails from '@/screens/market/details'
-import MarketScheduleDownload from '@/screens/market/download'
+import MarketScheduleDownload from '@/screens/market/download/__index'
 import {Alias, Freq, StartAt, ColorSelect} from '@/screens/market/download/steps'
 
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
