@@ -81,11 +81,13 @@ export default function () {
                                 deleteUserSchedule(token, user_schedule.id)
                                 :
                                 deleteUserScheduleAfter(token, user_schedule.id)
+                                // deleteUserSchedule(token, user_schedule.id)
                         }).then(() => {
                             Alert.alert('플랜이 삭제되었습니다.');
                             fetchUserSchedule(); 
                             initialDailyFetch();
                             navigation.navigate('Profile');
+                            console.log(12)
                         })
                         .catch((err:Error) => {
                             console.log(err)

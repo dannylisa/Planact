@@ -8,6 +8,7 @@ import MarketNavigator from './MarketNavigator';
 import { Dimensions, StyleSheet, View } from 'react-native';
 import { DefaultTheme } from '@/style/styled';
 import { Text } from "@components/materials";
+import media from '@/style/media';
 
 type BottomTabParamList = {
   Home: undefined;
@@ -25,7 +26,7 @@ export default function BottomTabNavigator() {
         activeTintColor: theme.primary.main,
         showLabel: false,
         style:{
-          height: 65,
+          ...media.vertical('height', 85, 75, 68),
           alignItems:"flex-end"
         }
       }}

@@ -26,7 +26,11 @@ export default function Alias () {
     const onPrev = () => navigation.navigate('Market/Schedule/Details', {schedule})
     const onNext = () => {
         if(['datetime', 'date'].includes(schedule.fixed))
-            navigation.navigate('Market/Schedule/Download/color', {schedule, alias, method:{methodIdx:2}})
+            navigation.navigate('Market/Schedule/Download/color', {
+                schedule, 
+                alias, 
+                method:{methodIdx:2}
+            })
         else
             navigation.navigate('Market/Schedule/Download/startat', {schedule, alias})
     }

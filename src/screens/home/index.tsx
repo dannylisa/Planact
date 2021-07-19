@@ -10,6 +10,7 @@ import { useDailyList } from '@/modules/userDailyList/hooks'
 import { useMemo } from 'react'
 import { useUserState } from '@/modules/auth/hooks'
 import media from '@/style/media'
+import { ScrollView } from 'react-native-gesture-handler'
 
 // 1회당 가져올 날짜 수
 const UNIT_FETCH_ONCE = 7
@@ -40,9 +41,9 @@ function Home({}: HomeProps) {
       <View style={{ minHeight: 140 }}>
         <DailyList />
       </View>
-      <View style={{ flex: 1 }}>
+      <ScrollView>
         <DailyView />
-      </View>
+      </ScrollView>
     </SafeAreaView>
   )
 }

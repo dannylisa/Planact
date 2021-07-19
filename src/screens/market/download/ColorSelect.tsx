@@ -15,7 +15,7 @@ type ColorSelectRouteParams = {
     Detail: {
         schedule: ISchedule
         alias: string
-        start_at?: string
+        start_at: string
         method: {
             methodIdx: number
             weekdays?: boolean[],

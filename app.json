@@ -20,13 +20,14 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.insiders.planact",
       "buildNumber": "0.0.0",
-      "usesIcloudStorage": true
+      "usesIcloudStorage": true,
+      "icon": "./src/assets/icons/icon.png"
     },
     "android": {
       "package": "com.insiders.planact",
       "versionCode": 0,
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./src/assets/icons/icon.png",
         "backgroundColor": "#FFFFFF"
       }
     },

@@ -21,7 +21,7 @@ export default function () {
                     <Text content="내 플랜" bold align="left" headings={1}/>
                 </View>
                 {/* 진행중인 플랜부터 정렬 */}
-                {schedules
+                {schedules.concat([])
                     .sort((a, b) => dayjs(b.end_date).diff(a.end_date))
                     .map((user_schedule, idx) => {
                     const outdated = user_schedule.end_date < dayjs().format('YYYY-MM-DD')

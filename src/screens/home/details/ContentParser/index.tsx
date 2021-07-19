@@ -70,7 +70,8 @@ export default function({content}:ContentParserProps){
 const styles = (theme:DefaultTheme) => {
     return StyleSheet.create({
         wrapper:{
-            paddingVertical: 8,
+            marginTop:10,
+            paddingVertical: 10,
             paddingHorizontal: 15
         }
     })

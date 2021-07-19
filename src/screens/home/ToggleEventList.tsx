@@ -22,7 +22,7 @@ function ToggleEventList(props: GroupedEvent) {
           color={color}
           onPress={toggleShow} 
           content={
-            ['datetime, date'].includes(fixed) ?
+            ['datetime', 'date'].includes(fixed) ?
             `${name}`
             :`${name} ${events[0].event.dateof}일차`
           } 
