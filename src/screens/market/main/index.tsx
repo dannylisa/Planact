@@ -1,11 +1,12 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import useTheme from '@/modules/theme/hooks';
+import useTheme, { isLight } from '@/modules/theme/hooks';
 import { DefaultTheme } from '@/style/styled';
 import {
   Alert,
   FlatList,
   Platform,
   SafeAreaView,
+  StatusBar,
   StyleSheet,
   View,
 } from 'react-native';
@@ -78,6 +79,7 @@ function MarketMain() {
     Platform.OS === 'android' ? KeyboardAwareScrollView : SafeAreaView;
   return (
     <Wrapper style={container}>
+      <StatusBar barStyle={isLight(theme) ? "dark-content" : "light-content"} />
       <View style={title}>
         <SearchInput
           placeholder="검색어를 두 글자 이상 입력해주세요."

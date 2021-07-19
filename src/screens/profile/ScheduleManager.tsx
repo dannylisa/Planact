@@ -1,8 +1,8 @@
 import React, { useMemo } from "react"
 import { CircleMenuItem, Text } from "@/components/materials"
-import { View, SafeAreaView, StyleSheet } from "react-native"
+import { View, SafeAreaView, StyleSheet, StatusBar } from "react-native"
 import { DefaultTheme } from "@/style/styled"
-import useTheme from "@/modules/theme/hooks"
+import useTheme, { isLight } from "@/modules/theme/hooks"
 import { useUserSchedule } from "@/modules/userSchedule/hooks"
 import { useNavigation } from "@react-navigation/native"
 import dayjs from "dayjs"
@@ -16,7 +16,7 @@ export default function () {
 
     return (
         <SafeAreaView style={container}>
-            <View>
+            <StatusBar barStyle={isLight(theme) ? "dark-content" : "light-content"} />
                 <View style={title}>
                     <Text content="내 플랜" bold align="left" headings={1}/>
                 </View>
@@ -42,7 +42,6 @@ export default function () {
                         />
                     )}
                 )}
-            </View>
         </SafeAreaView>
     )
 }
@@ -55,6 +54,6 @@ const styles = (theme: DefaultTheme) =>
       backgroundColor: theme.mainBackground,
     },
     title:{
-        padding: 16,
+        padding: 20,
     },
   })

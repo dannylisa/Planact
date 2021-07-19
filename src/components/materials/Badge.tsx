@@ -1,25 +1,40 @@
 import useTheme, { dangerColors } from "@/modules/theme/hooks";
 import { DefaultTheme } from "@/style/styled";
 import React, { useMemo } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleProp, StyleSheet, TouchableOpacity, View, ViewStyle } from "react-native";
 import { ButtonColors } from "./Button";
 import Text from "./Text";
 
 export interface BadgeProps {
     color: ButtonColors
     content: string
+    onBadgePress?: () => any
+    style?: StyleProp<ViewStyle>
 }
-export default ({color, content}:BadgeProps) => {
+export default ({color, content, onBadgePress, style}:BadgeProps) => {
     const theme = useTheme();
     const {badge} = useMemo(() =>badgeStyles(theme), [theme]);
     const keyTheme = color === 'danger' ? dangerColors(theme) : theme[color] 
     return (
-        <View style={[badge, {backgroundColor:keyTheme.main}]}>
+        onBadgePress ?
+        <TouchableOpacity 
+            style={[badge, {backgroundColor:keyTheme.main}, style]}
+            onPress={onBadgePress}
+        >
             <Text
                 color={keyTheme.text}
                 content={content}
             />
-        </View>
+        </TouchableOpacity>
+        :
+        (
+            <View style={[badge, {backgroundColor:keyTheme.main}, style]}>
+                <Text
+                    color={keyTheme.text}
+                    content={content}
+                />  
+            </View>
+        )
     )
 }
 

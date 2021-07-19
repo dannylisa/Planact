@@ -2,10 +2,10 @@ import React, { useEffect } from 'react'
 import DailyList from './DailyList'
 import DailyView from './DailyView'
 import { DefaultTheme } from '@/style/styled'
-import { SafeAreaView, View, StyleSheet } from 'react-native'
+import { SafeAreaView, View, StyleSheet, StatusBar } from 'react-native'
 import MonthChange from './MonthChange'
 import { useUserSchedule } from '@/modules/userSchedule/hooks'
-import useTheme from '@/modules/theme/hooks'
+import useTheme, { isLight } from '@/modules/theme/hooks'
 import { useDailyList } from '@/modules/userDailyList/hooks'
 import { useMemo } from 'react'
 import { useUserState } from '@/modules/auth/hooks'
@@ -26,9 +26,6 @@ function Home({}: HomeProps) {
   const { fetchUserSchedule } = useUserSchedule()
   const { initialDailyFetch } = useDailyList()
 
-  const aa = media.vertical("padding", 12, 9, 7)
-
-
   useEffect(() => {
     if (!profile) return
     fetchUserSchedule(); 
@@ -37,13 +34,14 @@ function Home({}: HomeProps) {
 
   return (
     <SafeAreaView style={container}>
+      <StatusBar barStyle={isLight(theme) ? "dark-content" : "light-content"} />
       <MonthChange />
       <View style={{ minHeight: 140 }}>
         <DailyList />
       </View>
-      <ScrollView>
+      <View style={{flex:1}}>
         <DailyView />
-      </ScrollView>
+      </View>
     </SafeAreaView>
   )
 }

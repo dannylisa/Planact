@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from "react"
 import { Text, Button, TextInput } from "@components/materials"
-import { SafeAreaView, View, StyleSheet } from "react-native"
-import useTheme from "@/modules/theme/hooks"
+import { SafeAreaView, View, StyleSheet, StatusBar } from "react-native"
+import useTheme, { isLight } from "@/modules/theme/hooks"
 import stepStyle from "./stepStyle"
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native"
 import { ISchedule } from "@/utils/data"
@@ -36,6 +36,7 @@ export default function Alias () {
     }
     return (
         <SafeAreaView style={{flex:1}}>
+            <StatusBar barStyle={isLight(theme) ? "dark-content" : "light-content"} />
             <View style={container}>
                 <Text
                     bold 

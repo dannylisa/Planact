@@ -1,7 +1,7 @@
-import useTheme from '@/modules/theme/hooks';
+import useTheme, { isLight } from '@/modules/theme/hooks';
 import { DefaultTheme } from '@/style/styled';
 import React, { useEffect, useState } from 'react';
-import { Alert, Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
+import { Alert, Platform, SafeAreaView, ScrollView, StatusBar, StyleSheet, View } from 'react-native';
 import TextInput from '@/components/materials/TextInput';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Text from '@/components/materials/Text';
@@ -79,6 +79,7 @@ function SetProfile({ route }) {
     Platform.OS === 'android' ? KeyboardAwareScrollView : SafeAreaView;
   return (
     <Wrapper style={container}>
+      <StatusBar barStyle={isLight(theme) ? "dark-content" : "light-content"} />
       <ScrollView style={[wrapper, isAnd && wrapper_and]}>
         <View style={[item, isAnd && item_and]}>
           <Text bold headings={1} content={`${username}님,`} align="left" />

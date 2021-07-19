@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-import { View, StyleSheet } from 'react-native'
+import { View, StyleSheet, StatusBar } from 'react-native'
 import { DefaultTheme } from '@/style/styled'
 import themes from '@/style/themes'
 import ThemeBlock from './ThemeBlock'
 import MenuItem from '@/components/materials/MenuItem'
-import useTheme from '@/modules/theme/hooks'
+import useTheme, { isLight } from '@/modules/theme/hooks'
 import { useAuthorization } from '@/modules/auth/hooks'
 import { useNavigation } from '@react-navigation/native'
 
@@ -18,6 +18,7 @@ function Profile() {
 
   return (
     <View style={wrapper}>
+      <StatusBar barStyle={isLight(theme) ? "dark-content" : "light-content"} />
       <MenuItem
         content={'프로필 설정'}
         onPress={() => {

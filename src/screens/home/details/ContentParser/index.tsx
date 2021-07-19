@@ -44,7 +44,7 @@ export default function({content}:ContentParserProps){
                     <Text
                         align="left"
                         bold
-                        headings={1}
+                        style={{fontSize:26}}
                         content={parsed.title} 
                         marginBottom={12}
                     /> : <></>
@@ -70,7 +70,7 @@ export default function({content}:ContentParserProps){
 const styles = (theme:DefaultTheme) => {
     return StyleSheet.create({
         wrapper:{
-            marginTop:10,
+            marginTop:6,
             paddingVertical: 10,
             paddingHorizontal: 15
         }

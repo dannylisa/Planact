@@ -4,11 +4,13 @@ import Home from '@/screens/home'
 import { createStackNavigator } from '@react-navigation/stack'
 import dayjs from 'dayjs'
 import EventDetails from '@/screens/home/details'
+import UserScheduleAnalysis from '@/screens/profile/UserScheduleAnalysis'
 
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
 type HomeParamList = {
   Home: undefined
   "Event/Details": undefined
+  "Home/ScheduleManager/Analysis": undefined
 }
 const HomeStack = createStackNavigator<HomeParamList>()
 
@@ -38,6 +40,10 @@ function HomeNavigator() {
             fontSize: 20,
           },
         }}
+      />
+      <HomeStack.Screen 
+        name="Home/ScheduleManager/Analysis" 
+        component={UserScheduleAnalysis} 
       />
     </HomeStack.Navigator>
   )

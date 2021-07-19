@@ -43,7 +43,7 @@ export default function ({header, content, uri}:PostProps){
 const styles = (theme:DefaultTheme) => {
     return StyleSheet.create({
         wrapper:{
-            paddingHorizontal: 6,
+            paddingHorizontal: 10,
             marginBottom:12
         },
         title:{

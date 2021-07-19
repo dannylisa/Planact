@@ -88,9 +88,13 @@ export function useDailyUpdate(){
         const daily = getSelectedDaily();
         return daily.events.find(event => event.id === userevent_id)
     }
-    const getEventOfDailyBySeq = (seq: number) => {
+    const getEventOfDailyByScheduleAndSeq = (schedule_id:string, seq: number) => {
         const daily = getSelectedDaily();
-        return daily.events.find(event => event.event.seq === seq)
+        return daily.events.find(event => (
+            (event.event.seq === seq) && 
+            (event.event.schedule===schedule_id)
+            )
+        )
     }
 
     const updateProof = async ({prev_proof, ...props}:UpdateProofProps) => {
@@ -117,6 +121,6 @@ export function useDailyUpdate(){
     return {
         updateProof,
         getEventOfDailyById,
-        getEventOfDailyBySeq
+        getEventOfDailyByScheduleAndSeq
     }
 }

@@ -1,6 +1,6 @@
-import useTheme from "@/modules/theme/hooks";
-import React, { useEffect, useMemo } from "react";
-import { Alert, Dimensions, Platform, SafeAreaView, StyleSheet, View } from "react-native";
+import useTheme, { isLight } from "@/modules/theme/hooks";
+import React, { useEffect, useMemo, useState } from "react";
+import { Alert, Dimensions, Platform, SafeAreaView, StatusBar, StyleSheet, View } from "react-native";
 import { Button, GaugeBar, Text } from "@components/materials"
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
@@ -14,6 +14,7 @@ import media from "@/style/media";
 import {deleteUserSchedule, deleteUserScheduleAfter} from "@/api/profile/deleteUserSchedule";
 import { useUserState } from "@/modules/auth/hooks";
 import { useUserSchedule } from "@/modules/userSchedule/hooks";
+import { NewScheduleComment, ScheduleCommentsList, useScheduleComments } from "@/components/scheduleComments";
 
 type RouteParams = {
     Detail: {
@@ -32,6 +33,9 @@ export default function () {
         navigation.setOptions({title: user_schedule.alias})
     },[user_schedule.id])
     
+    // Comments
+    const {comments, resetComments, createComment} = useScheduleComments(user_schedule.schedule.id);
+
     // Style Settings
     const theme = useTheme()
     const {wrapper, menu, padding, chartContainer} = useMemo(() => styles(theme), [theme]);
@@ -40,7 +44,7 @@ export default function () {
     const {dailys} = useDailyList();
     const today = dayjs();
     const latest = useMemo(() =>  dailys.filter(
-            daily => today.diff(daily.date, 'days') >= 0
+            daily => today.diff(daily.date, 'hours') > 0
         )
         .map(
             daily => {
@@ -97,12 +101,14 @@ export default function () {
             ])
     }
 
+    const [dangerVisible, setDangerVisible] = useState<boolean>(false)
+    const toggleDangerVisible = () => setDangerVisible(prev => !prev)
 
     const Wrapper = Platform.OS === 'android' ? KeyboardAwareScrollView : SafeAreaView;
     return(
         <Wrapper style={{flex:1}}>
+            <StatusBar barStyle={isLight(theme) ? "dark-content" : "light-content"} />
             <ScrollView style={wrapper}>
-                
 
                 {/* 성취율 */}
                 <View style={padding}>
@@ -170,6 +176,25 @@ export default function () {
                 </>
                 }
 
+                
+                
+            {/* 댓글  */}
+                <ScheduleCommentsList
+                    style={{padding:20}}
+                    schedule_id={user_schedule.schedule.id}
+                    count_events={user_schedule?.schedule.count_events || 1}
+                    comments={comments}
+                    resetComments={resetComments}
+                />
+
+                <Button 
+                    color="danger"
+                    content="Danger Zone"
+                    style={{marginTop:80, marginBottom:20}}
+                    onPress={toggleDangerVisible}
+                />{
+                    dangerVisible && (
+                        <>
                 <View style={menu}>
                     <View style={{flex: 5}}>
                         <Text
@@ -214,7 +239,15 @@ export default function () {
                         onPress={onDeleteAll(true)}
                     />
                 </View>
+                </>
+                )}
+                <View style={{height:20}} />
             </ScrollView>
+            <NewScheduleComment
+                floorFixed
+                createComment={createComment}
+                resetComments={resetComments} 
+            />
         </Wrapper>
     )
 }

@@ -8,9 +8,10 @@ import {
   KeyboardAvoidingView,
   Dimensions,
   Alert,
+  StatusBar,
 } from 'react-native';
 import { DefaultTheme } from '@/style/styled';
-import useTheme from '@/modules/theme/hooks';
+import useTheme, { isLight } from '@/modules/theme/hooks';
 import EventPreview from './EventPreview';
 import { Button, Text, useThemedStepper } from '@components/materials';
 import { getMarketScheduleEvents } from '@/api/market/';
@@ -83,6 +84,7 @@ export default function MarketScheduleDetails({ route }) {
   const isAnd = Platform.OS === 'android';
   return (
     <SafeAreaView style={{ flex: 1 }}>
+      <StatusBar barStyle={isLight(theme) ? "dark-content" : "light-content"} />
       <ScrollView style={container}>
         <View style={header}>
           <View>

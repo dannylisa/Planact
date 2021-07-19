@@ -1,8 +1,8 @@
-import useTheme, { shadow } from "@/modules/theme/hooks";
+import useTheme, { isLight, shadow } from "@/modules/theme/hooks";
 import { UpdateProofProps, useDailyUpdate } from "@/modules/userDailyList/hooks";
 import { DefaultTheme } from "@/style/styled";
 import React, { useEffect, useMemo, useState } from "react";
-import { StyleSheet, View, SafeAreaView, ScrollView, Image, Alert } from "react-native";
+import { StyleSheet, View, SafeAreaView, ScrollView, Image, Alert, StatusBar } from "react-native";
 import ProofSwitch, { proofMessage, ProofSwitchProps } from "../proofSwitch";
 import { Button, GaugeBar, Text, TextInput } from "@components/materials";
 import ContentParser from "./ContentParser";
@@ -14,17 +14,15 @@ import dayjs from "dayjs";
 export default function EventDetails({route}){
     const { userevent_id }= route.params
     const { getScheduleById } = useUserSchedule();
-    const { getEventOfDailyById, getEventOfDailyBySeq, updateProof } = useDailyUpdate()
+    const { getEventOfDailyById, getEventOfDailyByScheduleAndSeq, updateProof } = useDailyUpdate()
     const userevent = getEventOfDailyById(userevent_id)
     const theme = useTheme();
-    const { wrapper, header, contentWrapper, row, image } = useMemo(() => styles(theme), [theme]);
+    const { wrapper, header, contentWrapper, row, image, emptyImage } = useMemo(() => styles(theme), [theme]);
     
     if(!userevent) return <></>
     const {event: {schedule, title, proof_type, content, seq}, date, proof, diary, photo} = userevent;
     const user_schedule = getScheduleById(schedule);
 
-    // Comments
-    const {comments, resetComments, createComment} = useScheduleComments(schedule);
     const checkset: ProofSwitchProps = {
         proof_type,
         userschedule_id:user_schedule?.id || "-1",
@@ -67,42 +65,36 @@ export default function EventDetails({route}){
         Alert.alert('기록 작성이 완료되었습니다.')
     }
 
+
     // 일정 간 이동
     const navigation = useNavigation();
-    const prevEvent = useMemo(() => getEventOfDailyBySeq(seq-1)?.id || null, [userevent_id])
-    const nextEvent = useMemo(() => getEventOfDailyBySeq(seq+1)?.id || null, [userevent_id])
-    const onPrev = () => navigation.navigate('Event/Details', {userevent_id:prevEvent});
-    const onNext = () => navigation.navigate('Event/Details', {userevent_id:nextEvent});
+    const prevEvent = useMemo(() => {
+        const event = getEventOfDailyByScheduleAndSeq(user_schedule?.schedule.id , seq-1)
+        return event ? {id: event.id, name: event.event.title} : null
+    }, [userevent_id])
+    const nextEvent = useMemo(() => {
+        const event = getEventOfDailyByScheduleAndSeq(user_schedule?.schedule.id, seq+1)
+        return event ? {id: event.id, name: event.event.title} : null    }, [userevent_id])
+    const onPrev = () => navigation.navigate('Event/Details', {userevent_id:prevEvent?.id});
+    const onNext = () => navigation.navigate('Event/Details', {userevent_id:nextEvent?.id});
 
-    console.log(prevEvent, nextEvent)
     return (
         <SafeAreaView style={{flex: 1, backgroundColor:"#dff", padding:0}}>
+            <StatusBar barStyle={isLight(theme) ? "dark-content" : "light-content"} />
             <ScrollView style={wrapper}>
                 <View style={header}>
                     <Text
                         align="left"
                         bold
-                        headings={1}
+                        style={{fontSize:28}}
                         content={title} 
                     />
                 </View>
                 {/* 컨텐츠 */}
-                <ContentParser content={content} />
-                
-                {/* 성취율 */}
-                <View style={contentWrapper}>
-                    <Text
-                        align="left"
-                        bold
-                        headings={1}
-                        content="플랜 성취율"
-                        marginBottom={10}
-                    />
-                    <GaugeBar 
-                        num={user_schedule?.achievement || 0}
-                        denom={(user_schedule?.schedule.count_events || 1)} />
+                <View style={{paddingHorizontal:5}}>
+                    <ContentParser content={content} />
                 </View>
-
+                
                 {/* 인증 방식 */}
                 <View style={contentWrapper}>
                     <Text
@@ -124,13 +116,21 @@ export default function EventDetails({route}){
                             {...checkset}
                         />
                     </View>
-                {photo &&     
+                {photo ?    
                     <Image
                         style={image}
                         source={{
                             uri: photo,
                         }}
                     />
+                    :
+                    <View style={[image, emptyImage]} >
+                        <Text
+                            bold
+                            headings={1}
+                            content="인증 사진을 업로드해주세요!" 
+                        />
+                    </View>
                 }
                 {proof_type==="DIARY" && (
                     !isDiaryWriteMode ?
@@ -167,32 +167,31 @@ export default function EventDetails({route}){
 
                 {/* 일정 간 이동 */}
                 {
-                    prevEvent && nextEvent && (
-                    <View style={row}>
+                    (prevEvent || nextEvent) && (
+                    <View style={[row, {width:"100%", paddingHorizontal:20}]}>
                         {prevEvent && (
-                            <Button color="secondary" content="이전" />
+                            <Button 
+                                flex={1}
+                                color="secondary" 
+                                content={"◀   " + prevEvent.name}
+                                onPress={onPrev}
+                            />
+                        )}
+                        {prevEvent && nextEvent && (
+                            <View style={{width:10}} />
                         )}
                         {nextEvent && (
-                            <Button color="primary" content="다음" />
+                            <Button 
+                                flex={1}
+                                color="primary" 
+                                content={nextEvent.name + "   ▶"}
+                                onPress={onNext}
+                            />
                         )}
                     </View>
                     )
                 }
-
-                {/* 댓글 */}
-                <ScheduleCommentsList
-                    style={contentWrapper}
-                    schedule_id={schedule}
-                    count_events={user_schedule?.schedule.count_events || 1}
-                    comments={comments}
-                    resetComments={resetComments}
-                />
             </ScrollView>
-            <NewScheduleComment
-                floorFixed
-                createComment={createComment}
-                resetComments={resetComments} 
-            />
         </SafeAreaView>
     )
 }
@@ -205,8 +204,8 @@ const styles = (theme: DefaultTheme) => {
             paddingBottom: 80
         },
         header:{
-            paddingHorizontal: 12,
-            paddingTop:15,
+            paddingHorizontal: 15,
+            paddingTop:18,
         },
         contentWrapper:{
             padding: 20,
@@ -219,8 +218,13 @@ const styles = (theme: DefaultTheme) => {
         },
         image:{
             width: "100%", 
-            aspectRatio: 16/9, 
+            aspectRatio: 16/12, 
             borderRadius: 15, 
+        },
+        emptyImage:{
+            backgroundColor: theme.secondary.main+"70",
+            justifyContent:"center",
+            alignItems:"center"
         }
     })
 }

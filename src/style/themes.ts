@@ -206,8 +206,8 @@ const dark_cherry: DefaultTheme = {
 
 
 export default [
+    light_cove, dark_cove,
     light_orange, dark_orange, 
     light_luigi, dark_luigi, 
-    light_cove, dark_cove,
     light_cherry, dark_cherry
   ];

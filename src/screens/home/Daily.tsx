@@ -42,7 +42,7 @@ function Daily({index, daily:{date, events}, onPress}: DailyProps) {
           <ScheduleView key={idx} id={id} />
         ))}
       {uniqueUserScheduleIds.length > 3 && (
-        <Text style={[extra, selected === index && { color: '#fff' }]}>
+        <Text style={extra}>
           +{uniqueUserScheduleIds.length - 3}
         </Text>
       )}

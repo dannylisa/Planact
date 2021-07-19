@@ -1,7 +1,7 @@
 import { TextButton } from "@/components/materials";
 import React from "react"
 import { Picker, StyleSheet } from "react-native"
-import { View, Button } from "react-native"
+import { View } from "react-native"
 
 interface SelectIntervalProps {
     visible: boolean

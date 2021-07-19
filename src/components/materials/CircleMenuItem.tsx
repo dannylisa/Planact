@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import useTheme, { dangerColors, isLight, shadow } from "@/modules/theme/hooks";
+import useTheme, { isLight, shadow } from "@/modules/theme/hooks";
 import { DefaultTheme } from "@/style/styled";
 import { TouchableOpacity, TouchableOpacityProps, StyleSheet, View } from "react-native"
 import Text from "./Text";
@@ -13,30 +13,31 @@ interface MenuItemProps extends TouchableOpacityProps {
 export default function (props:MenuItemProps){
     const {content, color, ...others} = props;
     const theme = useTheme()
-    const {item, circleContainer, circle} = useMemo(() =>styles(theme, color), [theme]);
+    const {item, circleContainer, circle} = useMemo(() =>styles(theme), [theme]);
     return (
         <TouchableOpacity style={item} {...others}>
             <View style={circleContainer}>
-                <View style={circle} />
+                <View style={[circle, {backgroundColor: color}]} />
             </View>
             <Text 
                 bold
                 headings={2}
                 align="left"
                 content={content} 
-                flex={8} 
+                marginTop={2}
+                flex={9} 
             />
             {props.badge ? <Badge {...props.badge} />: <></>}
         </TouchableOpacity>
     )
 }
 
-const styles = (theme:DefaultTheme, color: string) => {
+const styles = (theme:DefaultTheme) => {
     const {content} = theme;
     const shadowOption = isLight(theme) ? shadow : {}
     return StyleSheet.create({
         item:{
-            padding: 18,
+            padding: 10,
             flexDirection: "row",
             justifyContent: "center",
             alignItems: "center",
@@ -44,7 +45,7 @@ const styles = (theme:DefaultTheme, color: string) => {
             ...shadowOption,
         },
         circleContainer: {
-            width: 60,
+            width: 55,
             paddingVertical: 6,
             backgroundColor: content,
             marginRight: 3,
@@ -53,11 +54,9 @@ const styles = (theme:DefaultTheme, color: string) => {
         circle: {
             borderRadius: 50,
             borderColor: "#ccc",
-            padding: 10,
-            marginLeft: 6,
+            padding: 8,
+            marginLeft: 7,
             marginRight: 18,
-            flex: 1,
-            backgroundColor: color,
-        }
+            flex: 1,        }
     }
 )}

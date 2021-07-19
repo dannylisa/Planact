@@ -5,7 +5,7 @@ import { BottomTabNavigationOptions, createBottomTabNavigator } from '@react-nav
 import HomeNavigator from './HomeNavigator';
 import ProfileNavigator from './ProfileNavigator.tsx';
 import MarketNavigator from './MarketNavigator';
-import { Dimensions, StyleSheet, View } from 'react-native';
+import { Dimensions, StatusBar, StyleSheet, View } from 'react-native';
 import { DefaultTheme } from '@/style/styled';
 import { Text } from "@components/materials";
 import media from '@/style/media';
@@ -26,7 +26,7 @@ export default function BottomTabNavigator() {
         activeTintColor: theme.primary.main,
         showLabel: false,
         style:{
-          ...media.vertical('height', 85, 75, 68),
+          ...media.vertical('height', 90, 80, 70),
           alignItems:"flex-end"
         }
       }}

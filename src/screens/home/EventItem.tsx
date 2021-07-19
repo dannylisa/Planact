@@ -17,10 +17,8 @@ const EventItem = ({userschedule_id, userevent_id}:{userschedule_id:string, user
     const { wrapper, textContainer, more } = useMemo(() => styles(theme), [theme]);
     
     if(!userevent) return <></>
-
     
-    
-    const {id, event: {seq, title, proof_type, origin_time}, proof, diary, photo} = userevent;
+    const { event: {seq, title, proof_type, origin_time}, proof, diary, photo} = userevent;
     const checkset: ProofSwitchProps = {
         proof_type,
         userschedule_id,
@@ -37,13 +35,17 @@ const EventItem = ({userschedule_id, userevent_id}:{userschedule_id:string, user
     return(
         <View style={wrapper}>
             <View style={textContainer}>
+                <Text bold flex={1} headings={2} content={`${seq+1}.`}/>
+                <Text align="left" headings={2} flex={3} content={title} />
                 {
-                    origin_time ?
-                    <Text bold flex={1.5} headings={2} content={origin_time.slice(0,5)}/>
-                    :
-                    <Text bold flex={1.5} headings={2} content={`${seq+1}.`}/>
+                    origin_time &&
+                    (<Text 
+                        bold 
+                        marginLeft={-60} 
+                        marginRight={30} 
+                        headings={2} 
+                        content={origin_time.slice(0,5)}/>)
                 }
-                <Text align="left" headings={2} flex={3.5} content={title} />
             </View>
             <ProofSwitch {...checkset}/>
             <TouchableOpacity 
@@ -61,7 +63,7 @@ const styles = (theme:DefaultTheme) => {
     return StyleSheet.create({
         wrapper:{
             flexDirection: "row",
-            height: 55,
+            height: 50,
             backgroundColor: content,
         },
         textContainer:{

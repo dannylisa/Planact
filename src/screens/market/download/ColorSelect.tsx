@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from "react"
 import { Text, Button, TextInput } from "@components/materials"
-import { Alert, SafeAreaView, TouchableOpacity, View } from "react-native"
-import useTheme from "@/modules/theme/hooks"
+import { Alert, SafeAreaView, StatusBar, TouchableOpacity, View } from "react-native"
+import useTheme, { isLight } from "@/modules/theme/hooks"
 import stepStyle from "./stepStyle"
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native"
 import { ISchedule } from "@/utils/data"
@@ -103,6 +103,7 @@ export default function ColorSelect () {
 
     return (
         <SafeAreaView style={{flex:1}}>
+            <StatusBar barStyle={isLight(theme) ? "dark-content" : "light-content"} />
             <View style={container}>
                 <Text
                     bold 

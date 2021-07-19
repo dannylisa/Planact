@@ -10,9 +10,9 @@ interface ScheduleViewProps {
 
 function ScheduleView({id}: ScheduleViewProps) {
   const theme = useTheme()
-  const { schedules, getScheduleById } = useUserSchedule();
+  const { getScheduleById } = useUserSchedule();
   const [alias, setAlias] = useState('')
-  const [color, setColor] = useState('#999999')
+  const [color, setColor] = useState('#d3ff0f')
   useEffect(() => {
     const schedule = getScheduleById(id);
     if(schedule){
@@ -26,14 +26,14 @@ function ScheduleView({id}: ScheduleViewProps) {
     iconContainer, 
     contentWrapper, 
     content 
-  } = useMemo(()=>styles(theme, color),[theme, color])
+  } = useMemo(()=>styles(theme),[theme])
 
   return (
     <View
       style={[container]}
     >
       <View style={iconContainer}>
-        <View style={icon} />
+        <View style={[icon, {backgroundColor:color}]} />
       </View>
       <View style={contentWrapper}>
         <Text style={content}>
@@ -44,7 +44,7 @@ function ScheduleView({id}: ScheduleViewProps) {
   )
 }
 
-const styles = (theme: DefaultTheme, color: string) => {
+const styles = (theme: DefaultTheme) => {
   const { content, text } = theme
   return StyleSheet.create({
     container: {
@@ -60,7 +60,6 @@ const styles = (theme: DefaultTheme, color: string) => {
       paddingRight: 5,
     },
     icon: {
-      backgroundColor: color,
       flex: 1,
       borderRadius: 50,
     },
