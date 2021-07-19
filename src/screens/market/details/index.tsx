@@ -24,6 +24,7 @@ import {
   useScheduleComments,
 } from '@/components/scheduleComments';
 import { useNavigation } from '@react-navigation/native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 interface EventsGroupedByDateOf {
   date: string;
@@ -75,16 +76,12 @@ export default function MarketScheduleDetails({ route }) {
   const navigation = useNavigation();
   const onDownload = () =>
     navigation.navigate('Market/Schedule/Download/alias', { schedule });
-  // navigation.push('Market/Schedule/Download', { schedule });
 
-  /// Android
-  const Wrapper =
-    Platform.OS === 'android' ? KeyboardAvoidingView : SafeAreaView;
 
   const isAnd = Platform.OS === 'android';
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <StatusBar barStyle={isLight(theme) ? "dark-content" : "light-content"} />
+    <KeyboardAwareScrollView style={{flex:1}}>
+    <StatusBar barStyle={isLight(theme) ? "dark-content" : "light-content"} />
       <ScrollView style={container}>
         <View style={header}>
           <View>
@@ -141,7 +138,7 @@ export default function MarketScheduleDetails({ route }) {
         )}
 
         <ScheduleCommentsList
-          style={{ paddingTop: 20 }}
+          style={{ paddingTop: 20, minHeight:250 }}
           schedule_id={schedule.id}
           count_events={schedule.count_events}
           comments={comments}
@@ -149,12 +146,12 @@ export default function MarketScheduleDetails({ route }) {
         />
         <View style={{ paddingVertical: 40 }} />
       </ScrollView>
-      <NewScheduleComment
-        floorFixed
-        createComment={createComment}
-        resetComments={resetComments}
-      />
-    </SafeAreaView>
+        <NewScheduleComment
+          floorFixed
+          createComment={createComment}
+          resetComments={resetComments}
+        />
+    </KeyboardAwareScrollView>
   );
 }
 

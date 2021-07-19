@@ -104,9 +104,8 @@ export default function () {
     const [dangerVisible, setDangerVisible] = useState<boolean>(false)
     const toggleDangerVisible = () => setDangerVisible(prev => !prev)
 
-    const Wrapper = Platform.OS === 'android' ? KeyboardAwareScrollView : SafeAreaView;
     return(
-        <Wrapper style={{flex:1}}>
+        <KeyboardAwareScrollView style={{flex:1, marginBottom:0}}>
             <StatusBar barStyle={isLight(theme) ? "dark-content" : "light-content"} />
             <ScrollView style={wrapper}>
 
@@ -248,7 +247,7 @@ export default function () {
                 createComment={createComment}
                 resetComments={resetComments} 
             />
-        </Wrapper>
+        </KeyboardAwareScrollView>
     )
 }
 
