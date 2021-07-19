@@ -1,12 +1,11 @@
-import useTheme, { isLight, shadow } from "@/modules/theme/hooks";
-import { UpdateProofProps, useDailyUpdate } from "@/modules/userDailyList/hooks";
+import useTheme, { isLight } from "@/modules/theme/hooks";
+import {  useDailyUpdate } from "@/modules/userDailyList/hooks";
 import { DefaultTheme } from "@/style/styled";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { StyleSheet, View, SafeAreaView, ScrollView, Image, Alert, StatusBar } from "react-native";
 import ProofSwitch, { proofMessage, ProofSwitchProps } from "../proofSwitch";
-import { Button, GaugeBar, Text, TextInput } from "@components/materials";
+import { Button, Text, TextInput } from "@components/materials";
 import ContentParser from "./ContentParser";
-import { NewScheduleComment, ScheduleCommentsList, useScheduleComments } from "@/components/scheduleComments";
 import { useUserSchedule } from "@/modules/userSchedule/hooks";
 import { useNavigation } from "@react-navigation/native";
 import dayjs from "dayjs";
@@ -123,14 +122,14 @@ export default function EventDetails({route}){
                             uri: photo,
                         }}
                     />
-                    :
+                    : proof_type==="PHOTO" ?
                     <View style={[image, emptyImage]} >
                         <Text
                             bold
                             headings={1}
                             content="인증 사진을 업로드해주세요!" 
                         />
-                    </View>
+                    </View> :<></>
                 }
                 {proof_type==="DIARY" && (
                     !isDiaryWriteMode ?
