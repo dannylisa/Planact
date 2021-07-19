@@ -27,3 +27,13 @@ export const shadow = {
     },
     elevation: 1,
 }
+
+export const dangerColors = (theme:DefaultTheme) => isLight(theme) ? {
+    main: theme.mainBackground,
+    text: SpecificColors.red,
+    border: SpecificColors.red
+} : {
+    main: SpecificColors.red,
+    text: theme.primary.text,
+    border: "#ffffff00"
+}

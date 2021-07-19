@@ -4,9 +4,24 @@ import { Alert, TouchableOpacity } from "react-native";
 import { Number } from "@components/materials";
 import { ProofProps } from ".";
 import { SpecificColors } from "@/modules/theme/hooks";
+import dayjs from "dayjs";
+import { useDailyList } from "@/modules/userDailyList/hooks";
 
 export default function ({userschedule_id, userevent_id, updateProof, proof, title}:ProofProps) {
-    const onPress = () => Alert.prompt(title, '숫자만 입력해 주세요.',[  
+    const { getSelectedDaily } = useDailyList();
+    
+    const onPress = () => {
+        const diff = dayjs().diff(getSelectedDaily().date, 'days')
+        if(diff>2){
+            Alert.alert("이틀이 지난 일정은 체크할 수 없습니다.")
+            return Promise.resolve(false)
+        }
+        else if(diff<0){
+            Alert.alert("일정이 진행된 후에 체크해주세요!")
+            return Promise.resolve(false)
+        }
+        
+        Alert.prompt(title, '숫자만 입력해 주세요.',[  
             { text: '취소', style: 'cancel'},  
             {
                 text: '입력', 
@@ -24,8 +39,8 @@ export default function ({userschedule_id, userevent_id, updateProof, proof, tit
                     }
                 }
             },  
-        ],
-    )
+        ])
+    }
     const {red, blue} = SpecificColors;
             return  (
         <TouchableOpacity onPress={onPress}>

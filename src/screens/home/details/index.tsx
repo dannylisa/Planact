@@ -1,5 +1,5 @@
 import useTheme, { shadow } from "@/modules/theme/hooks";
-import { useDailyUpdate } from "@/modules/userDailyList/hooks";
+import { UpdateProofProps, useDailyUpdate } from "@/modules/userDailyList/hooks";
 import { DefaultTheme } from "@/style/styled";
 import React, { useEffect, useMemo, useState } from "react";
 import { StyleSheet, View, SafeAreaView, ScrollView, Image, Alert } from "react-native";
@@ -8,23 +8,20 @@ import { Button, GaugeBar, Text, TextInput } from "@components/materials";
 import ContentParser from "./ContentParser";
 import { NewScheduleComment, ScheduleCommentsList, useScheduleComments } from "@/components/scheduleComments";
 import { useUserSchedule } from "@/modules/userSchedule/hooks";
+import { useNavigation } from "@react-navigation/native";
+import dayjs from "dayjs";
 
 export default function EventDetails({route}){
     const { userevent_id }= route.params
     const { getScheduleById } = useUserSchedule();
-    const { getEventOfDailyById, updateProof } = useDailyUpdate()
+    const { getEventOfDailyById, getEventOfDailyBySeq, updateProof } = useDailyUpdate()
     const userevent = getEventOfDailyById(userevent_id)
     const theme = useTheme();
     const { wrapper, header, contentWrapper, row, image } = useMemo(() => styles(theme), [theme]);
     
     if(!userevent) return <></>
-    const {event: {schedule, title, proof_type, content}, proof, diary, photo} = userevent;
+    const {event: {schedule, title, proof_type, content, seq}, date, proof, diary, photo} = userevent;
     const user_schedule = getScheduleById(schedule);
-
-    const [initialProof, setInitialProof] = useState<number>(0)
-    useEffect(() => {
-        setInitialProof(+Boolean(proof))
-    }, [])
 
     // Comments
     const {comments, resetComments, createComment} = useScheduleComments(schedule);
@@ -48,6 +45,16 @@ export default function EventDetails({route}){
         if(!isDiaryWriteMode)
             return toggleDiaryMode();
 
+        const diff = dayjs().diff(date, 'days')
+        if(diff>2){
+            Alert.alert("이틀이 지난 일정은 기록할 수 없습니다.")
+            return Promise.resolve(false)
+        }
+        else if(diff<0){
+            Alert.alert("일정이 진행된 후에 기록을 남겨주세요!")
+            return Promise.resolve(false)
+        }
+
         updateProof({
             userschedule_id:user_schedule?.id || "-1",
             userevent_id,
@@ -60,6 +67,14 @@ export default function EventDetails({route}){
         Alert.alert('기록 작성이 완료되었습니다.')
     }
 
+    // 일정 간 이동
+    const navigation = useNavigation();
+    const prevEvent = useMemo(() => getEventOfDailyBySeq(seq-1)?.id || null, [userevent_id])
+    const nextEvent = useMemo(() => getEventOfDailyBySeq(seq+1)?.id || null, [userevent_id])
+    const onPrev = () => navigation.navigate('Event/Details', {userevent_id:prevEvent});
+    const onNext = () => navigation.navigate('Event/Details', {userevent_id:nextEvent});
+
+    console.log(prevEvent, nextEvent)
     return (
         <SafeAreaView style={{flex: 1, backgroundColor:"#dff", padding:0}}>
             <ScrollView style={wrapper}>
@@ -150,6 +165,20 @@ export default function EventDetails({route}){
                 }
                 </View>
 
+                {/* 일정 간 이동 */}
+                {
+                    prevEvent && nextEvent && (
+                    <View style={row}>
+                        {prevEvent && (
+                            <Button color="secondary" content="이전" />
+                        )}
+                        {nextEvent && (
+                            <Button color="primary" content="다음" />
+                        )}
+                    </View>
+                    )
+                }
+
                 {/* 댓글 */}
                 <ScheduleCommentsList
                     style={contentWrapper}
@@ -176,7 +205,8 @@ const styles = (theme: DefaultTheme) => {
             paddingBottom: 80
         },
         header:{
-            padding: 12,
+            paddingHorizontal: 12,
+            paddingTop:15,
         },
         contentWrapper:{
             padding: 20,

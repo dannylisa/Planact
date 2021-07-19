@@ -9,7 +9,7 @@ export function deleteUserSchedule(token:ITokenHeader, userschedule_id: string){
 }
 
 export function deleteUserScheduleAfter(token:ITokenHeader, userschedule_id: string){
-    return axios.patch(APP_BASE_URL+"schedule/attach/"+userschedule_id,{
+    return axios.patch(APP_BASE_URL+"schedule/attach/"+userschedule_id,{},{
         headers: token
     })
 }

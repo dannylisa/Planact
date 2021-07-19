@@ -59,15 +59,11 @@ export default function MarketScheduleDetails({ route }) {
       if (!token) return;
       await getMarketScheduleEvents(token, schedule.id)
         .then((res: AxiosResponse<EventsGroupedByDateOf[]>) => {
-          let result: IEvent[] = [];
-          for (let i = 0; i < res.data.length; i++) {
-            let tmp = res.data[i].events.sort(function (a, b) {
-              return a.seq - b.seq;
-            });
-            result.push({ ...res.data, events: tmp });
-          }
+          //Sort
+          res.data.forEach(({events}) => 
+            events.sort((a, b) => a.seq - b.seq));
 
-          setSchedulePreviewEvents(result);
+          setSchedulePreviewEvents(res.data);
           setStepperSize(Math.min(res.data.length, 5));
         })
         .catch((err: AxiosError) => console.log(err));

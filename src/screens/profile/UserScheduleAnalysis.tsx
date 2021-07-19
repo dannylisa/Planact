@@ -39,15 +39,13 @@ export default function () {
     // Get Daily Events
     const {dailys} = useDailyList();
     const today = dayjs();
-    const latest = useMemo(() => (
-        dailys
-        .filter(
+    const latest = useMemo(() =>  dailys.filter(
             daily => today.diff(daily.date, 'days') >= 0
         )
         .map(
             daily => {
                 const proofs = daily.events.filter(
-                        userevent => userevent.event.schedule === user_schedule.id
+                        userevent => userevent.event.schedule === user_schedule.schedule.id
                     ).map(event => event.proof)
                 return {
                     date: daily.date,
@@ -55,8 +53,9 @@ export default function () {
                     count: proofs.length,
                }
             }
-        ).filter(daily => daily.count)
-    ), [user_schedule.id])
+        ).filter(daily => daily.count),
+        [user_schedule.schedule.id, user_schedule.achievement]
+    )
 
     const onDeleteAll = (all:boolean) => () => {
         Alert.alert(
@@ -89,6 +88,7 @@ export default function () {
                             navigation.navigate('Profile');
                         })
                         .catch((err:Error) => {
+                            console.log(err)
                             console.log(err.message)
                         })
                 },

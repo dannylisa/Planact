@@ -30,34 +30,41 @@ export default function({content}:ContentParserProps){
     if( !(~content.indexOf("%%") && ~ fin ))
         return (
             <View style={wrapper}>
-                <Text content={content} />
+                <Text align="left" content={content} />
             </View>
         )
     
-    const parsed = JSON.parse(content.slice(2, fin)) as ParseProps;
-    return (
-        <View style={wrapper}>
-            {parsed.title ?
-                <Text
-                    align="left"
-                    bold
-                    headings={1}
-                    content={parsed.title} 
-                    marginBottom={12}
-                /> : <></>
-            }
-            {
-                parsed.youtube ?
-                    <Youtube {...parsed.youtube}/>
-                :<></>
-            }
-            {parsed.posts?
-                parsed.posts.map((post, idx) => (
-                    <Post {...post} key={idx} />
-                )):<></>
-            }
-        </View>
-    )
+    
+    try {
+
+        const parsed = JSON.parse(content.slice(2, fin)) as ParseProps;
+        return (
+            <View style={wrapper}>
+                {parsed.title ?
+                    <Text
+                        align="left"
+                        bold
+                        headings={1}
+                        content={parsed.title} 
+                        marginBottom={12}
+                    /> : <></>
+                }
+                {
+                    parsed.youtube ?
+                        <Youtube {...parsed.youtube}/>
+                    :<></>
+                }
+                {parsed.posts?
+                    parsed.posts.map((post, idx) => (
+                        <Post {...post} key={idx} />
+                    )):<></>
+                }
+            </View>
+        )
+    }
+    catch(error){
+        return <Text content="" />
+    }
 }
 
 const styles = (theme:DefaultTheme) => {

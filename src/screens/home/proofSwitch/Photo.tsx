@@ -5,6 +5,8 @@ import { StyleSheet } from "react-native";
 import { ProofProps } from ".";
 import { SpecificColors } from "@/modules/theme/hooks";
 import * as ImagePicker from 'expo-image-picker';
+import dayjs from "dayjs";
+import { useDailyList } from "@/modules/userDailyList/hooks";
 
 const styles = StyleSheet.create({
     container:{
@@ -21,6 +23,7 @@ const styles = StyleSheet.create({
 })
 
 export default function({userschedule_id, userevent_id, updateProof, proof}:ProofProps){
+    
     const update = async (photo: string) => {
         if(!photo) 
             return;
@@ -54,7 +57,19 @@ export default function({userschedule_id, userevent_id, updateProof, proof}:Proo
             update(result.uri)
     }
 
-    const onPress = async() => {
+    const { getSelectedDaily } = useDailyList();
+    
+    const onPress = () => {
+        const diff = dayjs().diff(getSelectedDaily().date, 'days')
+        if(diff>2){
+            Alert.alert("이틀이 지난 일정은 체크할 수 없습니다.")
+            return Promise.resolve(false)
+        }
+        else if(diff<0){
+            Alert.alert("일정이 진행된 후에 체크해주세요!")
+            return Promise.resolve(false)
+        }
+        
         if(!proof) 
             Alert.alert("계획 완료 사진을 업로드 하시겠습니까?",'',[
                 { text: '취소', style: 'cancel'},  

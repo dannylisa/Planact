@@ -23,12 +23,17 @@ export default function({name, keyword, search}:CategoryProps & {search: string}
     const theme = useTheme();
     const { listItemWrapper } = useMemo(() => styles(theme), [theme]);
 
+    const [currentPage, setCurrentPage] = useState<number>(1);
+    const [shouldFetch, setShouldFetch] = useState<boolean>(true);
+
     useEffect(() => {
+        setCurrentPage(1)
+        setShouldFetch(true)
         getToken()
             .then(
                 token => {
                 if(token) 
-                    return getMarketSchedulesByCategory(token, keyword)
+                    return getMarketSchedulesByCategory(token, keyword, 1)
                 else
                     throw Error
             })
@@ -36,9 +41,11 @@ export default function({name, keyword, search}:CategoryProps & {search: string}
                 (res: AxiosResponse<ISchedule[]>) => setSchedules(res.data)
             )
             .catch((err: AxiosError) => {
-                Alert.alert('서버 점검 중입니다.')
+                if(err.response?.status===400)
+                    setShouldFetch(false)
+                else
+                    Alert.alert('서버 점검 중입니다.')
             });
-
     }, [keyword, useSchedule.schedules.length]);
 
     const onItemPressed = (item: ISchedule) => () =>
@@ -46,6 +53,31 @@ export default function({name, keyword, search}:CategoryProps & {search: string}
             'Market/Schedule/Details', 
             { schedule: item }
         );
+
+    const fetchItem = () => {
+        if(!shouldFetch) 
+            return;
+        getToken()
+            .then(
+                token => {
+                if(token) 
+                    return getMarketSchedulesByCategory(token, keyword, currentPage+1)
+                else
+                    throw Error
+            })
+            .then((res: AxiosResponse<ISchedule[]>) => {
+                setSchedules(prev => prev.concat(res.data))
+                setCurrentPage(prev => prev+1)
+            })
+            .catch((err: AxiosError) => {
+                if(err.response?.status===400)
+                    setShouldFetch(false)
+                else{
+                    console.log(err)
+                    Alert.alert('서버 점검 중입니다.')
+                }
+            });
+    }
 
     const renderItem = ({ item }: { item: ISchedule }) => (
         <ScheduleListItem 
@@ -67,11 +99,10 @@ export default function({name, keyword, search}:CategoryProps & {search: string}
     return (
         <FlatList
             data={filteredSchedules}
+            initialNumToRender={5}
             renderItem={renderItem}
-            keyExtractor={useCallback(
-            (item: ISchedule, index: number) => '' + index,
-            []
-            )}
+            onEndReached={fetchItem}
+            keyExtractor={useCallback((item: ISchedule, index: number) => '' + index,[])}
             contentContainerStyle={listItemWrapper}
         />
     )
@@ -80,10 +111,10 @@ export default function({name, keyword, search}:CategoryProps & {search: string}
 const styles = (theme: DefaultTheme) => (
     StyleSheet.create({
       listItemWrapper: {
-        flex: 5,
         paddingHorizontal: 20,
         justifyContent: 'flex-start',
         backgroundColor: theme.mainBackground,
+        paddingBottom:30
       },
     })
 )

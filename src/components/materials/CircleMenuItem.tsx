@@ -1,18 +1,18 @@
 import React, { useMemo } from "react";
-import { GlobalState } from "@/modules";
-import { isLight, shadow } from "@/modules/theme/hooks";
+import useTheme, { dangerColors, isLight, shadow } from "@/modules/theme/hooks";
 import { DefaultTheme } from "@/style/styled";
 import { TouchableOpacity, TouchableOpacityProps, StyleSheet, View } from "react-native"
 import Text from "./Text";
-import { useSelector } from "react-redux";
+import Badge, { BadgeProps } from "./Badge";
 
 interface MenuItemProps extends TouchableOpacityProps {
     content: string;
-    color: string
+    color: string;
+    badge?: BadgeProps
 }
 export default function (props:MenuItemProps){
     const {content, color, ...others} = props;
-    const theme = useSelector(({theme}:GlobalState) => theme);
+    const theme = useTheme()
     const {item, circleContainer, circle} = useMemo(() =>styles(theme, color), [theme]);
     return (
         <TouchableOpacity style={item} {...others}>
@@ -26,10 +26,10 @@ export default function (props:MenuItemProps){
                 content={content} 
                 flex={8} 
             />
+            {props.badge ? <Badge {...props.badge} />: <></>}
         </TouchableOpacity>
     )
 }
-
 
 const styles = (theme:DefaultTheme, color: string) => {
     const {content} = theme;
@@ -58,6 +58,6 @@ const styles = (theme:DefaultTheme, color: string) => {
             marginRight: 18,
             flex: 1,
             backgroundColor: color,
-        },
+        }
     }
 )}

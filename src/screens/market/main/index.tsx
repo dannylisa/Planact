@@ -61,13 +61,17 @@ function MarketMain() {
   useEffect(() => {
     getToken()
       .then((token) => {
-        if (token) return getTrends(token);
-        else throw Error;
+        if (token) 
+          return getTrends(token);
+        else 
+          throw Error;
       })
       .then((res: AxiosResponse<CategoryProps[]>) => {
         setCategories(res.data);
       })
-      .catch((err) => Alert.alert('서버 점검 중입니다.'));
+      .catch((err) => {
+        Alert.alert('서버 점검 중입니다.')
+      });
   }, []);
   const isAnd = Platform.OS === 'android';
   const Wrapper =
@@ -98,7 +102,10 @@ function MarketMain() {
           ))}
         </ScrollView>
       </View>
-      <Category search={search} {...Categories[categoryIdx]} />
+      <Category 
+        search={search} 
+        {...Categories[categoryIdx]} 
+      />
     </Wrapper>
   );
 }

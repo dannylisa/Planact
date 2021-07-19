@@ -11,15 +11,17 @@ interface GaugeBarProps {
 export default function({denom, num}:GaugeBarProps){
     const theme = useTheme()
     const {wrapper, left, right} = useMemo(()=> styles(theme), [theme]);
+    let leftFlex = Math.floor(1000*num/denom)/100
+    leftFlex = leftFlex > 1.2 ? leftFlex : 1.2
     return(
         <View style={wrapper}>
-            <View style={[left, {flex:num}]} > 
+            <View style={[left, {flex:leftFlex}]} > 
                 <Text 
-                    content={Math.floor(10000*num/denom)/100+"%"}
+                    content={Math.floor(1000*num/denom)/10+"%"}
                     color={theme.primary.text}
                 />
             </View>
-            <View style={[right, {flex:denom-num}]} />
+            <View style={[right, {flex:10-leftFlex}]} />
         </View>
     )
 }

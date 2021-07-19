@@ -4,6 +4,8 @@ import { Alert, TouchableOpacity, View } from "react-native";
 import { StyleSheet } from "react-native";
 import { ProofProps } from ".";
 import { SpecificColors } from "@/modules/theme/hooks";
+import dayjs from "dayjs";
+import { useDailyList } from "@/modules/userDailyList/hooks";
 
 const style = StyleSheet.create({
     container:{
@@ -14,6 +16,7 @@ const style = StyleSheet.create({
 })
 export default function({userschedule_id, userevent_id, updateProof, proof}:ProofProps){
     const { container } = style;
+    const { getSelectedDaily } = useDailyList();
     const update = async (newProof: number) => {
         await updateProof({
             userschedule_id,
@@ -23,7 +26,18 @@ export default function({userschedule_id, userevent_id, updateProof, proof}:Proo
         }).then((res) => null)
         .catch((err) => Alert.alert("오류입니다."))
     }
+
     const onPress = async() => {
+        const diff = dayjs().diff(getSelectedDaily().date, 'hours')
+        if(diff>48){
+            Alert.alert("이틀이 지난 일정은 체크할 수 없습니다.")
+            return Promise.resolve(false)
+        }
+        else if(diff<-24){
+            Alert.alert("일정이 진행된 후에 체크해주세요!")
+            return Promise.resolve(false)
+        }
+        
         if(proof === 0) 
             Alert.alert("계획 완료 상태로 변경하시겠습니까?",'',[
                 { text: '취소', style: 'cancel'},  

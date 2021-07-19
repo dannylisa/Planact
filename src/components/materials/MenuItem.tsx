@@ -24,8 +24,9 @@ export default MenuItem;
 
 const styles = ({mainBackground, text}:DefaultTheme) => StyleSheet.create({
     item:{
+        flexDirection: "row",
         paddingVertical: 24,
-        justifyContent: "center",
+        alignItems: "center",
         backgroundColor: mainBackground,
         paddingHorizontal: 18,
     },

@@ -7,7 +7,7 @@ import { CircleMenuItem } from '@/components/materials'
 import EventItem from './EventItem'
 
 function ToggleEventList(props: GroupedEvent) {
-  const { schedule:{id, schedule:{name}, alias, color}, events } = props
+  const { schedule:{id, schedule:{name, fixed}, alias, color}, events } = props
 
   const theme = useTheme();
   const {
@@ -21,7 +21,11 @@ function ToggleEventList(props: GroupedEvent) {
       <CircleMenuItem 
           color={color}
           onPress={toggleShow} 
-          content={`${name} ${events[0].event.dateof}일차`} 
+          content={
+            ['datetime, date'].includes(fixed) ?
+            `${name}`
+            :`${name} ${events[0].event.dateof}일차`
+          } 
       />
       {show && (
         <View>

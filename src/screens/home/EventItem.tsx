@@ -1,12 +1,13 @@
 import { DefaultTheme } from "@/style/styled";
 import React, { useMemo } from "react";
 import { Text } from '@components/materials';
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { Alert, StyleSheet, TouchableOpacity, View } from "react-native";
 import useTheme from "@/modules/theme/hooks";
-import { useDailyUpdate } from "@/modules/userDailyList/hooks";
+import { UpdateProofProps, useDailyUpdate } from "@/modules/userDailyList/hooks";
 import ProofSwitch, { ProofSwitchProps } from "./proofSwitch";
 import { Feather } from "@expo/vector-icons";
 import { useNavigation } from '@react-navigation/native';
+import dayjs from "dayjs";
 
 const EventItem = ({userschedule_id, userevent_id}:{userschedule_id:string, userevent_id:string}) => {
     const { getEventOfDailyById, updateProof } = useDailyUpdate()
@@ -16,6 +17,9 @@ const EventItem = ({userschedule_id, userevent_id}:{userschedule_id:string, user
     const { wrapper, textContainer, more } = useMemo(() => styles(theme), [theme]);
     
     if(!userevent) return <></>
+
+    
+    
     const {id, event: {seq, title, proof_type, origin_time}, proof, diary, photo} = userevent;
     const checkset: ProofSwitchProps = {
         proof_type,

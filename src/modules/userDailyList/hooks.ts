@@ -16,11 +16,13 @@ export function useDailyList(){
 
     const setSelectedDaily = (idx:number) => dispatch({type:DAILY_SELECT, selected:idx})
     const getSelectedDaily = () => dailys[selected];
-    const initialDailyFetch = async () => {
-        const token = await getToken();
-        if(!token) return;
-        await getDailyList({token})
-            .then((res:AxiosResponse<DailyFetchedProps>) => {
+    const initialDailyFetch = () => {
+        getToken()
+            .then((token) => {
+                if(!token) 
+                    throw Error("Invalid Token.");
+                return getDailyList({token})
+            }).then((res:AxiosResponse<DailyFetchedProps>) => {
                 dispatch({type: DAILY_FETCH_INITIAL, fetchData:res.data})
             }).catch((err:AxiosError) => {
                 console.log(err.response)
@@ -86,6 +88,10 @@ export function useDailyUpdate(){
         const daily = getSelectedDaily();
         return daily.events.find(event => event.id === userevent_id)
     }
+    const getEventOfDailyBySeq = (seq: number) => {
+        const daily = getSelectedDaily();
+        return daily.events.find(event => event.event.seq === seq)
+    }
 
     const updateProof = async ({prev_proof, ...props}:UpdateProofProps) => {
         const token = await getToken();
@@ -110,6 +116,7 @@ export function useDailyUpdate(){
 
     return {
         updateProof,
-        getEventOfDailyById
+        getEventOfDailyById,
+        getEventOfDailyBySeq
     }
 }
