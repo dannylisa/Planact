@@ -31,28 +31,25 @@ export default function StartAt() {
     params.start_at ? new Date(params.start_at) : Today
   );
 
-
   const [datepickerVisible, setDatepickerVisible] = useState<boolean>(false);
 
-    // android
-    const [sliderVisible, setSliderVisible] = useState<boolean>(false);
-    const [later, setLater] = useState<number>(1);
-    useEffect(() => {
-        if(sliderVisible)
-            setStartAt(dayjs(Today).add(later, 'days').toDate())
-    }, [later])
-  
-    const onPressStartToday = () => {
-        setStartAt(Today)
-        setDatepickerVisible(false);
-        setSliderVisible(false);
-    }
-    const onPressStartLater = () => {
-        setStartAt(dayjs(Today).add(later, 'days').toDate())
-        setDatepickerVisible(true);
-        setSliderVisible(true);
-    }
+  // android
+  const [sliderVisible, setSliderVisible] = useState<boolean>(false);
+  const [later, setLater] = useState<number>(1);
+  useEffect(() => {
+    if (sliderVisible) setStartAt(dayjs(Today).add(later, 'days').toDate());
+  }, [later]);
 
+  const onPressStartToday = () => {
+    setStartAt(Today);
+    setDatepickerVisible(false);
+    setSliderVisible(false);
+  };
+  const onPressStartLater = () => {
+    setStartAt(dayjs(Today).add(later, 'days').toDate());
+    setDatepickerVisible(true);
+    setSliderVisible(true);
+  };
 
   const navigation = useNavigation();
   const onPrev = () =>
@@ -64,7 +61,6 @@ export default function StartAt() {
       start_at: dayjs(start_at).format('YYYY-MM-DD'),
     });
 
-
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={[container, { position: 'relative' }]}>
@@ -74,7 +70,7 @@ export default function StartAt() {
           style={text}
           marginBottom={100}
         />
-        <View style={[textButtonContainer, {marginBottom:40}]}>
+        <View style={[textButtonContainer, { marginBottom: 40 }]}>
           <TextButton
             underlined={isToday(start_at)}
             bold={isToday(start_at)}
@@ -99,36 +95,34 @@ export default function StartAt() {
             onPress={onPressStartLater}
           />
         </View>
-        {Platform.OS === 'ios' && sliderVisible && (
-    //   {Platform.OS === 'android' && datepickerVisible && (
-        <View style={{width: "80%", marginTop:-10}}>
+        {Platform.OS === 'android' && sliderVisible && (
+          //   {Platform.OS === 'android' && datepickerVisible && (
+          <View style={{ width: '80%', marginTop: -10 }}>
             <Slider
-            minimumValue={1}
-            step={1}
-            maximumValue={14}
-            value={later}
-            onValueChange={setLater}
-            minimumTrackTintColor={theme.primary.main}
-            maximumTrackTintColor={theme.secondary.main}
+              minimumValue={1}
+              step={1}
+              maximumValue={14}
+              value={later}
+              onValueChange={setLater}
+              minimumTrackTintColor={theme.primary.main}
+              maximumTrackTintColor={theme.secondary.main}
+              thumbTintColor={theme.primary.main}
             />
             <Text
-                content={
-                    later === 1 ?
-                    '내일부터 시작하기'
-                    :
-                    later === 2?
-                    '모레부터 시작하기'
-                    :
-                    later === 7?
-                    '다음 주부터 시작하기'
-                    :
-                    `${later}일 후에 시작하기`
-                }
-                headings={2}
-                marginTop={5}
-                marginBottom={-50}
+              content={
+                later === 1
+                  ? '내일부터 시작하기'
+                  : later === 2
+                  ? '모레부터 시작하기'
+                  : later === 7
+                  ? '다음 주부터 시작하기'
+                  : `${later}일 후에 시작하기`
+              }
+              headings={2}
+              marginTop={5}
+              marginBottom={-50}
             />
-        </View>
+          </View>
         )}
 
         <View style={buttonContainer}>
