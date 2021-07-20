@@ -95,8 +95,7 @@ export default function StartAt() {
             onPress={onPressStartLater}
           />
         </View>
-        {Platform.OS === 'android' && sliderVisible && (
-          //   {Platform.OS === 'android' && datepickerVisible && (
+        {sliderVisible && (
           <View style={{ width: '80%', marginTop: -10 }}>
             <Slider
               minimumValue={1}
