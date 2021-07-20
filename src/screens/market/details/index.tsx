@@ -13,7 +13,7 @@ import {
 import { DefaultTheme } from '@/style/styled';
 import useTheme, { isLight } from '@/modules/theme/hooks';
 import EventPreview from './EventPreview';
-import { Button, Text, useThemedStepper } from '@components/materials';
+import { Button, Text, useThemedStepper, Number } from '@components/materials';
 import { getMarketScheduleEvents } from '@/api/market/';
 import { useUserState } from '@/modules/auth/hooks';
 import { IEvent, ISchedule } from '@/utils/data';
@@ -25,6 +25,7 @@ import {
 } from '@/components/scheduleComments';
 import { useNavigation } from '@react-navigation/native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { AntDesign, Ionicons } from '@expo/vector-icons';
 
 interface EventsGroupedByDateOf {
   date: string;
@@ -111,7 +112,11 @@ export default function MarketScheduleDetails({ route }) {
             <View style={content}>
               {schedulePreviewEvents.length ? (
                 schedulePreviewEvents[active].events.map((event, idx) => (
-                  <EventPreview event={event} key={idx} />
+                  <EventPreview 
+                    event={event} 
+                    opacity={.95-idx*0.17}
+                    key={idx} 
+                  />
                 ))
               ) : (
                 <></>
@@ -138,7 +143,7 @@ export default function MarketScheduleDetails({ route }) {
         )}
 
         <ScheduleCommentsList
-          style={{ paddingTop: 20, minHeight:250 }}
+          style={{ minHeight:250 }}
           schedule_id={schedule.id}
           count_events={schedule.count_events}
           comments={comments}

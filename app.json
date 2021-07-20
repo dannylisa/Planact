@@ -2,14 +2,9 @@
   "expo": {
     "name": "Planact",
     "slug": "Planact",
-    "version": "1.0.1",
+    "version": "1.0.3",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
+    "icon": "./src/assets/icons/icon.png",
     "updates": {
       "fallbackToCacheTimeout": 0
     },
@@ -19,7 +14,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.insiders.planact",
-      "buildNumber": "0.0.0",
+      "buildNumber": "1.0.0",
       "usesIcloudStorage": true,
       "icon": "./src/assets/icons/icon.png"
     },
@@ -32,7 +27,7 @@
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./src/assets/icons/icon.png"
     }
   }
 }

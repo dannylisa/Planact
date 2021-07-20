@@ -6,7 +6,7 @@ import { StyleSheet, View } from "react-native";
 import useTheme from "@/modules/theme/hooks";
 
 
-const EventPreview = ({event}:{event: IEvent}) => {
+const EventPreview = ({event, opacity}:{event: IEvent, opacity?:number}) => {
     const {seq, title} = event;
     const theme = useTheme();
     const {wrapper} = useMemo(() => styles(theme), [theme]);
@@ -15,13 +15,17 @@ const EventPreview = ({event}:{event: IEvent}) => {
         <View style={wrapper}>
             <Text 
                 bold 
-                flex={1} 
+                flex={1}
+                opacity={opacity || 1}
                 content={
                     event.origin_time ?
                     `${event.origin_time.slice(0,5)} `
                     : `# ${seq+1} `
                 }/>
-            <Text align="left" flex={4} content={title} />
+            <Text 
+                align="left"
+                opacity={opacity || 1}
+                flex={4} content={title} />
         </View>
     )
 }

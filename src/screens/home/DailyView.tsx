@@ -59,9 +59,23 @@ function DailyView() {
           marginBottom={12}
         />
     <ScrollView style={container}>
-      {groupedEvents.map(({ schedule, events }, idx) => (
+      {groupedEvents.length ?
+      groupedEvents.map(({ schedule, events }, idx) => (
         <ToggleEventList schedule={schedule} events={events} key={idx} />
-      ))}
+      ))
+      :
+      <> 
+      <Text 
+        bold
+        content="일정이 없습니다." 
+        marginTop={150} />
+      <Text 
+        bold
+        content="마켓에서 당신에게 맞는 플랜을 다운받으세요!" 
+        marginTop={10}
+      />
+      </>
+    }
     </ScrollView>
     </>
   );

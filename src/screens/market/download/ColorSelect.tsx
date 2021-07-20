@@ -25,22 +25,22 @@ type ColorSelectRouteParams = {
 }
 
 const COLORS = [
-    '#FFE4D4',
-    '#eff8cc',
-    '#C6F2FF',
-    '#d4ffe1',
-    '#B8BCFF',
-    '#9FC9C7',
-    '#FFE0F2',
-    '#faa5a9',
-    '#343077',
-    '#2a7a85',
-    '#9C599E',
-    '#E6759E',
-    '#F89181',
-    '#FFCE8F',
-    '#FFEDB3',
-  ];
+    '#ff4952',
+    '#fdb460',
+    '#fa8e76',
+    '#fee191',
+    '#c2f3b3',
+    '#68b352',
+    '#04afaf',
+    '#46c3fd',
+    '#2bc9d8',
+    '#1a49ca',
+    '#264272',
+    '#663af6',
+    '#e9a2ff',
+    '#e91992',
+    '#ff7593',
+]
 
 const TYPES:attachScheduleType[] = ['weekdays','interval','everyday']
 

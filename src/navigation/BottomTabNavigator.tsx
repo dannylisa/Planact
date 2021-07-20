@@ -26,8 +26,8 @@ export default function BottomTabNavigator() {
         activeTintColor: theme.primary.main,
         showLabel: false,
         style:{
-          paddingTop:10,
-          ...media.vertical('height', 85, 75, 70),
+          paddingTop:8,
+          ...media.vertical('height', 90, 80, 72),
           alignItems:"flex-end"
         }
       }}

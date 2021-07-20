@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import DailyList from './DailyList'
 import DailyView from './DailyView'
 import { DefaultTheme } from '@/style/styled'
@@ -10,7 +10,8 @@ import { useDailyList } from '@/modules/userDailyList/hooks'
 import { useMemo } from 'react'
 import { useUserState } from '@/modules/auth/hooks'
 import media from '@/style/media'
-import { ScrollView } from 'react-native-gesture-handler'
+import Splash from '../Loading/Splash'
+import { useNavigation } from '@react-navigation/native'
 
 // 1회당 가져올 날짜 수
 const UNIT_FETCH_ONCE = 7
@@ -25,6 +26,16 @@ function Home({}: HomeProps) {
   const { profile } = useUserState()
   const { fetchUserSchedule } = useUserSchedule()
   const { initialDailyFetch } = useDailyList()
+  
+  const [loading, setLoading] = useState(true)
+  const navigation = useNavigation()
+
+  useEffect(() => {
+    setTimeout(() => setLoading(false),1500);
+  }, [])
+  useEffect(() => {
+    navigation.dangerouslyGetParent()?.setOptions({tabBarVisible: !loading})
+  }, [loading])
 
   useEffect(() => {
     if (!profile) return
@@ -32,7 +43,9 @@ function Home({}: HomeProps) {
     initialDailyFetch();
   }, [profile])
 
-  return (
+  return loading ? (
+    <Splash />
+  ): (
     <SafeAreaView style={container}>
       <StatusBar barStyle={isLight(theme) ? "dark-content" : "light-content"} />
       <MonthChange />

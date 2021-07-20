@@ -20,6 +20,7 @@ interface AdditionalProps {
   marginRight?: number
   paddingVertical?: number
   paddingHorizontal?: number
+  opacity?: number 
 }
 export interface DefaultTextProps extends AdditionalProps, TextProps {
   content: string | number
@@ -37,7 +38,7 @@ const headingsSize = [32, 21, 16, 14, 13, 12, 10];
 const styles = ({text}: DefaultTheme, props: AdditionalProps) => {
   let {bold, align, flex, headings, color,
       marginHorizontal, marginVertical, marginTop, marginBottom, marginLeft,
-      marginRight,paddingHorizontal, paddingVertical} = props;
+      marginRight,paddingHorizontal, paddingVertical, opacity} = props;
   const fontWeight = bold ? '800' : '500'
   align = align || "center"
   flex = flex || 0;
@@ -57,7 +58,8 @@ const styles = ({text}: DefaultTheme, props: AdditionalProps) => {
       marginLeft,
       marginRight,
       marginHorizontal,
-      marginVertical
+      marginVertical,
+      opacity
     },
   })
 }
