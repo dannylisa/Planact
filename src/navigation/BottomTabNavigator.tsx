@@ -1,11 +1,11 @@
 import React from 'react';
 import useTheme from '@modules/theme/hooks'
-import { Ionicons, AntDesign, Feather } from '@expo/vector-icons';
-import { BottomTabNavigationOptions, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Feather } from '@expo/vector-icons';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeNavigator from './HomeNavigator';
 import ProfileNavigator from './ProfileNavigator.tsx';
 import MarketNavigator from './MarketNavigator';
-import { Dimensions, StatusBar, StyleSheet, View } from 'react-native';
+import { Dimensions, StyleSheet, View } from 'react-native';
 import { DefaultTheme } from '@/style/styled';
 import { Text } from "@components/materials";
 import media from '@/style/media';
@@ -26,7 +26,8 @@ export default function BottomTabNavigator() {
         activeTintColor: theme.primary.main,
         showLabel: false,
         style:{
-          paddingTop:8,
+          paddingVertical:4,
+          paddingHorizontal:20,
           ...media.vertical('height', 90, 80, 72),
           alignItems:"flex-end"
         }
@@ -38,7 +39,6 @@ export default function BottomTabNavigator() {
         options={{
           tabBarIcon: ({ focused, color }) => (
             <TabBarIcon
-              alignSelf="flex-end"
               title="Home"
               name="calendar" 
               {...{ focused, color }}
@@ -52,7 +52,6 @@ export default function BottomTabNavigator() {
         options={{
           tabBarIcon: ({ focused, color }) => (
             <TabBarIcon
-              alignSelf="center"
               title="Market"
               name="package" 
               {...{ focused, color }}
@@ -67,7 +66,6 @@ export default function BottomTabNavigator() {
         options={{
           tabBarIcon: ({ focused, color }) => (
             <TabBarIcon
-              alignSelf="flex-start"
               title="Profile"
               name="user" 
               {...{ focused, color }}
@@ -87,9 +85,8 @@ interface TabBarIconProps {
   color: string
   name: React.ComponentProps<typeof Feather>['name']
   title:string
-  alignSelf: "flex-start" | "center" | "flex-end"
 }
-function TabBarIcon({focused, color, name, title, alignSelf}: TabBarIconProps) {
+function TabBarIcon({focused, color, name, title}: TabBarIconProps) {
   const {wrapper, focusWrapper, text} = styles(useTheme())
   return !focused ? (
     <View style={wrapper}>
@@ -100,7 +97,7 @@ function TabBarIcon({focused, color, name, title, alignSelf}: TabBarIconProps) {
       />
     </View>
   ) : (
-    <View style={[focusWrapper, {alignSelf}]} >
+    <View style={[focusWrapper]} >
       <Feather 
         name={name} 
         color={color}
@@ -120,10 +117,13 @@ const styles = (theme:DefaultTheme) => {
   return StyleSheet.create({
     wrapper:{
       justifyContent: "center",
+      alignItems:"center",
+      minWidth:100,
+      paddingVertical:5,
     },
     focusWrapper:{
+      minWidth:100,
       paddingVertical:5,
-      paddingHorizontal: 10,
       backgroundColor:theme.primary.main+"30",
       borderRadius:15,
       flexDirection:"row",

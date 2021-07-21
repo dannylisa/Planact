@@ -2,7 +2,7 @@
   "expo": {
     "name": "Planact",
     "slug": "Planact",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "orientation": "portrait",
     "icon": "./src/assets/icons/icon.png",
     "updates": {
@@ -12,7 +12,7 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true,
+      "supportsTablet": false,
       "bundleIdentifier": "com.insiders.planact",
       "buildNumber": "1.0.0",
       "usesIcloudStorage": true,
