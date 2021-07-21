@@ -1,6 +1,5 @@
 import { DefaultTheme } from '@/style/styled'
 import React, { useEffect, useMemo, useState } from 'react'
-import { ActivityIndicator, Image } from 'react-native'
 import { StyleSheet, View, SafeAreaView } from 'react-native'
 import { TextInput, Button, TextButton, Text } from '@components/materials'
 import RenderHtml from 'react-native-render-html';
@@ -38,22 +37,7 @@ function Auth() {
   //   kakao_api().then((res) => setHtml(res))
   // }
 
-  const [loading, setLoading] = useState(true)
-  const navigation = useNavigation()
-
-  useEffect(() => {
-    setTimeout(() => setLoading(false),1500);
-  }, [])
-
-  useEffect(() => {
-    navigation.dangerouslyGetParent()?.setOptions({tabBarVisible: !loading})
-  }, [loading])
-
-
-
-  return loading ? (
-        <Splash />
-      ) :(
+  return (
     <SafeAreaView style={wrapper}>
       <View style={container}>
         <Text 

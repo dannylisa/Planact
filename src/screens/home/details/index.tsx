@@ -1,8 +1,8 @@
-import useTheme, { isLight } from "@/modules/theme/hooks";
+import useTheme from "@/modules/theme/hooks";
 import {  useDailyUpdate } from "@/modules/userDailyList/hooks";
 import { DefaultTheme } from "@/style/styled";
 import React, { useMemo, useState } from "react";
-import { StyleSheet, View, SafeAreaView, ScrollView, Image, Alert, StatusBar } from "react-native";
+import { StyleSheet, View, SafeAreaView, ScrollView, Image, Alert } from "react-native";
 import ProofSwitch, { proofMessage, ProofSwitchProps } from "../proofSwitch";
 import { Button, Text, TextInput } from "@components/materials";
 import ContentParser from "./ContentParser";
@@ -79,7 +79,6 @@ export default function EventDetails({route}){
 
     return (
         <SafeAreaView style={{flex: 1, backgroundColor:"#dff", padding:0}}>
-            <StatusBar barStyle={isLight(theme) ? "dark-content" : "light-content"} />
             <ScrollView style={wrapper}>
                 <View style={header}>
                     <Text
@@ -95,74 +94,79 @@ export default function EventDetails({route}){
                 </View>
                 
                 {/* 인증 방식 */}
-                <View style={contentWrapper}>
-                    <Text
-                        align="left"
-                        bold
-                        headings={1}
-                        content="인증"
-                    />
-                    <View style={row}>
+                {
+                    proof_type !== 'NONE' && (
+                    <View style={contentWrapper}>
                         <Text
-                            flex={6}
                             align="left"
-                            headings={3}
-                            content={proof ? messages[1]: messages[0]}
-                            marginHorizontal={20}
-                        />
-                        <ProofSwitch
-                            flex={1}
-                            {...checkset}
-                        />
-                    </View>
-                {photo ?    
-                    <Image
-                        style={image}
-                        source={{
-                            uri: photo,
-                        }}
-                    />
-                    : proof_type==="PHOTO" ?
-                    <View style={[image, emptyImage]} >
-                        <Text
                             bold
                             headings={1}
-                            content="인증 사진을 업로드해주세요!" 
+                            content="인증"
                         />
-                    </View> :<></>
+                        <View style={row}>
+                            <Text
+                                flex={6}
+                                align="left"
+                                headings={3}
+                                content={proof ? messages[1]: messages[0]}
+                                marginHorizontal={20}
+                            />
+                            <ProofSwitch
+                                flex={1}
+                                {...checkset}
+                            />
+                        </View>
+                    {photo ?    
+                        <Image
+                            style={image}
+                            source={{
+                                uri: photo,
+                            }}
+                        />
+                        : proof_type==="PHOTO" ?
+                        <View style={[image, emptyImage]} >
+                            <Text
+                                bold
+                                headings={1}
+                                content="인증 사진을 업로드해주세요!" 
+                            />
+                        </View> :<></>
+                    }
+                    {proof_type==="DIARY" && (
+                        !isDiaryWriteMode ?
+                            diary ?
+                            <Text
+                                align="left"
+                                content={diary} 
+                                marginBottom={30}
+                            /> : <></>
+                        :
+                        <TextInput 
+                            multiline
+                            style={{
+                                minHeight: 200, 
+                                marginBottom: 15,
+                            }}
+                            value={newDiary}
+                            onChangeText={setNewDiary}
+                        />
+                    )}
+                    {proof_type==="DIARY" &&
+                        <Button 
+                            color="primary"
+                            content={isDiaryWriteMode ? 
+                                        "작성 완료하기" : 
+                                    diary ? 
+                                        "기록 수정하기" : 
+                                        "기록 작성하기"
+                                    }
+                            onPress={writeDiary}
+                        />
+                    }
+                    </View>
+                        
+                    )
                 }
-                {proof_type==="DIARY" && (
-                    !isDiaryWriteMode ?
-                        diary ?
-                        <Text
-                            align="left"
-                            content={diary} 
-                            marginBottom={30}
-                        /> : <></>
-                    :
-                    <TextInput 
-                        multiline
-                        style={{
-                            minHeight: 200, 
-                            marginBottom: 15,
-                        }}
-                        value={newDiary}
-                        onChangeText={setNewDiary}
-                    />
-                )}
-                {proof_type==="DIARY" &&
-                    <Button 
-                        color="primary"
-                        content={isDiaryWriteMode ? 
-                                    "작성 완료하기" : 
-                                diary ? 
-                                    "기록 수정하기" : 
-                                    "기록 작성하기"
-                                }
-                        onPress={writeDiary}
-                    />
-                }
-                </View>
 
                 {/* 일정 간 이동 */}
                 {

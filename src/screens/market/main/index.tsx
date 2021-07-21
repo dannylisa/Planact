@@ -1,17 +1,15 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import useTheme, { isLight } from '@/modules/theme/hooks';
+import React, { useEffect, useMemo, useState } from 'react';
+import useTheme from '@/modules/theme/hooks';
 import { DefaultTheme } from '@/style/styled';
 import {
   Alert,
-  FlatList,
   Platform,
   SafeAreaView,
-  StatusBar,
   StyleSheet,
   View,
 } from 'react-native';
-import { Button, SearchInput, Text } from '@components/materials';
-import { AxiosError, AxiosResponse } from 'axios';
+import { Button, SearchInput } from '@components/materials';
+import { AxiosResponse } from 'axios';
 import { useUserState } from '@/modules/auth/hooks';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Category, { CategoryProps } from './Category';
@@ -70,16 +68,12 @@ function MarketMain() {
       .then((res: AxiosResponse<CategoryProps[]>) => {
         setCategories(res.data);
       })
-      .catch((err) => {
-        Alert.alert('서버 점검 중입니다.')
-      });
   }, []);
   const isAnd = Platform.OS === 'android';
   const Wrapper =
     Platform.OS === 'android' ? KeyboardAwareScrollView : SafeAreaView;
   return (
     <Wrapper style={container}>
-      <StatusBar barStyle={isLight(theme) ? "dark-content" : "light-content"} />
       <View style={title}>
         <SearchInput
           placeholder="검색어를 두 글자 이상 입력해주세요."

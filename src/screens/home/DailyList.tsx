@@ -19,8 +19,7 @@ const defaultFetched = {
 
 function DailyList() {
   const theme = useTheme();
-  const { start, end, dailys, setSelectedDaily, previousFetch, nextFetch } =
-    useDailyList();
+  const { start, end, dailys, setSelectedDaily, previousFetch, nextFetch } = useDailyList();
   const [loading, setLoading] = useState<boolean>(false);
   const flatListRef = React.useRef<FlatList>(null);
 

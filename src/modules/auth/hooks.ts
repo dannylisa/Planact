@@ -38,7 +38,17 @@ export const useUserState = () => {
     const token = {
       Authorization: `Token ${user.token}`,
     };
-    return (await validate_api(token)) ? token : forceLogOut();
+    return await validate_api(token)
+      .then((res) => {
+        if(res === 200)
+          return token
+        else if (res === 401)
+          forceLogOut()
+        else {
+          Alert.alert('네트워크 오류입니다.')
+          return null;
+        }
+      })
   };
 
   const forceLogOut = () => {
@@ -79,7 +89,7 @@ export const useAuthorization = () => {
         console.log(err.response);
         message = err.response
           ? '아이디 / 비밀번호가 잘못되었습니다.'
-          : '서버 내부 오류입니다.';
+          : '네트워크 오류입니다.';
         return;
       });
     if (message) {
@@ -116,7 +126,7 @@ export const useAuthorization = () => {
         message =
           err.response?.status === 409
             ? '중복된 아이디입니다.'
-            : '서버 내부 오류입니다.';
+            : '네트워크 오류입니다.';
         return;
       });
     if (message) {
@@ -180,7 +190,7 @@ export const useProfile = () => {
         console.log(err.response);
         message = err.response
           ? '중복된 닉네임입니다.'
-          : '서버 내부 오류입니다.';
+          : '네트워크 오류입니다.';
         return;
       });
   };

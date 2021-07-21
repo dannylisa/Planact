@@ -26,26 +26,26 @@ export default function({name, keyword, search}:CategoryProps & {search: string}
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [shouldFetch, setShouldFetch] = useState<boolean>(true);
 
+    const [loading, setLoading] = useState<boolean>(true)
+
     useEffect(() => {
         setCurrentPage(1)
+        setLoading(true)
         setShouldFetch(true)
         getToken()
-            .then(
-                token => {
+            .then( token => {
                 if(token) 
                     return getMarketSchedulesByCategory(token, keyword, 1)
                 else
                     throw Error
             })
-            .then(
-                (res: AxiosResponse<ISchedule[]>) => setSchedules(res.data)
-            )
-            .catch((err: AxiosError) => {
-                if(err.response?.status===400)
-                    setShouldFetch(false)
-                else
-                    Alert.alert('서버 점검 중입니다.')
-            });
+            .then((res: AxiosResponse<ISchedule[]>) => {
+                setSchedules(res.data)
+            })
+            .catch(() => {
+                setShouldFetch(false)
+            })
+            .finally(() =>setLoading(false));
     }, [keyword, useSchedule.schedules.length]);
 
     const onItemPressed = (item: ISchedule) => () =>
@@ -55,11 +55,11 @@ export default function({name, keyword, search}:CategoryProps & {search: string}
         );
 
     const fetchItem = () => {
-        if(!shouldFetch) 
+        if(!shouldFetch || loading) 
             return;
+        setLoading(true)
         getToken()
-            .then(
-                token => {
+            .then( token => {
                 if(token) 
                     return getMarketSchedulesByCategory(token, keyword, currentPage+1)
                 else
@@ -70,13 +70,9 @@ export default function({name, keyword, search}:CategoryProps & {search: string}
                 setCurrentPage(prev => prev+1)
             })
             .catch((err: AxiosError) => {
-                if(err.response?.status===400)
-                    setShouldFetch(false)
-                else{
-                    console.log(err)
-                    Alert.alert('서버 점검 중입니다.')
-                }
-            });
+                setShouldFetch(false)
+            })
+            .finally(() =>setLoading(false));
     }
 
     const renderItem = ({ item }: { item: ISchedule }) => (
@@ -104,6 +100,7 @@ export default function({name, keyword, search}:CategoryProps & {search: string}
             onEndReached={fetchItem}
             keyExtractor={useCallback((item: ISchedule, index: number) => '' + index,[])}
             contentContainerStyle={listItemWrapper}
+            onEndReachedThreshold={1}
         />
     )
 }

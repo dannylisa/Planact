@@ -9,26 +9,20 @@ import {
     USER_SCHEDULES_FETCH, 
 } from "./reducer";
 import { GlobalState } from "../index"
-import { useUserState } from "../auth/hooks";
+import { ITokenHeader, useUserState } from "../auth/hooks";
 
 export const useUserSchedule = () => {
     const dispatch:Dispatch<UserScheduleAction> = useDispatch();
     const schedules = useSelector( ({ userSchedulesState }: GlobalState) => userSchedulesState);
-    const { getToken } = useUserState();
     
-    const fetchUserSchedule = async ():Promise<boolean> => {
-        const token = await getToken();
-        if(!token) return false;
-        
-        let succeed = false;
-        await getUserSchedule(token)
-            .then((res:AxiosResponse<IUserSchedule[]>) => {
-                dispatch({type: USER_SCHEDULES_FETCH, schedules: res.data})
-                succeed = true
-            }).catch((err:AxiosError) => {
-                console.log(err.response)
-            })
-        return succeed
+    const fetchUserSchedule = async (token:ITokenHeader):Promise<boolean> => {
+        try {
+            const res = await getUserSchedule(token);
+            dispatch({ type: USER_SCHEDULES_FETCH, schedules: res.data });
+            return true;
+        } catch (err) {
+            return false;
+        }
     }
 
     // Schedule의 ID로 스케쥴 찾음

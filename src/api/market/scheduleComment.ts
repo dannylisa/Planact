@@ -1,4 +1,5 @@
 import { ITokenHeader } from "@/modules/auth/hooks"
+import { IScheduleComment } from "@/utils/data"
 import axios from "axios"
 import { APP_BASE_URL } from "../host"
 
@@ -8,7 +9,7 @@ export const getScheduleComment = async (token:ITokenHeader, schedule_id:string)
     return axios.get(URL+schedule_id,{headers:token})
 }
 export const createScheduleComment = async (token:ITokenHeader, schedule_id:string, content: string) => {
-    return axios.post(URL+schedule_id, {content},{
+    return axios.post<IScheduleComment[]>(URL+schedule_id, {content},{
         headers:token
     })
 }

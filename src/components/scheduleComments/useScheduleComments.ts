@@ -1,38 +1,58 @@
-import { createScheduleComment, getScheduleComment } from "@/api/market";
-import { useUserState } from "@/modules/auth/hooks";
+import { createScheduleComment, deleteScheduleComment, getScheduleComment } from "@/api/market";
+import { ITokenHeader, useUserState } from "@/modules/auth/hooks";
 import { IScheduleComment } from "@/utils/data";
 import { AxiosError, AxiosResponse } from "axios";
 import { useState } from "react";
 import { Alert } from "react-native";
 
 export default (schedule_id: string) => {
-    const { getToken } = useUserState();
     const [comments, setComments] = useState<IScheduleComment[]>([]);
+    const {getToken} = useUserState()
 
-    const resetComments = async () => {
-        const token = await getToken();
-        if(!token) return;
-        await getScheduleComment(token, schedule_id)
+    const resetComments = (token:ITokenHeader) => {
+        getScheduleComment(token, schedule_id)
             .then((res:AxiosResponse<IScheduleComment[]>) => {
-                setComments(res.data)
-            }).catch((err:AxiosError) => Alert.alert("서버 오류입니다."));
+                setComments([...res.data])
+            })
     }
     
     const createComment = async (comment: string) => {
-        const token = await getToken();
-        if(!token) return;
-        await createScheduleComment(token, schedule_id, comment)
-            .then((res:AxiosResponse<IScheduleComment[]>) => {
-                if(resetComments) 
-                    resetComments()
-            }).catch((err:AxiosError) => {
-                Alert.alert("서버 오류입니다.")
-            });
+        getToken().then(async token => {
+            if(!token)
+                throw Error;
+            else{
+                await createScheduleComment(token, schedule_id, comment)
+                return token
+            }
+        }).then(resetComments)
+    }
+
+    const deleteComment = (comment_id:string) => {
+        const deleteIt = async () => {
+            await getToken().then(async token => {
+                if(!token)
+                    throw Error;
+                else{
+                    await deleteScheduleComment(token, comment_id)
+                    return token
+                }
+            }).then(resetComments)
+            Alert.alert('삭제되었습니다.')
+        }
+
+        Alert.alert('댓글을 삭제하시겠습니까?','',[
+            { text: '취소', style: 'cancel'},  
+            {
+                text: '삭제', 
+                onPress: deleteIt
+            },
+        ])
     }
 
     return {
         comments,
         resetComments,
-        createComment
+        createComment,
+        deleteComment
     }
 }

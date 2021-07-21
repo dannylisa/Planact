@@ -30,24 +30,19 @@ const groupBySchedule = (user_schedules: IUserSchedule[], user_events: IUserEven
 
 function DailyView() {
   const theme = useTheme();
-  const { getSelectedDaily, initialDailyFetch } = useDailyList();
-  const { schedules, fetchUserSchedule } = useUserSchedule();
+  const { getSelectedDaily } = useDailyList();
+  const { schedules } = useUserSchedule();
   const { date, events } = getSelectedDaily();
 
-  const { container, title } = React.useMemo(() => styles(theme), [theme]);
+  const { container } = React.useMemo(() => styles(theme), [theme]);
   const [groupedEvents, setGroupedEvents] = useState<GroupedEvent[]>([]);
 
   useEffect(() => {
-    try{
-      const aggregated = groupBySchedule(
-        [...schedules], 
-        [...events]
-        );
-      setGroupedEvents(aggregated);
-    } catch(e){
-      fetchUserSchedule();
-      initialDailyFetch();
-    }
+    const aggregated = groupBySchedule(
+      [...schedules], 
+      [...events]
+      );
+    setGroupedEvents(aggregated);
   }, [date]);
   return (
     <>

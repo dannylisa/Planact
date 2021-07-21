@@ -1,28 +1,23 @@
 import React, { useEffect } from 'react';
 import { IScheduleComment } from '@/utils/data';
-import { StyleSheet, View, ViewProps } from 'react-native';
+import { View, ViewProps } from 'react-native';
 import Comment from './Comment';
 import { Text } from '@components/materials';
 import useTheme from '@/modules/theme/hooks';
-
 interface ScheduleCommentsProps extends ViewProps {
   schedule_id: string;
   count_events: number;
   comments: IScheduleComment[];
-  resetComments: () => Promise<void>;
+  deleteComment: (comment_id:string) => void;
 }
 export default function ScheduleComments({
   schedule_id,
   count_events,
   comments,
-  resetComments,
+  deleteComment,
   ...others
 }: ScheduleCommentsProps) {
   const theme = useTheme();
-
-  useEffect(() => {
-    resetComments();
-  }, [schedule_id]);
 
   return (
     <View {...others}>
@@ -30,7 +25,8 @@ export default function ScheduleComments({
       {comments.length ? (
         comments.map((comment, idx) => (
             <Comment 
-                comment={comment} 
+                comment={comment}
+                deleteComment={deleteComment}
                 count_events={count_events}
                 key={idx} />
         ))

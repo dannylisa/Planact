@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { UserProfile, UserProps } from '@/modules/auth/reducer';
 import { ITokenHeader } from '@/modules/auth/hooks';
 import { HOST } from './host';
@@ -52,17 +52,17 @@ export const logout_api = (tokenHeader: ITokenHeader) => {
   );
 };
 
-export const validate_api = async (tokenHeader: ITokenHeader) => {
-  let succeed = false;
-  await axios
+export const validate_api = (tokenHeader: ITokenHeader) => {
+  return axios
     .get(AUTH_BASE_URL + 'user', {
       headers: tokenHeader,
     })
-    .then((res) => {
-      succeed = res.status === 200;
-    })
-    .catch((err) => null);
-  return succeed;
+    .then((res) => res.status )
+    .catch((err) => {
+      if(err.response)
+        return err.response.status
+      else return 999
+    });
 };
 
 export const kakao_api = async () => {

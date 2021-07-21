@@ -1,7 +1,7 @@
 import { DefaultTheme } from "@/style/styled";
 import React, { useMemo } from "react";
 import { Text } from '@components/materials';
-import { Alert, StyleSheet, TouchableOpacity, View } from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import useTheme from "@/modules/theme/hooks";
 import { UpdateProofProps, useDailyUpdate } from "@/modules/userDailyList/hooks";
 import ProofSwitch, { ProofSwitchProps } from "./proofSwitch";
@@ -29,20 +29,18 @@ const EventItem = ({userschedule_id, userevent_id}:{userschedule_id:string, user
         photo,
         title
     }
-    
     const navigation = useNavigation()
     const toDetails = () => navigation.navigate('Event/Details', {userevent_id});
     return(
         <View style={wrapper}>
             <View style={textContainer}>
-                <Text bold flex={1} headings={2} content={`${seq+1}.`}/>
-                <Text align="left" headings={2} flex={3} content={title} />
+                <Text bold flex={0.8} headings={2} content={`${seq+1}.`}/>
+                <Text align="left" headings={2} flex={ origin_time ? 2 : 3 } content={title} />
                 {
                     origin_time &&
                     (<Text 
                         bold 
-                        marginLeft={-60} 
-                        marginRight={30} 
+                        flex={1}
                         headings={2} 
                         content={origin_time.slice(0,5)}/>)
                 }

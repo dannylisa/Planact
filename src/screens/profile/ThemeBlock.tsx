@@ -1,5 +1,5 @@
 import { GlobalState } from '@/modules';
-import { DefaultTheme, themeType } from '@/style/styled';
+import { DefaultTheme } from '@/style/styled';
 import React from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';

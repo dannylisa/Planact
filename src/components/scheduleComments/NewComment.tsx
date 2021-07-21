@@ -14,13 +14,11 @@ import { TextInput } from '../materials';
 interface NewCommentProps extends ViewProps {
   floorFixed?: boolean;
   createComment: (comment: string) => Promise<void>;
-  resetComments?: () => Promise<void>;
 }
 export default function ({
   floorFixed,
   style,
   createComment,
-  resetComments,
   ...others
 }: NewCommentProps) {
   const theme = useTheme();
@@ -30,7 +28,6 @@ export default function ({
   const create = () => {
     createComment(comment);
     setComment('');
-    if (resetComments) resetComments();
   };
 
   return (
@@ -44,6 +41,7 @@ export default function ({
         placeholder="댓글을 입력하세요!"
         value={comment}
         onChangeText={setComment}
+        style={{paddingRight:60}}
       />
       <TouchableOpacity onPress={create} style={iconButton}>
         <FontAwesome name="send-o" size={25} color={theme.primary.main} />

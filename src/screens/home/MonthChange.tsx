@@ -1,7 +1,7 @@
 import { DefaultTheme } from '@/style/styled';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
-import { AntDesign, Ionicons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import dayjs, { Dayjs } from 'dayjs';
 import useTheme from '@/modules/theme/hooks';
 import { useDailyList } from '@/modules/userDailyList/hooks';

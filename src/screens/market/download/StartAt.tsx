@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Text, Button, TextButton, Number } from '@components/materials';
-import { Platform, SafeAreaView, View } from 'react-native';
+import { SafeAreaView, View } from 'react-native';
 import useTheme from '@/modules/theme/hooks';
 import stepStyle from './stepStyle';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';

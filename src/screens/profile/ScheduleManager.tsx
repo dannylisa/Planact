@@ -1,8 +1,8 @@
 import React, { useMemo } from "react"
 import { CircleMenuItem, Text } from "@/components/materials"
-import { View, SafeAreaView, StyleSheet, StatusBar } from "react-native"
+import { View, SafeAreaView, StyleSheet } from "react-native"
 import { DefaultTheme } from "@/style/styled"
-import useTheme, { isLight } from "@/modules/theme/hooks"
+import useTheme from "@/modules/theme/hooks"
 import { useUserSchedule } from "@/modules/userSchedule/hooks"
 import { useNavigation } from "@react-navigation/native"
 import dayjs from "dayjs"
@@ -16,32 +16,31 @@ export default function () {
 
     return (
         <SafeAreaView style={container}>
-            <StatusBar barStyle={isLight(theme) ? "dark-content" : "light-content"} />
-                <View style={title}>
-                    <Text content="내 플랜" bold align="left" headings={1}/>
-                </View>
-                {/* 진행중인 플랜부터 정렬 */}
-                {schedules.concat([])
-                    .sort((a, b) => dayjs(b.end_date).diff(a.end_date))
-                    .map((user_schedule, idx) => {
-                    const outdated = user_schedule.end_date < dayjs().format('YYYY-MM-DD')
-                    return (
-                        <CircleMenuItem 
-                            content={user_schedule.alias} 
-                            color={user_schedule.color}
-                            key={idx}
-                            onPress={()=>
-                                navigation.navigate("Profile/ScheduleManager/Analysis", {
-                                    user_schedule
-                                })
-                            }
-                            badge={{
-                                color: outdated ? "secondary": "primary",
-                                content: outdated ? "완료": "진행 중",
-                            }}
-                        />
-                    )}
+            <View style={title}>
+                <Text content="내 플랜" bold align="left" headings={1}/>
+            </View>
+            {/* 진행중인 플랜부터 정렬 */}
+            {schedules.concat([])
+                .sort((a, b) => dayjs(b.end_date).diff(a.end_date))
+                .map((user_schedule, idx) => {
+                const outdated = user_schedule.end_date < dayjs().format('YYYY-MM-DD')
+                return (
+                    <CircleMenuItem 
+                        content={user_schedule.alias} 
+                        color={user_schedule.color}
+                        key={idx}
+                        onPress={()=>
+                            navigation.navigate("Profile/ScheduleManager/Analysis", {
+                                user_schedule
+                            })
+                        }
+                        badge={{
+                            color: outdated ? "secondary": "primary",
+                            content: outdated ? "완료": "진행 중",
+                        }}
+                    />
                 )}
+            )}
         </SafeAreaView>
     )
 }

@@ -2,22 +2,16 @@ import React, { useEffect, useMemo, useState } from 'react';
 import {
   View,
   StyleSheet,
-  SafeAreaView,
   ScrollView,
-  Platform,
-  KeyboardAvoidingView,
-  Dimensions,
-  Alert,
-  StatusBar,
 } from 'react-native';
 import { DefaultTheme } from '@/style/styled';
-import useTheme, { isLight } from '@/modules/theme/hooks';
+import useTheme from '@/modules/theme/hooks';
 import EventPreview from './EventPreview';
-import { Button, Text, useThemedStepper, Number } from '@components/materials';
+import { Button, Text, useThemedStepper } from '@components/materials';
 import { getMarketScheduleEvents } from '@/api/market/';
 import { useUserState } from '@/modules/auth/hooks';
 import { IEvent, ISchedule } from '@/utils/data';
-import { AxiosError, AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 import {
   NewScheduleComment,
   ScheduleCommentsList,
@@ -25,7 +19,6 @@ import {
 } from '@/components/scheduleComments';
 import { useNavigation } from '@react-navigation/native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { AntDesign, Ionicons } from '@expo/vector-icons';
 
 interface EventsGroupedByDateOf {
   date: string;
@@ -51,17 +44,21 @@ export default function MarketScheduleDetails({ route }) {
   const Stepper = useMemo(() => StepperGetter(), [stepperSize, active, theme]);
 
   // Comment
-  const { comments, createComment, resetComments } = useScheduleComments(
+  const { comments, createComment, resetComments, deleteComment } = useScheduleComments(
     schedule.id
   );
+  
 
   // Initial Setting
   useEffect(() => {
-    (async () => {
-      const token = await getToken();
-      if (!token) return;
-      await getMarketScheduleEvents(token, schedule.id)
-        .then((res: AxiosResponse<EventsGroupedByDateOf[]>) => {
+    getToken()
+      .then((token) => {
+        if (!token) 
+          throw Error;
+        else
+          return getMarketScheduleEvents(token, schedule.id)
+      })
+      .then((res: AxiosResponse<EventsGroupedByDateOf[]>) => {
           //Sort
           res.data.forEach(({events}) => 
             events.sort((a, b) => a.seq - b.seq));
@@ -69,8 +66,6 @@ export default function MarketScheduleDetails({ route }) {
           setSchedulePreviewEvents(res.data);
           setStepperSize(Math.min(res.data.length, 5));
         })
-        .catch((err: AxiosError) => console.log(err));
-    })();
   }, [schedule]);
 
   // navigate
@@ -78,11 +73,8 @@ export default function MarketScheduleDetails({ route }) {
   const onDownload = () =>
     navigation.navigate('Market/Schedule/Download/alias', { schedule });
 
-
-  const isAnd = Platform.OS === 'android';
-  return (
+    return (
     <KeyboardAwareScrollView style={{flex:1}}>
-    <StatusBar barStyle={isLight(theme) ? "dark-content" : "light-content"} />
       <ScrollView style={container}>
         <View style={header}>
           <View>
@@ -143,18 +135,17 @@ export default function MarketScheduleDetails({ route }) {
         )}
 
         <ScheduleCommentsList
-          style={{ minHeight:250 }}
+          style={{ minHeight:180 }}
           schedule_id={schedule.id}
           count_events={schedule.count_events}
           comments={comments}
-          resetComments={resetComments}
+          deleteComment={deleteComment}
         />
         <View style={{ paddingVertical: 40 }} />
       </ScrollView>
         <NewScheduleComment
           floorFixed
           createComment={createComment}
-          resetComments={resetComments}
         />
     </KeyboardAwareScrollView>
   );

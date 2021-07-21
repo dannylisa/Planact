@@ -1,17 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import DailyList from './DailyList'
 import DailyView from './DailyView'
 import { DefaultTheme } from '@/style/styled'
-import { SafeAreaView, View, StyleSheet, StatusBar } from 'react-native'
+import { SafeAreaView, View, StyleSheet } from 'react-native'
 import MonthChange from './MonthChange'
 import { useUserSchedule } from '@/modules/userSchedule/hooks'
-import useTheme, { isLight } from '@/modules/theme/hooks'
+import useTheme from '@/modules/theme/hooks'
 import { useDailyList } from '@/modules/userDailyList/hooks'
 import { useMemo } from 'react'
 import { useUserState } from '@/modules/auth/hooks'
 import media from '@/style/media'
-import Splash from '../Loading/Splash'
-import { useNavigation } from '@react-navigation/native'
 
 // 1회당 가져올 날짜 수
 const UNIT_FETCH_ONCE = 7
@@ -23,31 +21,23 @@ export interface HomeProps {}
 function Home({}: HomeProps) {
   const theme = useTheme()
   const { container } = useMemo(() => styles(theme), [theme])
-  const { profile } = useUserState()
+  const { profile, getToken } = useUserState()
   const { fetchUserSchedule } = useUserSchedule()
   const { initialDailyFetch } = useDailyList()
-  
-  const [loading, setLoading] = useState(true)
-  const navigation = useNavigation()
-
-  useEffect(() => {
-    setTimeout(() => setLoading(false),1500);
-  }, [])
-  useEffect(() => {
-    navigation.dangerouslyGetParent()?.setOptions({tabBarVisible: !loading})
-  }, [loading])
 
   useEffect(() => {
     if (!profile) return
-    fetchUserSchedule(); 
-    initialDailyFetch();
+    getToken()
+      .then(token => {
+        if(!token)
+          throw Error;
+        fetchUserSchedule(token); 
+        initialDailyFetch(token);
+      })
   }, [profile])
 
-  return loading ? (
-    <Splash />
-  ): (
+  return (
     <SafeAreaView style={container}>
-      <StatusBar barStyle={isLight(theme) ? "dark-content" : "light-content"} />
       <MonthChange />
       <View style={{ minHeight: 140 }}>
         <DailyList />

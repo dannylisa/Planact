@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react"
-import { Text, Button, TextInput } from "@components/materials"
+import { Text, Button } from "@components/materials"
 import { Alert, SafeAreaView, StatusBar, TouchableOpacity, View } from "react-native"
 import useTheme, { isLight } from "@/modules/theme/hooks"
 import stepStyle from "./stepStyle"
@@ -80,14 +80,15 @@ export default function ColorSelect () {
         }).then(() => {
             Alert.alert('플랜이 다운로드 되었습니다.');
             navigation.navigate('Market/Main');
+        }).then(() => {
+            fetchUserSchedule(token); 
+            initialDailyFetch(token);
         })
         .catch((err: AxiosError) => {
         if (err.response?.status === 406)
             Alert.alert('이미 내려받은 스케줄입니다!');
             console.log(err)
         })
-        fetchUserSchedule();
-        initialDailyFetch();
       };
     
     const navigation = useNavigation();
@@ -103,7 +104,6 @@ export default function ColorSelect () {
 
     return (
         <SafeAreaView style={{flex:1}}>
-            <StatusBar barStyle={isLight(theme) ? "dark-content" : "light-content"} />
             <View style={container}>
                 <Text
                     bold 

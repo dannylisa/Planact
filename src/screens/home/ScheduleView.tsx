@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { View, Text, StyleSheet, Alert } from 'react-native'
+import { View, Text, StyleSheet } from 'react-native'
 import { DefaultTheme } from '@/style/styled'
 import useTheme from '@/modules/theme/hooks'
 import { useUserSchedule } from '@/modules/userSchedule/hooks'
@@ -12,14 +12,14 @@ function ScheduleView({id}: ScheduleViewProps) {
   const theme = useTheme()
   const { getScheduleById } = useUserSchedule();
   const [alias, setAlias] = useState('')
-  const [color, setColor] = useState('#d3ff0f')
+  const [color, setColor] = useState(theme.primary.main)
   useEffect(() => {
     const schedule = getScheduleById(id);
     if(schedule){
       setAlias(schedule.alias);
       setColor(schedule.color);
     }
-  },[])
+  },[id])
   const { 
     icon, 
     container, 

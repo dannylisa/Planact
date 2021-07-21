@@ -1,6 +1,6 @@
 import { IDaily, daytype } from '@/utils/data'
 import { getDayType } from '@/utils/date'
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { StyleSheet, TouchableOpacity, Text } from 'react-native'
 import { DefaultTheme } from '@/style/styled'
 import { isLight, shadow, SpecificColors } from "@modules/theme/hooks"
@@ -18,11 +18,11 @@ function Daily({index, daily:{date, events}, onPress}: DailyProps) {
   const theme = useTheme();
   const daytype: daytype = getDayType(date)
   const { container, selectedBorder, datetext, extra } = useMemo(() => styles(theme, daytype),[theme]);
-  const uniqueUserScheduleIds = useMemo(() => {
-      const ids = events.map(event => event.event.schedule)
-      const uniqueIds = Array.from(new Set(ids));
-      return uniqueIds;
-  },[events])
+  const [uniqueUserScheduleIds, setUniqueUserScheduleIds] = useState<string[]>([]);
+  useEffect(() => {
+    const ids = events.map(event => event.event.schedule)
+    setUniqueUserScheduleIds(Array.from(new Set(ids)))
+  }, [date, events])
   // Selected State
   const { selected } = useDailyList();
   return (
@@ -37,7 +37,7 @@ function Daily({index, daily:{date, events}, onPress}: DailyProps) {
         {date.date() > 1 ? date.date() : `${date.month() + 1}.${date.date()}`}
       </Text>
       {uniqueUserScheduleIds
-        .filter((_, i) => i < 3)
+        .slice(0,3)
         .map((id, idx) => (
           <ScheduleView key={idx} id={id} />
         ))}

@@ -4,7 +4,7 @@ import { Dispatch } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { DailyFetchedProps, DAILY_FETCH_INITIAL, DAILY_FETCH_NEXT, DAILY_FETCH_PREV, DAILY_SELECT, DAILY_UPDATE_PROOF, UserDailyListAction } from "./reducer";
 import { GlobalState } from "..";
-import { useUserState } from "../auth/hooks";
+import { ITokenHeader, useUserState } from "../auth/hooks";
 import updateProof_api from "@/api/home/updateProof";
 import { useUserSchedule } from "../userSchedule/hooks";
 
@@ -16,17 +16,13 @@ export function useDailyList(){
 
     const setSelectedDaily = (idx:number) => dispatch({type:DAILY_SELECT, selected:idx})
     const getSelectedDaily = () => dailys[selected];
-    const initialDailyFetch = () => {
-        getToken()
-            .then((token) => {
-                if(!token) 
-                    throw Error("Invalid Token.");
-                return getDailyList({token})
-            }).then((res:AxiosResponse<DailyFetchedProps>) => {
-                dispatch({type: DAILY_FETCH_INITIAL, fetchData:res.data})
-            }).catch((err:AxiosError) => {
-                console.log(err.response)
-            })
+    const initialDailyFetch = async (token:ITokenHeader) => {
+        try {
+            const res = await getDailyList({ token });
+            dispatch({ type: DAILY_FETCH_INITIAL, fetchData: res.data });
+        } catch (err) {
+            console.log(err.response);
+        }
     }
 
     const previousFetch = async () => {

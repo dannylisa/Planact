@@ -1,6 +1,6 @@
-import useTheme, { isLight } from "@/modules/theme/hooks";
+import useTheme from "@/modules/theme/hooks";
 import React, { useEffect, useMemo, useState } from "react";
-import { Alert, Dimensions, Platform, SafeAreaView, StatusBar, StyleSheet, View } from "react-native";
+import { Alert, Dimensions,StyleSheet, View } from "react-native";
 import { Button, GaugeBar, Text } from "@components/materials"
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
@@ -34,8 +34,13 @@ export default function () {
     },[user_schedule.id])
     
     // Comments
-    const {comments, resetComments, createComment} = useScheduleComments(user_schedule.schedule.id);
-
+    const {comments, resetComments, createComment, deleteComment} = useScheduleComments(user_schedule.schedule.id);
+    useEffect(() => {
+        getToken().then(token =>{
+            if(token)
+                resetComments(token)
+        });
+      }, [user_schedule.schedule.id]);
     // Style Settings
     const theme = useTheme()
     const {wrapper, menu, padding, chartContainer} = useMemo(() => styles(theme), [theme]);
@@ -61,7 +66,7 @@ export default function () {
         [user_schedule.schedule.id, user_schedule.achievement]
     )
 
-    const onDeleteAll = (all:boolean) => () => {
+    const onDelete = (all:boolean) => () => {
         Alert.alert(
             (all?
                 '플랜을 정말 삭제하겠습니까? 삭제된 플랜은 복구되지 않습니다.'
@@ -81,21 +86,16 @@ export default function () {
                         .then((token) => {
                             if(!token)
                                 throw Error
-                            return  all ?
+                            all ?
                                 deleteUserSchedule(token, user_schedule.id)
                                 :
                                 deleteUserScheduleAfter(token, user_schedule.id)
-                                // deleteUserSchedule(token, user_schedule.id)
-                        }).then(() => {
+                            return token
+                        }).then((token) => {
                             Alert.alert('플랜이 삭제되었습니다.');
-                            fetchUserSchedule(); 
-                            initialDailyFetch();
+                            fetchUserSchedule(token); 
+                            initialDailyFetch(token);
                             navigation.navigate('Profile');
-                            console.log(12)
-                        })
-                        .catch((err:Error) => {
-                            console.log(err)
-                            console.log(err.message)
                         })
                 },
             ])
@@ -106,9 +106,7 @@ export default function () {
 
     return(
         <KeyboardAwareScrollView style={{flex:1, marginBottom:0}}>
-            <StatusBar barStyle={isLight(theme) ? "dark-content" : "light-content"} />
             <ScrollView style={wrapper}>
-
                 {/* 성취율 */}
                 <View style={padding}>
                     <Text
@@ -168,9 +166,12 @@ export default function () {
                     content="아직 성취한 플랜이 없습니다." 
                 />
                 <Text
-                    marginTop={5}
-                    marginBottom={70}
+                    marginVertical={10}
                     content="플랜 진행이 시작되면 성취도 분석을 제공합니다." 
+                />
+                <Text
+                    marginBottom={70}
+                    content="플랜 종류에 따라 분석이 제공되지 않을 수 있습니다." 
                 />
                 </>
                 }
@@ -179,17 +180,23 @@ export default function () {
                 
             {/* 댓글  */}
                 <ScheduleCommentsList
-                    style={{padding:20}}
+                    style={{padding:10}}
                     schedule_id={user_schedule.schedule.id}
                     count_events={user_schedule?.schedule.count_events || 1}
                     comments={comments}
-                    resetComments={resetComments}
+                    deleteComment={deleteComment}
                 />
+
+                <NewScheduleComment
+                    style={{padding:10}}
+                    createComment={createComment}
+                />
+
 
                 <Button 
                     color="danger"
                     content="Danger Zone"
-                    style={{marginTop:80, marginBottom:20}}
+                    style={{marginTop:40, marginBottom:20}}
                     onPress={toggleDangerVisible}
                 />{
                     dangerVisible && (
@@ -213,7 +220,7 @@ export default function () {
                         flex={2}
                         content="삭제" 
                         color="danger" 
-                        onPress={onDeleteAll(false)}
+                        onPress={onDelete(false)}
                     />
                 </View>
                 <View style={menu}>
@@ -235,18 +242,12 @@ export default function () {
                         flex={2}
                         content="삭제" 
                         color="danger"
-                        onPress={onDeleteAll(true)}
+                        onPress={onDelete(true)}
                     />
                 </View>
                 </>
                 )}
-                <View style={{height:20}} />
             </ScrollView>
-            <NewScheduleComment
-                floorFixed
-                createComment={createComment}
-                resetComments={resetComments} 
-            />
         </KeyboardAwareScrollView>
     )
 }
